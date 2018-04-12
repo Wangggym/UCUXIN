@@ -1,0 +1,239 @@
+<div ng-controller="paymentPersonNumberController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">缴费人数统计
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>省：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.province" theme="bootstrap"
+                                       style="min-width:130px;" ng-change="province(serchData.province)">
+                                <ui-select-match placeholder="请选择省">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in pageData.provinceList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                    <button ng-click="deleteProvince()" class="btn btn-default"
+                            type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>市：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.city" theme="bootstrap" ng-change="selectCity(serchData.city)"
+                                       style="min-width:130px;" ng-disabled="serchData.province?false:true">
+                                <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in pageData.cityList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                    <button ng-click="deleteCity()" class="btn btn-default"
+                            type="button" ng-disabled="serchData.province?false:true">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>县：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.county" theme="bootstrap"
+                                       style="min-width:130px;" ng-disabled="serchData.city?false:true">
+                                <ui-select-match placeholder="请选择县">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in pageData.countyList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                            <button ng-click="serchData.county = undefined" class="btn btn-default"
+                                    type="button" ng-disabled="serchData.city?false:true">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.school" theme="bootstrap"
+                                       ng-change="selectSchool()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="item.ID as item in pageData.schoolList | filter: $select.search">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                            <button ng-click="deleteSchool()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>产品：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.product" theme="bootstrap"
+                                       ng-disabled="serchData.school?false:true;"
+                                       ng-change="selectProduct()">
+                                <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in pageData.productList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                            <button ng-click="deleteProduct()" class="btn btn-default"
+                                    ng-disabled="serchData.product?false:true;"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>服务包：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="serchData.service" theme="bootstrap"
+                                       ng-disabled="serchData.product?false:true;">
+                                <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in pageData.serviceList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="serchData.service=undefined"
+                                        class="btn btn-default"
+                                        ng-disabled="serchData.product?false:true;" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>服务包开通时间：</label>
+                        <div class="input-group" ng-click="openServiceStartDate($event)">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="serchData.sDate" datepicker-options="dateOptions"
+                                   is-open="dateStateOne" max-date="serchData.eDate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        ~
+                        <div class="input-group" ng-click="openServiceEndDate($event)">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="serchData.eDate" datepicker-options="dateOptions"
+                                   is-open="dateStateTwo" min-date="serchData.sDate" ng-required="true" clear-text="清除" current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>付款时间：</label>
+                        <div class="input-group" ng-click="openPayStartDate($event)">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="serchData.paySdate" datepicker-options="dateOptions"
+                                   is-open="dateStateThree" max-date="serchData.payEdate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><i
+                              class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                        </div>
+                        ~
+                        <div class="input-group" ng-click="openPayEndDate($event)">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="serchData.payEdate" datepicker-options="dateOptions"
+                                   is-open="dateStateFour" min-date="serchData.paySdate" ng-required="true" clear-text="清除" current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" data-ng-click="import()">
+                        导出
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>县</th>
+                    <th>学校</th>
+                    <th>产品</th>
+                    <th>服务包</th>
+                    <th>缴费人数</th>
+                    <th>赠送人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-show="!pageData.pamentStudentList || pageData.pamentStudentList.length == 0">
+                    <td colspan="20" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据，请尝试改变查询条件...</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in pageData.pamentStudentList">
+                    <td class="v-middle">
+                        <span ng-bind="item.PartnerName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Province"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.City"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.County"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ProductName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ChargeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtPay"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtyGive"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

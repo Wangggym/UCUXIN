@@ -1,0 +1,100 @@
+<div ng-controller="ListOfEffectiveRoleController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 积分策略-人员清单
+            <button type="submit" id="btnReturn" class="pull-right btn btn-default"
+                     ng-click="return()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+
+                    <div class="form-group"  >
+                        <label> <span class="spanColor">*</span>学校列表：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.schoolID" ng-change="search()"
+                                       theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.schoolList| filter: $select.search"    refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label> </label>
+                        <input type="text" class="form-control" placeholder="名称/手机号" ng-model="model.name_v">
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查找
+                    </button>
+
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="save()">
+                        保存
+                    </button>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="newIntergral()">
+                        创建关爱使
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                            ng-click="checkAll()"><i></i></label></th>
+                    <th>用户名称</th>
+                    <th>电话号码</th>
+                    <th>班级名称</th>
+                    <th>关爱使身份</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td><label class="i-checks"><input type="checkbox" ng-model="item.IsChecked"
+                                                       ng-click="checkedSingle(item.IsChecked, item.ID)"><i></i></label>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.UName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MAdminName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.StatusDesc"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>
+
+
+

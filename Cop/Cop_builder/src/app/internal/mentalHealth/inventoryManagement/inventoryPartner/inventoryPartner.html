@@ -1,0 +1,147 @@
+<div ng-controller="inventoryPartner">
+        <div class="bg-light lter b-b wrapper-md">
+            <h1 class="m-n font-thin h3">量表合作伙伴授权
+            </h1>
+        </div>
+        <div class="wrapper-md">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row wrapper">
+
+                        <form class=" form-inline" role="form">
+                            <div class="form-group">
+                                <label>量表：</label>
+                                <div class="input-group">
+                                    <select ng-model="scale" id="" class="form-control"
+                                            ng-options="x.ID as x.Name for x in scaleList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>合作伙伴：</label>
+                                <div class="input-group">
+                                    <ui-select ng-model="model.partner" theme="bootstrap" reset-search-input="false">
+                                        <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                                        <ui-select-choices
+                                                repeat="partner.OrgID as partner in partnerList | propsFilter:{ Name:$select.search }">
+                                            <span ng-bind-html="partner.Name| highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-btn">
+                                    <button ng-click="deletePartner()" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" data-ng-click="search()">
+                                    查询
+                                </button>
+                            </div>
+                            <div class="form-group" style="margin: 0 10px;">
+                                <button type="submit" class="btn btn-primary"
+                                        ng-click="openAdd()">
+                                    新增
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger" ng-click="openDel()">
+                                    批量删除
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="">
+                        <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only">
+                            <thead>
+                            <tr>
+                                <th style="width:20px;">
+                                    <label class="i-checks m-b-none">
+                                        <input type="checkbox" ng-model="isAll" ng-click="checkAll()"><i></i>
+                                    </label>
+                                </th>
+                                <th>合作伙伴</th>
+                                <th>量表</th>
+                                <th style="width:30px;">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in model.viewList track by $index">
+                                <td><label class="i-checks m-b-none"><input type="checkbox" ng-model="item.check" ng-click="checkItem(item,$index)"><i></i></label></td>
+                                <td ng-bind="item.OrgName"></td>
+                                <td ng-bind="item.ScaleName"></td>
+                                <td  class="v-middle">
+                                <span>
+                                   <div class="btn-group" dropdown>
+                                    <a href="javascript:" class="btn btn-danger btn-sm" dropdown-toggle>删除</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a ng-click="del(item)" href>确定</a></li>
+                                        <li><a href>取消</a></li>
+                                    </ul>
+                                </div>
+                                </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <page-Directive options="pageIndex"></page-Directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="AccreditPartner.html">
+        <div class="panel no-border">
+            <div class="modal-header">
+                <h2>
+                    新增
+                </h2>
+            </div>
+            <div class="panel-body">
+                <form class="bs-example form-horizontal ng-pristine ng-valid">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">合作伙伴：</label>
+                        <div class="input-group col-lg-4">
+                            <select ng-model="addModal.partner" class="form-control"
+                                    ng-options="x.OrgID as x.Name for x in addModal.partnerList"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">量表：</label>
+                        <div class="input-group col-lg-8">
+                            <ui-select multiple ng-model="addModal.scale" theme="bootstrap" ng-disabled="disabled">
+                                <ui-select-match placeholder="选择量表">{{$item.Name}}</ui-select-match>
+                                <ui-select-choices repeat="item in list | propsFilter: {Name: $select.search}">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="ok()">保存</button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="delAll.html">
+        <div class="panel no-border">
+            <div class="panel-body  text-center">
+                是否批量删除？
+            </div>
+            <div class="panel-footer text-center">
+                <button type="submit" class="btn btn-success btn-sm" ng-click="ok()">保存</button>
+                <button type="submit" class="btn btn-default btn-sm" ng-click="close()">关闭</button>
+            </div>
+
+        </div>
+
+    </script>

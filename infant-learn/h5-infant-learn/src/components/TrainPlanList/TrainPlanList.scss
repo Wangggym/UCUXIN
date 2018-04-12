@@ -1,0 +1,18 @@
+.annual{
+    font-size: 0.28rem;
+    .annual-title{
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.35rem;
+        line-height: 0.5rem;
+        padding:0.2rem 0;
+        span{
+            flex: 1;
+        }
+        .icon{
+            flex:0;
+        }
+    }
+
+
+}

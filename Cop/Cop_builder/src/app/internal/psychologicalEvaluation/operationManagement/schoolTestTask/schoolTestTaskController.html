@@ -1,0 +1,150 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">学校测试订单</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.school" theme="bootstrap" ng-change="changeSchool()"
+                                   reset-search-input="false">
+                            <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="school.GID as school in schoolList track by $index"
+                                               refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                <span ng-bind-html="school.FName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                              <button type="button" ng-click="queryFields.school = undefined"
+                                      ng-disabled="!queryFields.school" class="btn btn-default">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>测试名称：</label>
+                    <input type="text" class="form-control" ng-model="queryFields.name" placeholder="任务名称">
+                </div>
+                <div class="form-group">
+                    <label>状态：</label>
+                    <ui-select ng-model="queryFields.status" theme="bootstrap" style="min-width:160px">
+                        <ui-select-match placeholder="请选择">{{$select.selected.value}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="state.id as state in stateList | propsFilter: { value:$select.search }">
+                            <span ng-bind-html="state.value | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label>分配者：</label>
+                    <ui-select ng-model="queryFields.distributor" theme="bootstrap" style="min-width:160px">
+                        <ui-select-match placeholder="请选择">{{$select.selected.value}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="dis.id as dis in distributor | propsFilter: { value:$select.search }">
+                            <span ng-bind-html="dis.value | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)">查询</button>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" ng-click="add($event)"><i class="fa fa-plus"></i> 新增
+                    </button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 180px;">合作伙伴</th>
+                        <th>学校</th>
+                        <th style="width: 150px;">测试名称</th>
+                        <th style="width: 150px;">量表名称</th>
+                        <th>分配者</th>
+                        <th style="width: 88px;">测试范围</th>
+                        <th style="width: 88px;">测试身份</th>
+                        <th style="width: 96px;">开始日期</th>
+                        <th style="width: 96px;">结束日期</th>
+                        <th style="width: 88px;">状态</th>
+                        <th style="width: 88px;">测试人数</th>
+                        <th style="width: 165px;">展示结果方式</th>
+                        <!--<th>备注</th>-->
+                        <th>操作</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!dataList">
+                        <td colspan="13" class="prompt text-center">
+                            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...<a href="javascript:;"
+                                                                                         ng-click="add()">新增测试任务</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in dataList">
+                        <td>{{item.OrgName}}</td>
+                        <td>{{item.TopGName}}</td>
+                        <td style="width: 150px;"><span class="text-ellipsis" style="width: inherit"
+                                                        title="{{item.Name}}">{{item.Name}}</span></td>
+                        <td style="width: 150px;"><span class="text-ellipsis" style="width: inherit"
+                                                        title="{{item.ScaName}}">{{item.ScaName}}</span></td>
+                        <td>{{item.IsSchool ? '学校': '运营平台'}}</td>
+                        <td>{{item.RangeText}}</td>
+                        <td>{{item.MTypeText}}</td>
+                        <td>{{item.BDate}}</td>
+                        <td>{{item.EDate}}</td>
+                        <td>{{item.StatusText}}</td>
+                        <td>
+                            <a ui-sref="access.app.internal.operationManagement.alreadyTestPersonnel({id:item.ID,gid:item.TopGID})"
+                               class="text-info" ng-if="item.TestCount">{{item.TestCount}}</a>{{!item.TestCount ?
+                            item.TestCount :''}}/{{item.TotalCount}}
+                        </td>
+                        <td>
+                            <label class="i-checks"><input type="radio" ng-model="item.ReportWay" value="0"
+                                                           ng-change="changeWay(item.ID, item.ReportWay)"><i></i>
+                                不展示</label>&nbsp;&nbsp;
+                            <label class="i-checks"><input type="radio" ng-model="item.ReportWay" value="2"
+                                                           ng-change="changeWay(item.ID, item.ReportWay)"><i></i>
+                                详细</label>
+                        </td>
+                        <!--<td>{{item.Desc}}</td>-->
+                        <td>
+                            <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="detail(item)" title="查看"><i
+                                    class="fa fa-eye"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="download(item.ID)"
+                               title="下载"><i class="fa fa-download"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="del(item)" title="删除"
+                               ng-if="item.Status === 0"><i class="fa fa-trash-o"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="getTestLink(item.ID)"  ng-show="item.MType == 13" title="下载测试入口">下载PC测试入口</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeConfirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>测试订单删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除测试订单：<strong>{{item.Name}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

@@ -1,0 +1,12 @@
+// Created by QiHan Wang on 2017/8/15.
+.judgment-answer{
+  .ant-form-item{
+    display: flex;
+    .ant-form-item-control-wrapper{
+      flex: 1;
+    }
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}

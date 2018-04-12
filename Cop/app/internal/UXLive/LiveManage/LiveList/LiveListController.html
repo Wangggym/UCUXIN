@@ -1,0 +1,205 @@
+<style>
+    thead tr th,.table tbody tr td{text-align: center;vertical-align: middle;}
+    tbody tr{border-bottom: 1px solid #e9f2e5;}
+    .sortActive{color: #f60 !important;box-shadow: 1px 1px 1px 1px #ccc;}
+    .control_change{color:#00a0e9;}
+</style>
+<div ng-controller="LiveListController">
+    <!--标题-->
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 直播预告</h1>
+    </div>
+    <!--内容盒子-->
+    <div class="wrapper-md">
+        <div class="panel panel-default" style="position: relative;">
+
+            <!--条件选择-->
+            <div class="panel-body" style="padding: 0 15px;" id="livePreTab" ng-click="changeTab(1)" class="tabItem" tabType="1">
+
+                <form class="query-group-form form-inline" role="form" name="form" style="">
+                    <!--search-->
+
+                    <div class="form-group" style="width: 100%;padding: 15px;margin-bottom: -15px;">
+                        <div class="input-group searchLivePre" style="width: 20%;float: right;">
+                            <input type="text" class="input-sm form-control" ng-model="livePreList.Keyword" placeholder="请输入直播名称">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-default" type="button" style="width: 100%" ng-click="searchLive()">Go!</button>
+                                            </span>
+                        </div>
+                        <label>机构类型：</label>
+                        <ui-select ng-model="model.gTypeID"
+                                   theme="bootstrap" ng-change="orgSearch($select.selected.id)">
+                            <ui-select-match placeholder="请选择机构">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.orgLists| filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <label  style="margin-bottom: 15px;">&nbsp;状态：</label>
+                        <ui-select ng-model="model.s_state"
+                                   theme="bootstrap"  ng-change="statusSlc($select.selected.id)"  style="margin-bottom: 15px;">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.Status| filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select><br>
+                        <!--日期选择开始-->
+                        <div class="datePicker" style=";">
+                            <div style="float: left;width:auto;height: 34px;line-height: 34px;">发布时间：</div>
+                            <div class="input-group" style="width: 180px;float: left;margin-left: 3px;">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate"
+                                       is-open="openedStart" max-date="" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                                       current-text="今天" close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openStartDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                            </div>
+                            <span  class="input-group-btn" style="font-size: large;float: left">&nbsp;~&nbsp;</span>
+                            <div class="input-group" style="width: 180px;float: left;margin-right: 5px;">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                                       is-open="endOpened" min-date="" ng-required="true" clear-text="清除" current-text="今天"
+                                       close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openEndDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                            </div>
+                            <!--<button class="btn m-b-xs  btn-info" ng-click="dateSearch()" style="float: left;margin-right: 10px;">查询</button>-->
+                            <div style="float: left;width:auto;height: 34px;line-height: 34px;">直播时间：</div>
+                            <div class="input-group" style="width: 180px;float: left;margin-left: 3px;">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="liveDate"
+                                       is-open="openLivedStart" max-date="" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                                       current-text="今天" close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openLiveDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                            </div>
+                            <span  class="input-group-btn" style="font-size: large;float: left">&nbsp;~&nbsp;</span>
+                            <div class="input-group" style="width: 180px;float: left;margin-right: 5px;">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="livedDate" datepicker-options="dateOptions"
+                                       is-open="endLive" min-date="" ng-required="true" clear-text="清除" current-text="今天"
+                                       close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openLivedDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                            </div>
+                            <button class="btn m-b-xs  btn-info" ng-click="dateSearch()">查询</button>
+                            <div style="float: right">
+                                <button class="btn btn-default btn-sm" id="PraiseCnt" ng-click="pre_sort(1,model.PraiseCnt)">按点赞量<span>升</span>序</button>
+                                <button class="btn btn-default btn-sm" id="CmtCnt" ng-click="pre_sort(2,model.CmtCnt)">按评论量<span>升</span>序</button>
+                                <button class="btn btn-default btn-sm" id="ShareCnt" ng-click="pre_sort(3,model.ShareCnt)">按分享量<span>升</span>序</button>
+                                <button class="btn btn-default btn-sm" id="FavCnt" ng-click="pre_sort(4,model.FavCnt)">按收藏量<span>升</span>序</button>
+                            </div>
+                        </div>
+                        <!--日期选择结束-->
+
+
+                    </div>
+                </form>
+            </div>
+            <!--条件选择结束-->
+            <!--表格数据开始-->
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>选择 </th>
+                    <th>直播名称</th>
+                    <th>节数</th>
+                    <th>发布机构</th>
+                    <th>机构类型</th>
+                    <th>发布员</th>
+                    <th>发布范围</th>
+                    <th>直播员</th>
+                    <th>发布时间</th>
+                    <th>直播时间</th>
+                    <th>报名</th>
+                    <th>评论量</th>
+                    <th>分享量</th>
+                    <th>收藏量</th>
+                    <th>点赞</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody class="liveListBox">
+                <tr>
+                    <td colspan="17" class="prompt text-center" data-ng-show="model.itemList.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+                        </div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td><label class="i-checks m-b-none"><input type="checkbox" ng-model="item.checked" ng-click="checkedSingle(item.checked, item.LiveID)"name="post[]"><i></i></label></td>
+                    <td>
+                        <span ng-bind="item.LiveName"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.SecCnt"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.GrpName"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.GTypeName"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.PubMbrName"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.Range"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.AnchorName"></span>
+
+                    </td>
+                    <td>
+                        <span ng-bind="item.PubDate"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.LiveDate"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.SignUpCnt"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.CmtCnt"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.ShareCnt"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.FavCnt"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.PraiseCnt"></span>
+                    </td>
+                    <td class="control">
+                        <button class="btn btn-xs btn-danger control_change" ng-show="item.Status==0" ng-click=" Forbid(true,item)"><span>禁播</span></button>
+                        <button class="btn btn-xs btn-success control_relieve" ng-show="item.Status==-1" style="color: #333;" ng-click="Forbid(false,item)"><i class="icon fa-warning" ></i>解禁</button>
+                    </td>
+                </tr>
+
+                </tbody>
+                <div style="position: absolute; bottom: 0;left:25px;"  data-ng-show="model.itemList.length>0">
+                    <div style="position: absolute; bottom: 0px;left: 0px;width: 200px;">
+                        <label class="i-checks"><input type="checkbox" class="checkAll" ng-model="checkedAllA"
+                                                       ng-click="checkAll(checkedAllA)"><i></i>全选</label>
+                        <button class="btn m-b-xs  btn-info" ng-click="ForbidAll(true)">禁播</button>
+                        <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="ForbidAll(false)">解禁</a>
+                    </div>
+                </div>
+            </table>
+            <!--表格数据结束-->
+
+            <page-Directive options="pageIndex"  ></page-Directive>
+        </div>
+    </div>
+</div>

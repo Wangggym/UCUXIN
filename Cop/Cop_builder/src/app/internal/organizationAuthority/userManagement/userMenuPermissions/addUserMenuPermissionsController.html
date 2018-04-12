@@ -1,0 +1,94 @@
+<div ng-controller="addUserMenuPermissionsController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{model.headName}}
+            <button type="submit" class="pull-right btn btn-default"
+                    ui-sref="access.app.internal.userManagementInternal.userMenuPermissions({OrgID:'{{$stateParams.OrgID}}',UID:'{{$stateParams.UID}}'})">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>组织机构：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.partners" theme="bootstrap" ng-change="selectPartner()">
+                                <ui-select-match placeholder="请选择组织机构">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.OrgID as item in model.partnersList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deletePartners()" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>用户名：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.nameId" theme="bootstrap" ng-change="selectUseName()"
+                                       ng-disabled="model.partners?false:true">
+                                <ui-select-match placeholder="请选择用户名">{{$select.selected.UName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.UID as item in model.nameList | filter: $select.search">
+                                    <div ng-bind-html="item.UName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteNameId()" class="btn btn-default"
+                                        type="button" ng-disabled="model.partners?false:true">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only" style="margin-bottom: 30px;">
+                <thead>
+                <tr>
+                    <th>一级菜单</th>
+                    <th>二级菜单</th>
+                    <th>三级菜单</th>
+                    <th>是否有权限</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName2"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.IsOwnName" ng-style="item.IsOwnColor"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown ng-show="item.IsOwn?true:false">
+                            <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <a ng-show="item.IsOwn?false:true" class="btn btn-sm btn-success" ng-click="addItemIsOwn(item)">添加</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

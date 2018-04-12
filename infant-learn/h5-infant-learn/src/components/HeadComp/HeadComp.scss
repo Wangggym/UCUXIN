@@ -1,0 +1,36 @@
+.person-bg{
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.28rem;
+    color: white;
+    background: linear-gradient(45deg,rgb(104 ,201 ,76),rgb(177 ,232 ,30));
+    .name{
+        font-size: 0.35rem;
+    }
+    .head-img{
+        background: #ccc;
+        width: 1.3rem;
+        height: 1.3rem;
+        border-radius: 50%;
+        border: 0.1rem #ebf8d6 solid;
+        img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+    .info{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .no-info{
+        li{
+            display: none;
+        }
+    }
+}

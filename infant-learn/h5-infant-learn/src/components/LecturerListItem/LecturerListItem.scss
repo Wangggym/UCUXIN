@@ -1,0 +1,44 @@
+.lecturer-list-item{
+    display: flex;
+    padding: 0.1rem 0.2rem;
+    >a{
+        display: flex;
+        flex: 4;
+        width: 80%;
+        img{
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 1PX solid #ccc;
+        }
+        .center{
+            width: 60%;
+            flex: 3;
+            padding: 0 0.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            color:#aaa;
+            .title{
+                display: flex;
+                justify-content: space-between;
+                .name{
+                    font-weight: bold;
+                    color:#000;
+                }
+            }
+            .info{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    .button{
+        flex: 1;
+        display: flex;
+        align-items: center;
+        >a{
+            width: 100%;
+        }
+    }
+}

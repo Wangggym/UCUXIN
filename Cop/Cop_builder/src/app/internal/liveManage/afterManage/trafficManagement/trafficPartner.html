@@ -1,0 +1,101 @@
+<style>
+    thead tr th,.table tbody tr td{text-align: center;vertical-align: middle;}
+    div .dateSelect{display: block!important;}
+    tbody tr{border-bottom: 1px solid #e9f2e5;}
+</style>
+<div ng-controller="trafficPartner">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">合作伙伴流量明细</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body" style="position: relative;">
+                <!--顶部-->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <h3 style="text-align: center;font-weight:500;color: #f60;line-height: 1;"><span class="hisYear">{{model.backYear}}</span>年<span class="hisMonth">{{model.backMonth}}</span>月,合作伙伴流量明细</h3>
+                </div>
+                <!--内容部分条件选择-->
+                <div class="conditionBox" style="height: 40px;margin-top: 10px;">
+                    <a class="btn btn-default" href="javascript:history.back(-1);" style="display: inline-block;float: left;">返回上一级</a>
+
+                    <!--时间选择容器-->
+                    <div class="dateBox" style="position: relative;float: left;line-height: 34px;margin-left: 20px;">
+                        <span>选择时间：</span> <span ng-click="changeTime()" style="display: inline-block;cursor: pointer;"><i class="glyphicon glyphicon-calendar" style="font-size: 20px;"></i></span>
+                        <div class="selectDate" style="width:200px;height: auto;border: 1px solid #666;border-radius: 5px;display:none;padding:5px 10px 10px 10px;text-align: center;position: absolute;z-index: 10;background: #fff;">
+                            <select ng-model="model.yearLists.year"  class="form-control input-sm" ng-options="org.year for org in model.yearLists" ng-change="slcYear(model.yearLists.year)" style="width: 100%;margin-top: 10px;">
+                                <option value="">-选择年份-</option>
+                            </select>
+                            <select ng-model="model.monthList.month"  class="form-control input-sm" ng-options="org.month for org in model.monthList" ng-change="slcMonth(model.monthList.month)" style="width: 100%;margin-top: 10px;">
+                                <option value="">-选择月份-</option>
+                            </select>
+                            <a href="javascript:;" class="btn btn-xs btn-info"  ng-click="dateSure()" style="display: inline-block;width: 40%;margin-top: 10px;">确定</a>
+                        </div>
+                        <input type="text" class="dateTime" style="border:0;font-size: 16px;color: #f60;width: 100px;" readonly>
+                    </div>
+                    <div class="partnerBox">
+                        <label style="display: block;float: left;margin-top: 6px;">合作伙伴：</label>
+                        <div class="input-group" style="width: 200px;float: left;">
+                            <ui-select ng-model="GetPartnerData.PtnID" theme="bootstrap"  >
+                                <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.partnerList | filter: $select.search"
+                                        refresh="refreshPtnList($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <button class="btn btn-default" style="display:block;float: left;border-left: 0;" ng-click="ptnClear()"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button class="btn btn-default" style="display:block;float: left;margin-left: 5px;" ng-click="ptnSure()">查询</button>
+                    </div>
+                </div>
+                <!--内容部分 主体内容-->
+                <table class="table table-striped b-t b-light">
+                    <!--表头-->
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>合作伙伴</th>
+                        <th>年度</th>
+                        <th>月份</th>
+                        <th>视频数量/时长</th>
+                        <th>观看人数</th>
+                        <th>播放总时长</th>
+                    </tr>
+                    </thead>
+                    <!--表体-->
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList" data-gid = {{item.PtnID}}>
+                        <!--<td>-->
+                        <!--<label class="i-checks m-b-none"><input type="checkbox" ng-model="item.checked" ng-click="checkedSingle(item.checked, item.GID)"name="post[]"><i></i></label>-->
+                        <!--</td>-->
+                        <td>
+                            <span ng-bind="item.index"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.PtnName"></span>
+                        </td>
+
+                        <td>
+                            <span ng-bind="item.Year"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.Month"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.VideoCnt"></span>/<a href="" class="btn btn-xs btn-primary"><span ng-bind="item.VideoDuration"></span>H</a>
+                        </td>
+                        <td>
+                            <span ng-bind="item.PlayUserCnt"></span>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-xs btn-primary" style="text-decoration: underline;" ng-click="toClass(item.PtnID,item.PtnName)"><span ng-bind="item.PlayDuration"></span>H</a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+// Created by QiHan Wang on 2017/9/29.
+.examine {
+  padding-bottom: 96px;
+  .train-plan-title {
+    font-size: 35px !important;
+    height: 130px;
+    background-color: #f2f2f2;
+    margin: 0;
+    text-align: center;
+    line-height: 130px;
+    width: 100vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .train-plan-content {
+    padding: 0 16px;
+    font-size: 30px;
+    > dl {
+      display: flex;
+      margin-top:30px;
+      > dt {
+        position: relative;
+        //width: 200px;
+        text-align-last: justify;
+        padding-right: 10px;
+        margin-right: 10px;
+        color: #999;
+        &::after{
+          content: ':';
+          position: absolute;
+          right: 0;
+
+        }
+      }
+      > dd {
+        flex: 1;
+      }
+    }
+  }
+
+  .has-enroll{
+    font-size: 28px;
+    padding: 0 16px;
+    margin-top: 80px;
+    margin-bottom: 30px;
+  }
+
+  .has-enroll-title{
+    border-bottom: 1px solid #d7d7d7;
+    padding: 16px 0;
+  }
+
+  .enroll-list-item{
+    display: flex;
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 16px;
+    margin-top: 16px;
+  }
+
+  .enroll-list-bd{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .enroll-list-ft{
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }
+
+  .enroll-avatar{
+    width: 128px;
+    height: 128px;
+    border-radius: 8px;
+    display: inline-block;
+    background-size: cover;
+    background-color: #eee;
+    vertical-align:middle;
+    margin-right: 16px;
+  }
+
+  .enroll-name{
+    flex: 0 0 100%;
+    font-size: 32px;
+  }
+  .enroll-desc{
+    flex: 0 0 100%;
+    font-size: 24px;
+    color: #999;
+  }
+
+  .examine-pending{
+    color: #999;
+  }
+  .examine-not-pass{
+    color: #fb5e36;
+  }
+  .examine-pass{
+    color: #7fd168;
+  }
+
+  .examine-footer-bar{
+    display: flex;
+    background-color: #fafafa;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    .examine-footer-desc{
+      flex: 1;
+    }
+    .btn-examine{
+      width: 160px;
+      height: 96px;
+      border:0;
+      background-color: #f19149;
+      color: #fff;
+      &:disabled{
+        background-color: #ddd;
+      }
+    }
+  }
+}
+

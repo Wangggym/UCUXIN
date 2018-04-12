@@ -1,0 +1,156 @@
+<div ng-controller="liveUserListController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 用户管理--直播员
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form" style="text-align: right;">
+
+                    <div class="input-group" style="width: 20%;float: right;margin:0px 0 10px 0;">
+
+                        <input type="text" class="input-sm form-control" ng-model="modelLivePart.keyword" placeholder="输入用户名/账号">
+                        <span class="input-group-btn">
+                                 <button class="btn btn-sm btn-default" type="button" style="margin-left: -21px;" ng-click="BtnSearch()">Go!</button>
+                                </span>
+                    </div>
+                    <!--<div class="form-group" style="width: 20%;float: right;margin:-20px 20px 10px 0;">-->
+                    <!--<label>状态：</label>-->
+                    <!--<div class="input-group">-->
+                    <!--<ui-select ng-model="modelLivePart.s_state"-->
+                    <!--theme="bootstrap">-->
+                    <!--<ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>-->
+                    <!--<ui-select-choices-->
+                    <!--repeat="item.id as item in modelLivePart.stateList| filter: $select.search">-->
+                    <!--<div ng-bind-html="item.name | highlight: $select.search"></div>-->
+                    <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <!--<th style="width: 55px;">   </th>-->
+                    <th>用户名</th>
+                    <th>帐号</th>
+                    <th style="position: relative;" class="dropdown" dropdown="false">
+                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">直播次数 <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                            <li><a href="" ng-click="headerSort('LiveCnt',true)">升序</a></li>
+                            <li><a href="" ng-click="headerSort('LiveCnt',false)">降序</a></li>
+                        </ul>
+                    </th>
+                    <th   style="position: relative;" class="dropdown" dropdown="false">
+
+                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">直播总时长(小时) <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                        <li><a href="" ng-click="headerSort('LiveHours',true)">升序</a></li>
+                        <li><a href="" ng-click="headerSort('LiveHours',false)">降序</a></li>
+                        </ul>
+                    </th>
+                    <th  style="position: relative;" class="dropdown" dropdown="false" >
+
+                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">平均收视率(%) <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                        <li><a href="" ng-click="headerSort('AvgPlayRate',true)">升序</a></li>
+                        <li><a href="" ng-click="headerSort('AvgPlayRate',false)">降序</a></li>
+                        </ul>
+                    </th>
+                    <th  style="position: relative;" class="dropdown" dropdown="false" >
+
+                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">被指定次数 <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                        <li><a href="" ng-click="headerSort('AssignCnt',true)">升序</a></li>
+                        <li><a href="" ng-click="headerSort('AssignCnt',false)">降序</a></li>
+                        </ul>
+                    </th>
+
+                    <th  style="position: relative;" class="dropdown" dropdown="false" >
+
+                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">执行率(%) <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                        <li><a href="" ng-click="headerSort('ExecuteRate',true)">升序</a></li>
+                        <li><a href="" ng-click="headerSort('ExecuteRate',false)">降序</a></li>
+                        </ul>
+                    </th>
+                    <!--<th>状态</th>-->
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody class="liveListBox">
+                <tr>
+                    <td colspan="9" class="prompt text-center" data-ng-show="modelLivePart.itemList.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+                        </div>
+                    </td>
+                </tr>
+                <tr st-select-row="row"  ng-repeat="item in modelLivePart.itemList">
+                    <!--<td><label class="i-checks"><input type="checkbox" ng-model="item.checked"-->
+                    <!--ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+</td>-->
+                    <td class="v-middle">
+                        <span ng-bind="item.AnchorName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.LiveCnt"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.LiveHours"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.AvgPlayRate"></span>
+                        %
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.AssignCnt"></span>
+                    </td>
+
+                    <td class="v-middle">
+                        <span ng-bind="item.ExecuteRate"></span>
+                        %
+                    </td>
+                    <!--<td class="v-middle">-->
+                    <!--<span ng-bind="item.StatusName"></span>-->
+                    <!--</td>-->
+                    <td>
+
+                        <!--<a href="javascript:;" ng-show="item.Status==0 || item.Status==-1" class="btn btn-xs btn-danger" title="封号" ng-click="Disable(item)">封号</a>-->
+                        <!--<a href="javascript:;" ng-show="item.Status==0" class="btn btn-xs btn-primary" title="禁言" ng-click="Shutup(item)">禁言</a>-->
+                        <!--<a href="javascript:;" ng-show="item.Status==-2 || item.Status==-1" class="btn btn-xs btn-success" title="开启" ng-click="Start(item)">开启</a>-->
+                        <a href="javascript:;"  class="btn btn-xs btn-info" title="开启" ng-click="toLiveRecordList(item)">直播记录</a>
+
+                    </td>
+                </tr>
+                </tbody >
+                <!--<div style="position: absolute; bottom: 0;left: 33px;">-->
+                    <!--<label class="i-checks"><input type="checkbox" ng-model="checkedAllA"-->
+                    <!--ng-click="checkAll(checkedAllA)"><i></i>全选</label>-->
+                    <!--<a href="" style="margin-left: 10px;color: #00a0e9;"data-ng-click="DisableAll()">封号</a>-->
+                <!--</div>-->
+            </table>
+            <page-Directive options="pageIndex"  ></page-Directive>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">{{msgTitle}}</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

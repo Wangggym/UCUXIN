@@ -1,0 +1,72 @@
+<div ng-controller="importCardRule">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">导入卡号规则
+            <button class="btn btn-default" style="float: right" ui-sref="access.app.internal.cardManagement.checkCard">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md row">
+        <div class="panel panel-default">
+            <div class="panel-heading font-bold">
+                <form class="bs-example form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><span class="spanColor">*</span>导入的IC卡号规则：</label>
+
+                        <div class="col-lg-2">
+                            <select class="form-control" ng-model="rule" ng-options="rule.value as rule.name for rule in ICRules"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-offset-2 col-lg-4">
+                        <table class="table table-bordered table-condensed bg-white-only">
+                            <thead>
+                                <tr>
+                                    <th>流水号</th>
+                                    <th>RFID卡号</th>
+                                    <th>IC卡号</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            导入说明：
+                        </p>
+                        <p>流水号：由系统生成的连续10位流水号</p>
+                        <p>RFID卡号：2.4G远距离卡的卡号</p>
+                        <p>IC卡号：IC卡的卡号，在导入时需要选择导入的IC卡号的规则，因为同一张IC卡由于设备读取卡号方式的不同，可能会显示不同的卡号</p>
+                        <p>IC卡号规则说明：</p>
+                        <p>【原始物理卡号】是指IC卡未经任何转换处理的8位16进制卡号，例9ADC5F65</p>
+                        <p>【10进制卡号】是把物理卡号转换成10进制之后的卡号，例：9ADC5F65 -> 2598133605</p>
+                        <p>【两两交换后转10进制】是把物理卡号两两交换后转成10进制卡号，例：9ADC5F65 -> 655FDC9A -> 1700781210</p>
+                    </div>
+                </div>
+                <div class="row" style="padding: 20px 0">
+                    <div class="col-lg-offset-2 col-lg-4" style="text-align: center;">
+                        <button class="btn btn-info btn-addon" ngf-select ng-model="file" name="file"
+                                ng-change="fileUpload(file)" ngf-pattern="'.xls,.xlsx'"
+                                ngf-accept="'.xls,.xlsx'"><i class="fa fa-plus"></i>导入卡号
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-offset-2 col-lg-4">
+                        <p>错误提示区：</p>
+                        <textarea style="color:red" ng-bind="errorTips" disabled class="form-control" id="" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,156 @@
+<div class="add-question"><button class="btn btn-info" ng-click="addAnomalyJudgment()"><i class="fa fa-plus"></i> 新增异常判定</button></div>
+<table class="table table-hover table-bordered">
+  <thead>
+  <tr>
+    <th>因子名称</th>
+    <th style="width:20%">年龄</th>
+    <th style="width:20%">性别</th>
+    <th style="width:20%">得分范围</th>
+    <th style="width:10%">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="!anomalyList.length"><td colspan="5" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addAnomalyJudgment()" class="alert-link">请添加异常判定</a></td></tr>
+  <tr ng-repeat="item in anomalyList">
+    <td>{{item.FactorName ? item.FactorName : '总分'}}</td>
+    <td>{{!item.MinAge && !item.MaxAge ? '不限' : item.MinAge + '-' + item.MaxAge}}</td>
+    <td>{{item.Sex | sexFormat}}</td>
+    <td>{{item.MinScore}} ≤ 分数 ≤ {{item.MaxScore}}</td>
+    <td>
+      <a class="btn btn-info btn-xs" ng-click="editAnomalyJudgment(item)" title="编辑"><i class="fa fa-edit"></i></a>
+      <a class="btn btn-danger btn-xs" title="删除" ng-click="delAnomalyJudgment($index, item)"><i class="fa fa-trash-o"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="add-question"><button class="btn btn-info" ng-click="addFailureRule()"><i class="fa fa-plus"></i> 新增测慌规则</button></div>
+<table class="table table-hover table-bordered" ng-show="failureRuleList.length">
+  <thead>
+  <tr>
+    <th style="width:20%">名称</th>
+    <th style="width:20%">性别</th>
+    <th style="width:20%">得分范围</th>
+    <th>规则</th>
+    <th style="width:10%">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="!failureRuleList.length"><td colspan="5" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addFailureRule()" class="alert-link">请添加测慌规则</a></td></tr>
+  <tr ng-repeat="item in failureRuleList">
+    <td>{{item.Name}}</td>
+    <td>{{item.Sex | sexFormat}}</td>
+    <td>{{item.MinScore}} ≤ 分数 ≤ {{item.MaxScore}}</td>
+    <td>{{item.Rule}}</td>
+    <td>
+      <a class="btn btn-info btn-xs" ng-click="editFailureRule(item)" title="编辑"><i class="fa fa-edit"></i></a>
+      <a class="btn btn-danger btn-xs" title="删除" ng-click="delFailureRule($index, item)"><i class="fa fa-trash-o"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<script type="text/ng-template" id="addAnomalyJudgment.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus':!anomaly.ID,'fa-edit':anomaly.ID}"></i>{{addAnomalyTitle}}异常判定</h3>
+  </div>
+  <div class="modal-body form-horizontal form-validation">
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 因子名称：</label>
+      <div class="col-sm-9">
+        <ui-select ng-model="anomaly.FactorID" theme="bootstrap" ng-change="changeFactor()">
+          <ui-select-match placeholder="请输入关键字查询">{{$select.selected.Name}}</ui-select-match>
+          <ui-select-choices repeat="factor.ID as factor in factorList | propsFilter:{ Name:$select.search } ">
+            <span ng-bind-html="factor.Name | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 性别：</label>
+      <div class="col-sm-9">
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="anomaly.Sex" value="-1" required><i></i> 不限
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="anomaly.Sex" value="1" required><i></i> 男
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="anomaly.Sex" value="0" required><i></i> 女
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 年龄范围：</label>
+      <div class="col-sm-9">
+        <label class="checkbox-inline i-checks pull-left" style="margin-right: 15px;"><input type="checkbox" name="Age" ng-model="anomaly.Age"><i></i> 不限</label>
+        <div class="input-group" ng-if="!anomaly.Age">
+          <input type="text" class="form-control" ng-model="anomaly.MinAge" ng-pattern="/^\d{0,3}$/" placeholder="最小年龄">
+          <span class="input-group-addon">至</span>
+          <input type="text" class="form-control" ng-model="anomaly.MaxAge" ng-pattern="/^\d{0,3}$/" placeholder="最大年龄">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 得分范围：</label>
+      <div class="col-sm-9">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="anomaly.MinScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最小得分">
+          <span class="input-group-addon">≤ 分数 ≤</span>
+          <input type="text" class="form-control" ng-model="anomaly.MaxScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最大得分">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="confirmAnomaly()">确认</button>
+    <button class="btn btn-default" ng-click="cancelAnomaly()">取消</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="addFailureRule.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus':!failureRule.ID,'fa-edit':failureRule.ID}"></i>{{failureRuleTitle}}测慌规则</h3>
+  </div>
+  <div class="modal-body form-horizontal form-validation">
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 名称：</label>
+      <div class="col-sm-9">
+        <input type="text" ng-model="failureRule.Name" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 性别：</label>
+      <div class="col-sm-9">
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="failureRule.Sex" value="-1" required><i></i> 不限
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="failureRule.Sex" value="1" required><i></i> 男
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="failureRule.Sex" value="0" required><i></i> 女
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 得分范围：</label>
+      <div class="col-sm-9">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="failureRule.MinScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最小得分">
+          <span class="input-group-addon">≤ 分数 ≤</span>
+          <input type="text" class="form-control" ng-model="failureRule.MaxScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最大得分">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 测慌规则：</label>
+      <div class="col-sm-9">
+        <textarea rows="3" class="form-control" ng-model="failureRule.Rule" ng-pattern="/^([\+\-\*\/\{\}\(\)\d]*|[+-]?\d+\.?\d*)$/" placeholder="规则由数字、加、减、乘、除、括号组成"></textarea>
+        <span class="help-block">示例：({2}+3)*4-{3}/5</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="confirmFailureRule()">确认</button>
+    <button class="btn btn-default" ng-click="cancelFailureRule()">取消</button>
+  </div>
+</script>

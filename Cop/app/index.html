@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="ch" data-ng-app="app">
+<head>
+    <meta charset="utf-8"/>
+    <title>优课优信运营平台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../bower_components/Semantic-UI-master/dist/semantic.min.css">
+
+    <link rel="stylesheet" href="../bower_components/animate.css/animate.css">
+    <link rel="stylesheet" href="../bower_components/loaders.css/loaders.css">
+
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../bower_components/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../bower_components/ez-confirm/dist/ez-confirm.min.css">
+    <!--angular-toastr-->
+    <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css">
+    <!--end-->
+    <link rel="stylesheet" href="../bower_components/date/date-min.css">
+    <!-- build:css ./css/lib-min.css -->
+    <link rel="stylesheet" href="public/css/font.css">
+    <link rel="stylesheet" href="public/css/app.css">
+    <link rel="stylesheet" href="public/css/login.css">
+    <!-- endbuild -->
+</head>
+<body ng-controller="AppCtrl">
+<div class="app" id="app"
+     ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}"
+     ui-view></div>
+<!-- jQuery -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/jquery/dist/jquery.md5.js"></script>
+<!-- Angular -->
+<!--qiniu-->
+<script src="../bower_components/qiniu/moxie.min.js"></script>
+<script src="../bower_components/qiniu/plupload.full.min.js"></script>
+<script src="../bower_components/qiniu/qiniu.js"></script>
+<!--qiniu--end-->
+<!--babel-polyfill-->
+<script src="../bower_components/babel-polyfill/polyfill.min.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<!--angular-toastr-->
+<script src="../bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<!--end-->
+<!--angular-sortable-->
+<script src="../bower_components/angular-ui-sortable/sortable.js"></script>
+<!--end-->
+<script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="../bower_components/angular-touch/angular-touch.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="../bower_components/ngstorage/ngStorage.js"></script>
+<script src="../bower_components/angular-ui-utils/ui-utils.js"></script>
+
+<!-- oss-sdk -->
+<script src="../bower_components/Oss/aliyun-oss-sdk.js"></script>
+<!-- crypto -->
+<script src="../bower_components/crypto/spark-md5.js"></script>
+<script src="../bower_components/crypto/components/core-min.js"></script>
+<script src="../bower_components/crypto/components/md5-min.js"></script>
+
+
+<!-- bootstrap -->
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- semantic -->
+<script src="../bower_components/Semantic-UI-master/dist/semantic.min.js"></script>
+<!-- ez-confirm -->
+<script src="../bower_components/ez-focus/dist/ez-focus.min.js"></script>
+<script src="../bower_components/ez-confirm/dist/ez-confirm.min.js"></script>
+<script src="../bower_components/ez-confirm/dist/ez-confirm-tpl.js"></script>
+<!-- lazyload -->
+<script src="../bower_components/oclazyload/dist/ocLazyLoad.js"></script>
+<!-- translate -->
+<script src="../bower_components/angular-translate/angular-translate.js"></script>
+<script src="../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+<script src="../bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+<!-- date -->
+<script src="../bower_components/date/date-min.js"></script>
+<!--ng-file-upload-->
+<script src="../bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<script src="../bower_components/ng-file-upload/ng-file-upload.js"></script>
+<!--url config-->
+<script src="public/configure/urlConfig.js"></script>
+<!--end-->
+<!--ueditor--start-->
+<!-- 配置文件 -->
+<script type="text/javascript" src="../bower_components/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="../bower_components/ueditor/ueditor.all.js"></script>
+<!--ueditor--end-->
+<!-- App -->
+<!-- build:js ./js/lib-min.js -->
+<script src="public/configure/app.js"></script>
+<script src="public/configure/config.js"></script>
+<script src="public/configure/config.lazyload.js"></script>
+<script src="public/configure/config.router.js"></script>
+<script src="public/configure/main.js"></script>
+<script src="public/js/filters/fromNow.js"></script>
+<script src="public/js/filters/props.js"></script>
+<script src="public/js/directives/setnganimate.js"></script>
+<script src="public/js/directives/ui-butterbar.js"></script>
+<script src="public/js/directives/ui-focus.js"></script>
+<script src="public/js/directives/ui-fullscreen.js"></script>
+<script src="public/js/directives/ui-jq.js"></script>
+<script src="public/js/directives/ui-module.js"></script>
+<script src="public/js/directives/ui-nav.js"></script>
+<script src="public/js/directives/ui-scroll.js"></script>
+<script src="public/js/directives/ui-shift.js"></script>
+<script src="public/js/directives/ui-toggleclass.js"></script>
+<script src="public/js/directives/ztree.js"></script>
+<script src="public/js/directives/ucu-pageDirective.js"></script>
+<!--<script src="public/js/directives/ucu-textEdit.js"></script>-->
+<!-- endbuild -->
+<!-- Lazy loading -->
+<!--text-->
+<script src="public/js/filters/eduStage.js"></script>
+<script src="public/js/directives/ucu-ueditor.js"></script>
+<script src="../bower_components/echarts/echarts.min.js"></script>
+<!--<script src="public/js/directives/u-ueditor.js"></script>-->
+
+</body>
+</html>

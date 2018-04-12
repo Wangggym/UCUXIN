@@ -1,0 +1,140 @@
+<div ng-controller="schoolApplicationController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校应用开通
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="changeGid()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in schoolList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" ng-click="search()" ng-disabled="!model.selectedGid">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info"
+                            ui-sref="access.app.internal.schoolApplicationManagement.addOrEditSchoolApplicationOpen">
+                        添加
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th class="v-middle">序号</th>
+                    <th class="v-middle">省</th>
+                    <th class="v-middle">市</th>
+                    <th class="v-middle">县</th>
+                    <th class="v-middle">学校名称</th>
+                    <th class="v-middle">机构认证码</th>
+                    <th class="v-middle">允许推送延时/小时</th>
+                    <th class="v-middle">晨检枪供应商</th>
+                    <th class="v-middle">是否开启晨检打电话功能</th>
+                    <th class="v-middle">刷卡短信</th>
+                    <th class="v-middle">异常刷卡是否推送</th>
+                    <th class="v-middle">开启的业务</th>
+                    <!--<th class="v-middle">学校自定义开启的业务</th>-->
+                    <th class="v-middle">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PrivoceName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CityName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ConutryName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CompanyToken"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Timeout"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MorningSupplyName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.IsTelName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.IsOpenClockName">
+
+                        </span>
+                    </td>
+                    <td class="v-middle">
+                    <span ng-bind="item.IsexceptionName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a class="text-info-lt" ng-bind="item.OpenBusiness" ng-click="checkItem(item,1)"></a>
+                    </td>
+                    <!--<td class="v-middle">-->
+                        <!--<a class="text-info-lt" ng-bind="item.GroupBusiness" ng-click="checkItem(item,2)"></a>-->
+                    <!--</td>-->
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-primary" title="编辑" ng-click="addOrEdit(item)"><i
+                                class="fa fa-edit"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="schoolApplicationModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{newModel.head}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in newModel.itemList">
+                    <td class="v-middle" style="width:22%;">
+                        <span class="pull-right">{{item.ProductName}}：</span>
+                    </td>
+                    <td class="v-middle">
+                        <label class="i-checks ng-binding ng-scope" ng-repeat="children in item.children"
+                               style="margin-left:20px;">
+                            <input type="checkbox" ng-checked="children.checked" name="toasts"
+                                   ng-click="addCheckedOne(item.children,$index)"
+                                   checked="checked"><i></i>{{children.Name}}</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

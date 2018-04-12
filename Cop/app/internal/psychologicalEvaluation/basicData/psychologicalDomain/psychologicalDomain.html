@@ -1,0 +1,48 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">心理领域</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="psychologicalDomainController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <button type="button" class="btn m-b-md w-xs btn-primary" data-ng-click="addItem({ID:0,Name:''})">新增</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped" style="max-width: 1100px">
+        <thead>
+        <tr>
+          <th>标签名称</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="11" class="prompt text-center" data-ng-show="allData.length==0">
+            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+            </div>
+          </td>
+        </tr>
+        <tr data-ng-repeat="item in allData">
+          <td>{{item.Name}}</td>
+          <td style="width: 210px"><button type="button" class="btn w-xs btn-primary" data-ng-click="change(item)">修改</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/ng-template" id="changeItemDomain.html">
+  <div class="modal-body">
+    <form class="form-inline clearfix">
+      <span>标签</span>
+      <input data-ng-model="data.Name" style="width: 300px" type="text" class="form-control" maxlength="6">
+      <span class="btn w-xs btn-info" data-ng-click="sure()">确定</span>
+      <span class="btn w-xs btn-default" data-ng-click="cancel()">取消</span>
+    </form>
+  </div>
+  <!--<div class="modal-footer" style="text-align: center">-->
+  <!--<button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>-->
+  <!--<button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>-->
+  <!--</div>-->
+</script>

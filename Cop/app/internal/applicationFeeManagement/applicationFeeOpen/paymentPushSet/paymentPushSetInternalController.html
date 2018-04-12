@@ -1,0 +1,93 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">缴费推送设置
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="paymentPushSetInternalController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"
+                            ui-sref="access.app.internal.applicationFeeOpen.addPaymentPushSet">
+                        添加缴费入口
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th class="v-middle">操作</th>
+                <th class="v-middle">学校名称</th>
+                <th class="v-middle">合作伙伴</th>
+                <th class="v-middle">缴费入口标题</th>
+                <th class="v-middle">入口缩略图</th>
+                <th class="v-middle" style="width: 10%">入口链接类型</th>
+                <th class="v-middle">是否显示固缴费入口</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in itemList">
+                <td class="v-middle">
+                    <button class="btn btn-sm btn-info"
+                            ui-sref="access.app.internal.applicationFeeOpen.addPaymentPushSet({gid:'{{item.GID}}',id:'{{item.ID}}'})">
+                        编辑
+                    </button>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.GName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.PartnerName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.FixEntryTitle"></span>
+                </td>
+                <td class="v-middle">
+                    <img style="width: 60px;height: 50px;" ng-src="{{item.FixEntryPic}}" alt="">
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.FixEntryUrlTypeName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.IsShowFixEntryName"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+            <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+            <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                        max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                        class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                        num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                        next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                        last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+        </div>
+    </div>
+</div>

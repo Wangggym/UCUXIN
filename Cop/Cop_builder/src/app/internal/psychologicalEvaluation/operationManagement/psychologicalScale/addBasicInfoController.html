@@ -1,0 +1,59 @@
+<form class="form-horizontal col-lg-offset-2">
+  <div class="form-group">
+    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 量表名称：</label>
+    <div class="col-sm-10 col-lg-6">
+      <input type="text" ng-model="scale.basicInfo.scaleName" class="form-control" required  placeholder="请输入量表名称">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 来源：</label>
+    <div class="col-sm-10 col-lg-6">
+      <input type="text" ng-model="scale.basicInfo.scaleSource" class="form-control" required placeholder="请输入量表来源">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 量表介绍：</label>
+    <div class="col-sm-10 col-lg-6">
+      <textarea class="form-control" ng-model="scale.basicInfo.scaleIntroduce" rows="3" required placeholder="请输入量表介绍信息"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试须知：</label>
+    <div class="col-sm-10 col-lg-6">
+      <textarea class="form-control" ng-model="scale.basicInfo.testNotice" rows="3" required placeholder="请输入测试须知信息"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试人群：</label>
+    <div class="col-sm-10 col-lg-6">
+      <label class="radio-inline i-checks">
+        <input type="radio" ng-model="scale.basicInfo.MType" value="11" name="MType"><i></i> 教师
+      </label>
+      <label class="radio-inline i-checks">
+        <input type="radio" ng-model="scale.basicInfo.MType" value="12" name="MType"><i></i> 家长
+      </label>
+      <label class="radio-inline i-checks">
+        <input type="radio" ng-model="scale.basicInfo.MType" value="13" name="MType"><i></i> 学生
+      </label>
+    </div>
+  </div>
+  <!--<div class="form-group">
+    <label class="col-sm-2 control-label">图片：</label>
+    <div class="col-sm-10 col-lg-6">
+      <button type="button" ng-model="scale.basicInfo.scalePicUrl" ng-change="fileChange(scale.basicInfo.scalePicUrl)" ngf-pattern="'image/*'" ngf-accept="'image/*'" name="file" ngf-select class="btn btn-info">上传图片</button>
+      {{scale.basicInfo.scalePicUrl}}
+      <br>
+      <span class="inline bg-white wrapper-sm b-a"  style="margin-top: 15px;" ng-if="scale.basicInfo.scalePicUrl">
+        <div class="bg-light" style="width: 320px;min-height: 160px;">
+          <img ngf-src="scale.basicInfo.scalePicUrl" class="thumb"  style="width: 100%">
+        </div>
+      </span>
+    </div>
+  </div>-->
+  <div class="form-group">
+    <label class="col-sm-2 control-label">备注：</label>
+    <div class="col-sm-10 col-lg-6">
+      <textarea class="form-control" ng-model="scale.basicInfo.remark" rows="3" placeholder="量表备注信息"></textarea>
+    </div>
+  </div>
+</form>

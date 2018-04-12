@@ -1,0 +1,250 @@
+<div ng-controller="addEqController">
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">新增设备
+        <button class="btn btn-default" style="float: right" ng-click="back()">返回</button>
+    </h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="bs-example form-horizontal ng-pristine ng-valid col-lg-offset-1" role="form">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>学校：</label>
+                    <div class="input-group col-lg-2">
+                        <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>设备编号：</label>
+                    <div class="input-group col-lg-2">
+                        <input class="form-control m-b" ng-model="model.ENO" type="text" placeholder="请输入设备编号">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>设备安装地点：</label>
+                    <div class="input-group col-lg-2">
+                        <input class="form-control m-b" ng-model="model.Desc" type="text" placeholder="请输入设备安装地点">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>刷卡场景：</label>
+                    <div class="input-group col-lg-2">
+                        <select class="form-control m-b"
+                                ng-change="changeClockTypeID()"
+                                ng-model="model.ClockTypeID"
+                                ng-options="x.ID as x.Name for x in model.ClockTypeList">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">刷卡区域：</label>
+                    <div class="input-group col-lg-2">
+                        <select class="form-control m-b" ng-disabled="!model.selectedGid" ng-model="model.ClockAreaID"  ng-options="x.ID as x.Name for x in model.areaList">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>设备名称：</label>
+                    <div class="input-group col-lg-2">
+                        <select ng-model="model.SupplierEqID"
+                                ng-options="item.ID as item.EqName for item in model.eqList"
+                                ng-change="selectEqId(model.SupplierEqID)"
+                                class="form-control m-b">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>进出区分模式：</label>
+                    <div class="input-group col-lg-2">
+                        <select  class="form-control m-b" ng-disabled="!model.SupplierEqID" ng-model="model.inOutModel" ng-options="item.value as item.name for item in model.curEq.InOutModels" ng-change="selectInOutModel()">
+<!--                            <option value="1">按刷卡时段区分</option>
+                            <option value="2">按刷卡数据区分</option>
+                            <option value="3">按设备区分</option>
+                            <option value="4">按设备读头区分</option>-->
+                        </select>
+                    </div>
+                </div>
+                <!-- 按照区分模式显示 -->
+                <div class="form-group" ng-if="model.inOutModel && model.inOutModel == '3'">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>进出类型：</label>
+                    <div class="input-group col-lg-2">
+                        <select class="form-control m-b" ng-model="model.inOut" ng-change="selectInOut(model.inOut)">
+                            <option value="1">入校</option>
+                            <option value="2">离校</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="model.inOutModel && model.inOutModel == '4'">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>读头：</label>
+                    <div class="input-group col-lg-2">
+                        <button class="btn btn-info" ng-click="addReader()">添加读头</button>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="model.inOutModel && model.inOutModel == '4' ">
+                    <div class="col-lg-3 col-lg-offset-2" style="padding-left: 0;">
+                        <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>设备读头编号</th>
+                                <th>进/出</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="reader in model.EqReaders" st-select-row="row">
+                                <td>
+                                    <input class="form-control m-b" ng-model="reader.ReaderNo" type="text" placeholder="请输入读头编号">
+                                </td>
+                                <td>
+                                    <select  class="form-control m-b" ng-model="reader.InOutType">
+                                        <option value="1">入校</option>
+                                        <option value="2">离校</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn btn-danger btn-sm" ng-click="del($index)">删除</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>设备参数：</label>
+                    <div class="col-lg-5" style="padding-left: 0;">
+                        <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in model.argList" st-select-row="row">
+                                <td ng-bind="item.ParamName"></td>
+                                <td>
+                                    <select class="form-control m-b"
+                                            ng-disabled="item.ParamType !== 1"
+                                            ng-if="item.ControlType == 2"
+                                            ng-model="item.Val"
+                                            ng-options="x.Value as x.Name for x in item.DataSource">
+                                    </select>
+                                    <input class="form-control m-b"
+                                           ng-disabled="item.ParamType !== 1"
+                                           ng-if="item.ControlType == 1"
+                                           ng-model="item.Val"
+                                           type="text"
+                                           placeholder="">
+                                    <div ng-if="item.ControlType == 3" class="input-group">
+                                        <input class="form-control m-b"
+                                               ng-disabled="item.ParamType !== 1"
+                                               ng-model="item.Val"
+                                               type="text"
+                                               placeholder="">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="openWeatherModal(item)">查询天气代码</button>
+                                        </span>
+                                    </div>
+                                    <span class="spanColor" ng-bind="item.Desc"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2">
+                        <button class="btn btn-info btn-md" ng-click="save()">
+                            保存
+                        </button>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="newAddEq.html">
+    <div class="panel no-border">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                区域查询
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>地区查询：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入所在城市" ng-keyup="myKeyUp($event)"
+                               ng-model="newWeatherModel.address">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="searchAddress()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>县/区</th>
+                    <th>天气代码</th>
+                </tr>
+                </thead>
+            </table>
+            <div style="overflow-x: auto;max-height: 400px;margin-top: -20px;">
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="e in newWeatherModel.itemList" ng-click="clickItem(e)"
+                        style="cursor:pointer;">
+                        <td class="v-middle">
+                            <span ng-bind="e.provinceZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="e.leaderZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="e.cityZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <a ng-bind="e.id" class="text-info-lt" ng-click="confirm(e)"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="cancel()">关闭</button>
+        </div>
+    </div>
+</script>
+
+<style>
+    .spanColor{
+        color: red;
+    }
+</style>
+</div>

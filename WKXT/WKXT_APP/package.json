@@ -1,0 +1,33 @@
+{
+  "name": "umi-ele-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "umi dev",
+    "build": "umi build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zhang740@vmzclub.com",
+  "license": "MIT",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "blueimp-md5": "^2.10.0",
+    "classnames": "^2.2.5",
+    "core-js": "^2.5.3",
+    "echarts": "^4.0.4",
+    "echarts-for-react": "^2.0.8",
+    "rc-form": "^2.1.7",
+    "umi": "^1.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-umi": "^0.1.2",
+    "eslint-plugin-flowtype": "^2.42.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.6.1",
+    "recharts": "^1.0.0-beta.10",
+    "video.js": "^6.7.3"
+  }
+}

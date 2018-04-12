@@ -1,0 +1,111 @@
+<div ng-controller="addBannerController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"><span ng-if="pageType==11">新增全网banner</span><span
+                ng-if="pageType==12">修改全网banner</span><a
+                ui-sref="access.app.internal.nutritionOperationManagement.bannerSet"
+                style="color: white;float: right;position: relative;top:-3px;">
+            <button type="button" class="btn m-b-md w-xs btn-info">返回</button>
+        </a></h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal form-line-dashed form-validation">
+                    <div class="form-group col-lg-offset-2">
+                        <label class="col-sm-2 control-label">标题：</label>
+
+                        <div class="col-sm-6">
+                            <input maxlength="15" class="form-control" ng-model="submitData.title" type="text"
+                                   placeholder="标题" required>
+                        </div>
+                        <label class="col-sm-2 control-label" style="text-align: left;">最多输入15个字符</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">banner缩略图：</label>
+
+                        <div class="col-sm-6">
+                            <button class="btn btn-success btn-addon" ngf-select name="file"
+                                    ng-model="submitData.imgUrl"
+                                    ng-change="fileChange(submitData.imgUrl)" ngf-pattern="'image/*'"
+                                    ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+                                    class="fa fa-plus"></i>图片上传
+                            </button>
+                            <div class="img-upload" style="padding-top:10px;">
+                                <img ng-src="{{submitData.imgUrl}}"
+                                     class="img-thumbnail"
+                                     style="min-width:200px;min-height:200px;max-width:440px;max-height: 200px;">
+                            </div>
+                        </div>
+                        <label class="col-sm-3 control-label" style="text-align: left">推荐尺寸: 长640px * 宽400px</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">链接地址：</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="submitData.goUrl">
+                        </div>
+                        <label class="col-sm-3 control-label" style="text-align: left;">例如：http://www.ucuxin.com</label>
+                    </div>
+                    <div class="form-group col-lg-offset-2">
+                        <label class="col-sm-2 control-label">banner类型：</label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline i-checks ng-valid-parse">
+                                <input type="radio" ng-model="submitData.type" value="true" name="MType"><i></i> 用户端
+                            </label>
+                            <label class="radio-inline i-checks">
+                                <input type="radio" ng-model="submitData.type" value="false" name="MType"><i></i> 专家端
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">显示日期：</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group col-sm-3" style="float: left">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                       datepicker-options="dateOptions"
+                                       ng-model="submitData.startTime" is-open="startOpened" max-date="eDate"
+                                       ng-required="true" clear-text="清除" current-text="今天" close-text="关闭" readonly>
+                                <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                            </div>
+                            <div class=" col-sm-1" style="text-align: center;line-height: 35px">至</div>
+                            <div class="input-group col-sm-3" style="float: left">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                       datepicker-options="dateOptions"
+                                       ng-model="submitData.endTime" is-open="endOpened" min-date="sDate"
+                                       ng-required="true" clear-text="清除" current-text="今天" close-text="关闭" readonly>
+                                <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">收费类型：</label>-->
+                    <!--<div class="col-sm-6">-->
+                    <!--<div class="checkbox m-l m-r-xs" style="padding-top: 2px">-->
+                    <!--<label class="radio-inline i-checks">-->
+                    <!--<input type="radio"  value="1" ng-model="submitData.range"><i></i>收费-->
+                    <!--</label>-->
+                    <!--<label class="radio-inline i-checks">-->
+                    <!--<input type="radio" value="0" ng-model="submitData.range"><i></i>免费-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

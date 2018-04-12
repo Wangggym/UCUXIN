@@ -1,0 +1,188 @@
+<div ng-controller="checkLog">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">刷卡流水查询
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.school"
+                                       ng-change="changeSchool()"
+                                       theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices  repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                                    refresh="refreshAddresses($select.search,item)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSchool()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>开始日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>结束日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <!--ng-options="x.ID as x.Name for x in model.clockTimeList"-->
+
+                    <div class="form-group">
+                        <label>刷卡时段：</label>
+                        <div class="input-group">
+                            <select class="form-control" style="min-width: 100px;"
+                                    ng-model="model.clockTime"
+                                    ng-disabled="!model.school">
+                                <option value="0">全部时段</option>
+
+                                <option    ng-repeat="x in model.clockTimeList"
+                                           value={{x.ID}}>{{x.Name+ "(" +(x.MType == 11 ? "老师" : x.MType == 13 ? "学生" :"")+ ")"}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>班级：</label>
+
+                        <div class="input-group">
+                            <select class="form-control" style="min-width: 150px;"
+                                    ng-model="model.class"
+                                    ng-options="class.ClassID as class.ClassName group by class.label for class in model.classList"
+                                    ng-disabled="!model.school"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学生姓名：</label>
+
+                        <div class="input-group">
+                            <input type="text" ng-model="stuName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>卡号：</label>
+
+                        <div class="input-group">
+                            <input type="text" ng-model="card" class="form-control">
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                            ng-disabled="form.$invalid">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-primary" data-ng-click="export()">导出
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>刷卡场景</th>
+                    <th>刷卡区域</th>
+                    <th>刷卡时段</th>
+                    <th>班级</th>
+                    <th>姓名</th>
+                    <th>刷卡身份</th>
+                    <th>卡号</th>
+                    <th>状态</th>
+                    <th>刷卡时间</th>
+                    <th>周天</th>
+                    <th>服务器接收时间</th>
+                    <th>推送/处理完时间</th>
+                    <th>上/下车</th>
+                    <th>设备编号</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.viewList">
+                    <td class="v-middle">
+                        <span ng-bind="item.ClockTypeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClockAreaName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClockTimeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClassName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MTypeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CardNum"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ST"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClockDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Week"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PushDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.UpDownTypeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ENO"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PushDesc"></span>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+
+</div>
+<style>
+    .ui-select-match span{
+        min-width: 110px;
+    }
+</style>

@@ -1,0 +1,15 @@
+.panel .payBorder {
+    border-right: 2px solid #dee5e7;
+    border-bottom: 1.5px solid #dee5e7;
+    border-top: 1.5px solid #dee5e7;
+}
+
+.panel .payBorder-bottom {
+    border-bottom: 1.5px solid #dee5e7;
+    border-top: 1.5px solid #dee5e7;
+}
+
+.panel .payBorder-bottom:hover,
+.panel .payBorder:hover {
+    border: 1.5px solid #dee5e7;
+}

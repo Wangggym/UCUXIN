@@ -1,0 +1,42 @@
+<form name="form" class="form-validation form-inline">
+    <div class="panel-heading text-center bg-info no-border"
+         style="padding:20px;border-radius:10px 10px 0 0;">
+        <h4 class="text-u-c m-b-none">使用优课优信账号登陆</h4>
+    </div>
+    <div class="panel-footer">
+        <div class="list-group-item">
+            <input type="text" placeholder="用户名" class="w-full no-border" id="user"
+                   onkeyup='this.value=this.value.replace(/\D/gi,"")' ng-model="user"
+                   required>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="list-group-item">
+            <input type="password" placeholder="密码" class="w-full no-border"
+                   id="password" ng-model="password" required>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="验证码" style="height:40px;width:155px;"
+                   id="validationCode" ng-model="validationCode" required>
+        </div>
+        <div class="form-group validation text-center">
+            <div class="form-group h2 font-thin" ng-click="validationClick()">
+                                <span ng-repeat="validation in validationList" ng-bind="validation.number"
+                                      style="color:{{validation.color}}"></span>
+            </div>
+        </div>
+        <a type='button' class="btn btn-info" style="height:40px;" ng-click="refresh()"><i
+                class="fa fa-twitter"></i>刷新
+        </a>
+    </div>
+    <div class="panel-footer text-center">
+        <button type="submit" class="btn btn-lg btn-success btn-block"
+                ng-click="login()" ng-disabled='form.$invalid'>登录
+        </button>
+    </div>
+    <div class="panel-footer text-center">
+        <a href="http://m3.ucuxin.com/User/GetPassWord" class="btn btn-info font-bold m">忘记密码?</a>
+    </div>
+</form>

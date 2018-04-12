@@ -1,0 +1,307 @@
+<div ng-controller="listOfRegulationController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 积分策略-规则清单
+            <button type="submit" id="btnReturn" class="pull-right btn btn-default"
+                    ui-sref="access.app.partner.internalPolicy.internalPolicyList()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+
+            <div   ng-if="model.isOne" >
+                <div class="panel-body">
+                    <form class="query-group-form form-inline" role="form" name="form">
+
+
+                        <button type="submit" class="form-group btn btn-success" data-ng-click="addBaseRule()">
+                            新增
+                        </button>
+
+                    </form>
+                </div>
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+
+                        <th>积分项</th>
+                        <th>分值</th>
+                        <th>上限类型</th>
+                        <th>上限分值</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList">
+
+                        <td class="v-middle">
+                            <span ng-bind="item.ActionName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Point"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.LimitTypeName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.LimitPointName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.STName"></span>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editBaseRule(item)"><i
+                                    class="fa fa-edit"></i></a>
+                            <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                            <!--class="fa fa-remove"></i></a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ng-if="model.isTwo">
+                <div class="panel-body">
+                    <form class="query-group-form form-inline" role="form" name="form">
+
+
+                        <button type="submit" class="form-group btn btn-success" data-ng-click="addMinRule()">
+                            新增
+                        </button>
+
+                    </form>
+                </div>
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+
+                        <th>积分项</th>
+                        <th>最低比列</th>
+                        <th>分值</th>
+                        <th>增长比列</th>
+                        <th>增长分值</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemListMin">
+
+                        <td class="v-middle">
+                            <span ng-bind="item.ActionName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.MinPer"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.MinPoint"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Per"></span>
+                        </td>
+
+                        <td class="v-middle">
+                            <span ng-bind="item.PerPoint"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.STName"></span>
+                        </td>
+
+
+                        <td>
+                            <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editMinRule(item)"><i
+                                    class="fa fa-edit"></i></a>
+                            <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                            <!--class="fa fa-remove"></i></a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <style type="text/css">
+        .descript{ color:#999999;font-size: 10px ;padding-left: 102px; }
+        .width240{width:240px !important;}
+    </style>
+    <script type="text/ng-template" id="addBaseRule.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{newModel.title}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;">  积分项：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.ActionID" class="width240"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择积分项">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in newModel.ActionList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+          <br />
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>分 值：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入分值" ng-model="newModel.Point">
+                    </div>
+                    <p  class="descript">单次操作一个行为所获积分，如发送一次通知获得2积分</p>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>上限类型：</label>
+                <div class="input-group">
+                    <ui-select ng-model="newModel.LimitType" class="width240" ng-change="limitTypeChange()"
+                               theme="bootstrap">
+                        <ui-select-match placeholder="请选择上限类型">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="item.id as item in newModel.LimitTypeList| filter: $select.search"    refresh-delay="500">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+
+                </div>
+                 <p class="descript">每日最多上限：该积分项用户每天所获积分最多不超过多少；全局最高上限：该积分项用户所获积分最多不超过多少。</p>
+                </div>
+                <br />
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>上限分值：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入上限分值" ng-model="newModel.LimitPoint" ng-disabled="newModel.LimitType==0">
+                    </div>
+                    <p class="descript">分值不超过多少，如发送通知，每日最多不超过10积分。</p>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>状态：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.ST" class="width240"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择上限类型">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.StateList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="!(newModel.ActionID )">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addMinRule.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{newModel.title}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>积分项：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.ActionID" class="width240"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择积分项">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in newModel.ActionList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+                <br />
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>最低比例(%)：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入最低比例" ng-model="newModel.MinPer">
+                    </div>
+                    <p  class="descript">积分项达到该比例才给予积分，否则不予积分  </p>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>分值：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入分值" ng-model="newModel.MinPoint">
+                    </div>
+                    <p  class="descript">积分项达到最低比例时给予的积分值 </p>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>增长比例(%)：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入增长比例" ng-model="newModel.Per">
+                    </div>
+                    <p  class="descript">积分项达到最低比例后，增长的比例 </p>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>增长分值：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control width240" placeholder="请输入增长分值" ng-model="newModel.PerPoint">
+                    </div>
+                    <label  class="descript">积分项比例每增长多少对应的增长分值</label>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label style="width:100px; text-align: right;"> <span class="spanColor">*</span>状态：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.ST"  class="width240"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择上限类型">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.StateList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <div class="form-group"  >
+                    <p  class="descript"> 总体备注：积分项需达到最低比例才能给予相应积分，每增长一定比例，给予相应的增长分值</p>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="!(newModel.ActionID )">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>
+
+
+

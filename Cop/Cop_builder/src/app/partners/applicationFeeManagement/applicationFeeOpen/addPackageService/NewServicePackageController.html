@@ -1,0 +1,126 @@
+<div ng-controller="NewServicePackageController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">添加服务包
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.partner.applicationFeeOpen.addPackageService">返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-12 col-md-12 col-xs-12">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration" novalidate="novalidate">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校：</label>
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                           ng-disabled="id?true:false"
+                                           ng-change="changeGid()">
+                                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                    <ui-select-choices repeat="item.ID as item in queryFields.schoolList | filter: $select.search ">
+                                        <div ng-bind-html="item.FName | highlight: $select.search"
+                                             ng-click="choiceSchool(item)"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">产品：</label>
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="queryFields.selectProductPackageID" theme="bootstrap"
+                                           ng-disabled="id?true:false"
+                                           ng-change="changeProductGid(queryFields.selectProductPackageID)">
+                                    <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in productPackageList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">服务包名称：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control w-md" ng-model="model.Name"
+                              placeholder="请填写服务包名称" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">服务包金额：</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control w-md" ng-model="model.Amount"
+                              placeholder="请填写金额"  required/>
+                        </div>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="col-sm-2 control-label">购买时间：</label>
+                        <div class="input-group col-sm-2" style="padding-left: 15px;width: 200px;">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="model.BuySDate" datepicker-options="dateOptions"
+                                   is-open="startOpened1" max-date="model.BuyEDate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="openStartDate1($event)"><i
+                                      class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <label class="input-group">至：</label>
+                        <div class="input-group col-sm-2"  ng-click="openEndDate1($event)" style="width: 200px;">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="model.BuyEDate" datepicker-options="dateOptions"
+                                   is-open="endOpened1" min-date="model.BuySDate" ng-required="true" clear-text="清除"
+                                   current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="col-sm-2 control-label">服务有效期：</label>
+                        <div class="input-group col-sm-2" style="padding-left: 15px;width: 200px;">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="model.SDate" datepicker-options="dateOptions"
+                                   is-open="startOpened2" max-date="model.EDate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="openStartDate2($event)"><i
+                                      class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <label class="input-group">至：</label>
+                        <div class="input-group col-sm-2"  style="width: 200px;" ng-click="openEndDate2($event)">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="model.EDate" datepicker-options="dateOptions"
+                                   is-open="endOpened2" min-date="model.SDate" ng-required="true" clear-text="清除"
+                                   current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2">
+                            <button class="btn btn-large btn-info " data-ng-click="saveAll()">
+                                保存
+                            </button>
+                            <button class="btn btn-large btn-info col-sm-offset-1" data-ng-click="cancel()">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

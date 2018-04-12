@@ -1,0 +1,140 @@
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">学校圈发帖统计</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="schoolReportController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+
+                <div class="form-group">
+                    <label>省：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.province" theme="bootstrap"
+                                   style="min-width:130px;" ng-change="province(model.province)">
+                            <ui-select-match placeholder="请选择省">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.provinceList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                    <button ng-click="deleteProvince()" class="btn btn-default"
+                            type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>市：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.city" theme="bootstrap" ng-change="selectCity(model.city)"
+                                   style="min-width:130px;" ng-disabled="model.province?false:true">
+                            <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.cityList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                    <button ng-click="deleteCity()" class="btn btn-default"
+                            type="button" ng-disabled="model.province?false:true">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>县：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.county" theme="bootstrap"
+                                   style="min-width:130px;" ng-disabled="model.city?false:true">
+                            <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.countyList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.county = undefined" class="btn btn-default"
+                                    type="button" ng-disabled="model.city?false:true">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>发帖时间</label>
+
+                    <div class="input-group w-sm">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}"
+                               ng-model="model.dateStart" ng-disabled="true"
+                               is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                               close-text="确定" current-text="今天" clear-text="清除" required/>
+                        <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="margin-right: 15px;">~</label>
+                    <div class="input-group w-sm">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}"
+                               ng-model="model.dateOver" ng-disabled="true"
+                               is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                               close-text="确定" current-text="今天" clear-text="清除" required/>
+                        <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>学校：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="model.keyword">
+                    </div>
+                </div>
+
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                    查询
+                </button>
+                <button type="submit" class="form-group btn btn-primary" data-ng-click="export()">导出
+                </button>
+            </form>
+            <table class="table table-bordered table-hover table-striped" style="max-width: 900px">
+                <thead>
+                <tr>
+                    <th class="col-sm-2">学校</th>
+                    <th class="col-sm-2">姓名</th>
+                    <th class="col-sm-2">手机</th>
+                    <th class="col-sm-2">发帖次数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.reportList">
+                    <td class="v-middle">
+                        <span ng-bind="item.SchoolName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ParentCnt"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

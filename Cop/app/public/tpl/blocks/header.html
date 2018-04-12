@@ -1,0 +1,59 @@
+<!-- navbar header -->
+<div class="navbar-header {{app.settings.navbarHeaderColor}}">
+    <!-- brand -->
+    <a href="#/" class="navbar-brand text-lt">
+        <i class="fa fa-home"></i>
+        <!--<img src="img/logo.png" alt="." class="hide">-->
+        <span class="hidden-folded text-md">{{app.name}}</span>
+    </a>
+    <!-- / brand -->
+</div>
+<!-- / navbar header -->
+<!-- navbar collapse -->
+<div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}">
+    <!-- buttons -->
+    <div class="nav navbar-nav hidden-xs">
+        <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded"
+           id="settingsAsideFolded">
+            <i class="fa {{app.settings.asideFolded ? 'fa-indent' : 'fa-dedent'}} fa-fw"></i>
+        </a>
+        <a href class="btn no-shadow navbar-btn" ui-toggle-class="show" target="#aside-user">
+            <i class="icon-user fa-fw"></i>
+        </a>
+    </div>
+    <!-- / buttons -->
+    <!-- nabar right -->
+    <ul class="nav navbar-nav navbar-right">
+        <li class="hidden-xs">
+            <a ui-fullscreen></a>
+        </li>
+        <li class="dropdown" dropdown>
+            <a href class="dropdown-toggle clear" dropdown-toggle>
+                <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                    <img src="{{pic}}" onerror="javascript:this.src='./public/img/a0.jpg'" alt="没有照片">
+                    <i class="on md b-white bottom"></i>
+                </span>
+                <span class="hidden-sm hidden-md" ng-bind="partnersName" ng-model="partnersName"></span> <b
+                    class="caret"></b>
+            </a>
+            <!-- dropdown -->
+            <ul class="dropdown-menu animated fadeInRight w">
+                <li class="wrapper b-b m-b-sm bg-light m-t-n-xs">
+                    <div>
+                        <p ng-bind="userName" ng-model="userName"></p>
+                    </div>
+                </li>
+                <li ng-repeat="list in userList" ng-click="changeUser(list)">
+                    <a ng-bind="list.OrgName" ui-sref="{{list.path}}"></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a ui-sref="access.loginUp" ng-click="cancellation()">退出</a>
+                </li>
+            </ul>
+            <!-- / dropdown -->
+        </li>
+    </ul>
+    <!-- / navbar right -->
+</div>
+<!-- / navbar collapse -->

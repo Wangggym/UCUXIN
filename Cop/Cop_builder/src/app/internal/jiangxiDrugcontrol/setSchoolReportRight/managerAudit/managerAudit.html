@@ -1,0 +1,223 @@
+<div ng-controller="managerAuditController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校管理员审核</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default" >
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>学校名称：</label>
+                        <div class="input-group">
+                          <input type="text" ng-model="model.schoolName" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>管理员姓名：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="managerName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>管理员电话：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="managerPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>状态：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.state" theme="bootstrap">
+                                <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.state as item in stateList | filter: $select.search"  refresh-delay="1000">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn w-xs btn-info" ng-click="serch(true)">查询</button>
+                        <button type="button" class="btn w-xs btn-primary m-l-md" ng-click="export()">导出报表</button>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>学校</th>
+                    <th>管理员姓名</th>
+                    <th>管理员电话</th>
+                    <th>状态</th>
+                    <th>申请时间</th>
+                    <th>审核时间</th>
+                    <th>地址</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="11" class="prompt text-center" ng-show="pagination.totalItems == 0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请尝试修改查询条件</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in dataList">
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.RealName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.stateName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.JudgeDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span>{{item.ProvinceName +'-'+item.CityName +'-'+item.TownName}}</span>
+                    </td>
+                    <td class="v-middle">
+                        <button ng-if="item.Status == 0" type="button" class="btn btn-primary" ng-click="confirm(item)">审核</button>
+                        <button ng-if="item.Status != 0" type="button" class="btn btn-info" ng-click="confirm(item)">查看</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="pagination.totalItems == 0">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------调增调减的模态框------------------------->
+<script type="text/ng-template" id="confirm.html">
+    <div>
+        <div class="panel panel-default" style="margin-bottom: 0">
+            <div class="panel-heading" style="padding: 20px 15px;">
+                <div style="border-bottom: 1px solid #ececec">
+                    <label style="font-weight: bold;font-size: 18px;">详细信息：</label>
+                </div>
+                <form class="form-horizontal form-line-dashed form-validation">
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">地址：</label>
+                        <div class="col-sm-9">
+                            <p>{{data.ProvinceName+'-'+data.CityName+'-'+data.TownName}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">学校：</label>
+                        <div class="col-sm-9">
+                            <p>{{data.GName}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">管理员姓名：</label>
+                        <div class="col-sm-9">
+                            <p>{{data.RealName}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">管理员手机号：</label>
+                        <div class="col-sm-9">
+                            <p>{{data.Tel}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">管理员QQ：</label>
+                        <div class="col-sm-9">
+                            <p>{{data.QQ}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">学校官网地址：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.WebSite}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">校长姓名：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.PrincipalName}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">校长手机号：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.PrincipalTel}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">审核状态：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.stateName}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">审核备注：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.Remark}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">审核时间：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.JudgeDate}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2" style="padding-top: 10px;margin-bottom: 10px;">
+                        <label class="col-sm-3" style="text-align: right">创建时间：</label>
+                        <div class="col-sm-9">
+                            <a>{{data.CDate}}</a>
+                        </div>
+                    </div>
+                </form>
+                <div ng-if="data.Status == 0">
+                    <div class="form-group" style="border-top:1px solid #ececec;margin-top: 15px;">
+                        <label style="font-weight: bold;font-size: 18px;padding: 8px 0"><span class="text-danger"></span >审核说明(备注)：</label>
+                        <textarea data-ng-model="data.remark" name="" cols="30" rows="3" placeholder="请填写审核说明" class="form-control">
+                    </textarea>
+                    </div>
+                    <form class="form-inline" role="form" name="form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="radio-inline i-checks" data-ng-click="showTip()">
+                                    <input type="radio" name="ReceiveObj" ng-model="data.status" value="1" class="ng-pristine ng-untouched ng-valid">
+                                    <i></i>
+                                    审核通过
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group m-l-lg">
+                            <label class="radio-inline i-checks"  data-ng-click="showTip()">
+                                <input type="radio" name="ReceiveObj" ng-model="data.status" value="2" class="ng-pristine ng-untouched ng-valid">
+                                <i></i>
+                                审核不通过
+                            </label>
+                        </div>
+                    </form>
+                    <p class="m-t-md">提示：{{showTip}}</p>
+                    <div style="text-align: center">
+                        <button type="submit" class="form-group btn btn-success m-l-md" data-ng-click="sure()">
+                            确 定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

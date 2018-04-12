@@ -1,0 +1,242 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">卡号数量申请</h1>
+</div>
+<div class="wrapper-md" ng-controller="checkCard">
+    <div class="panel panel-default row">
+        <div class="panel-body col-lg-12">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.school" theme="bootstrap" ng-change="changeSchool()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in model.schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSchool()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                      <!--<select class="form-control" ng-change="changeSchool()" ng-model="model.school" ng-options="x.ID as x.FName for x in model.schoolList"></select>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success"
+                            data-ng-click="search()">查询</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" data-ng-click="add()">添加申请</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" data-ng-click="exportExcel()">下载卡号导入模版</button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-warning btn-addon" ng-click="openUnUseCardModal()">导出未使用的卡号
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-warning btn-addon" ui-sref="access.app.partner.cardManagement.importCardRule">导入卡号
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <table class="table table-bordered table-hover table-condensed bg-white-only strCodeBind">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>学校</th>
+                    <th>申请时间 </th>
+                    <th>申请人</th>
+                    <th>卡号数量</th>
+                    <th>起始卡号</th>
+                    <th>结束卡号</th>
+                    <th>状态</th>
+                    <th>审核时间</th>
+                    <th>审核人</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="x in model.list">
+                    <td data-value="1"  >
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="x.OrgName"></p>
+                            </div>
+                        </div>
+                    </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.GName"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.CDate"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.CUName"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.Cnt"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.StartCardNo"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.EndCardNo"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-if="x.ST == 0">未审核</p>
+                          <p class="text-muted" ng-if="x.ST == 1">已通过</p>
+                          <p class="text-muted" ng-if="x.ST == 2">未通过</p>
+
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                          <p class="text-muted" ng-if="x.ST !== 0" ng-bind="x.CheckDate"></p>
+                          <p class="text-muted" ng-if="x.ST !== 0"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.CheckUName"></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-value="1"  >
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="text-muted" ng-bind="x.Desc"></p>
+                      </div>
+                    </div>
+                  </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template"  id="myModalContentCheckCardPartner.html" >
+  <div class="modal-body wrapper-lg" >
+    <div class="row">
+      <div class="col-sm-12">
+        <h3 class="m-t-none m-b font-thin">添加号段</h3>
+        <form role="form" class="bs-example form-horizontal ng-pristine ng-valid" >
+
+          <div class="form-group">
+            <label class="control-label col-lg-3">学校：</label>
+
+            <div class="input-group col-lg-6">
+                <ui-select ng-model="newModel.school" theme="bootstrap">
+                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices repeat="item.ID as item in newModel.schoolList | filter: $select.search">
+                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                <span class="input-group-btn">
+                    <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                            type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-3">卡号额度：</label>
+            <div class="col-lg-6" style="padding: 0;">
+              <input type="text"
+                     onkeyup='this.value=this.value.replace(/\D/gi,"")'
+                     class="form-control" placeholder="" ng-model="newModel.cardNum">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-3">备注：</label>
+            <div class="col-lg-6" style="padding: 0; ">
+              <textarea type="text" style="resize:none;"
+                     class="form-control" placeholder="" ng-model="newModel.notes"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-9 col-lg-offset-3" >
+              <button type="submit" class="btn btn-sm btn-success text-uc m-t-n-xs" ng-click="ok()"><strong>保存</strong></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template"  id="openUnUseCardModal.html" >
+    <div class="modal-body wrapper-lg" >
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="m-t-none m-b font-thin">导出未使用的卡号</h3>
+                <form role="form" class="bs-example form-horizontal ng-pristine ng-valid" >
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">导出数量：</label>
+                        <div class="col-lg-6" style="padding: 0;">
+                            <input type="text"
+                                   onkeyup='this.value=this.value.replace(/\D/gi,"")'
+                                   class="form-control" placeholder="" ng-model="newModel.cardNum">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-9 col-lg-offset-3" >
+                            <button type="submit" class="btn btn-sm btn-success text-uc m-t-n-xs" ng-click="ok()"><strong>确定导出</strong></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<style>
+    .strCodeBind a{
+        color:dodgerblue;
+        text-decoration: underline;
+    }
+    .text-muted{
+        padding: 0 5px;
+    }
+</style>

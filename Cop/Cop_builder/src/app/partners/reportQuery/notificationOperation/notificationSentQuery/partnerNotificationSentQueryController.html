@@ -1,0 +1,16 @@
+<div ng-controller="partnerNotificationSentQueryController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">通知发送情况查询
+        </h1>
+    </div>
+    <div class="panel-body">
+        <tabset class="tab-container">
+            <tab active="model.sendActive" heading="发送查询" ng-click="clickHeading(1)">
+                <div ng-include="model.sendActivePath"></div>
+            </tab>
+            <tab active="model.receiveActive" heading="接收查询" ng-click="clickHeading(2)">
+                <div ng-include="model.receiveActivePath"></div>
+            </tab>
+        </tabset>
+    </div>
+</div>

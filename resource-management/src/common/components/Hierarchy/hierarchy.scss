@@ -1,0 +1,12 @@
+.hierarchy{
+  .hierarchy-leave{
+    display: block;
+    &:not(:first-child){
+      border-top:1px dashed #ddd;
+    }
+  }
+
+  &:not(:first-child){
+    border-top: 1px solid #ddd;
+  }
+}

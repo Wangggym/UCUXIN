@@ -1,0 +1,113 @@
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">心理服务包</h1>
+    <a ui-sref="access.app.internal.servicePackageManagement.mentalServicePackage"
+       style="color: white;float: right;position: relative;top:-30px">
+        <button type="button" class="btn m-b-md w-xs btn-info">返回</button>
+    </a>
+</div>
+<div class="wrapper-md" data-ng-controller="addPackageController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal form-line-dashed form-validation">
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">服务包名称</label>
+                    <div class="col-sm-2">
+                        <input maxlength="15" class="form-control" ng-model="Name" type="text"
+                               placeholder="请填写服务包名称" required>
+                    </div>
+                    <!--<label class="col-sm-2 control-label" style="text-align: left;">最多输入15个字符</label>-->
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">封面图片</label>
+                    <div class="col-sm-2">
+                        <button style="margin-left: 15px" class="btn btn-success btn-addon ng-pristine ng-untouched ng-valid" ngf-select="" name="file" ng-model="model.imgUrl" ng-change="fileChange(model.imgUrl)" ngf-pattern="'image/*'" ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i class="fa fa-plus"></i>图片上传</button>
+                        <p style="color: red;margin: 5px 0;">建议上传尺寸为2:1，宽640*高320</p>
+                        <div style="width: 160px;height: 80px;" class="m-t-md">
+                            <img ng-src={{imgUrl}} alt="" style="width: 100%;height: 100%">
+                        </div>
+                    </div>
+                    <!--<div style="height: 150px;width: 150px;background-color: white;margin-left: 260px;" class="m-t-md">-->
+                        <!--<img ng-src={{data.Pic}} alt="" style="width: 100%;height: 100%">-->
+                    <!--</div>-->
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">价格：</label>
+                    <div class="col-sm-4">
+                        <div class="radio">
+                            <label class="i-checks" ng-click="price.choiceType=true">
+                                <input type="radio" name="a1" value="option2"  ng-checked="price.choiceType==true">
+                                <i></i>
+                                收费
+                            </label>
+                            <label class="i-checks m-l-md" ng-click="price.choiceType=false">
+                                <input type="radio" name="a2" value="option2" ng-checked="price.choiceType==false">
+                                <i></i>
+                                免费
+                            </label>
+                        </div>
+                        <div class="m-t-md" style="border:1px solid #ececec;overflow: hidden;padding-bottom: 19px;" ng-if="price.choiceType==true">
+                            <div ng-repeat="item in price.typeList" class="m-t-sm col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="checkbox" value="option1" ng-checked="item.inputSate" ng-click="choicePriceInput($event,item)"><i></i>{{item.Name}}
+                                    </label>
+                                </div>
+                                <div class="col-sm-3" style="padding-left: 0">
+                                    <input type="number" min="0" class="form-control" style="width: 70px;display: inline-block;position: relative;top: 5px;left: 34px" ng-model="item.Price">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">简介</label>
+                    <div class="col-sm-5">
+                        <textarea name=""  cols="5" rows="5" class="form-control" ng-model="intro">
+
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">详细介绍</label>
+                    <div class="col-sm-5">
+                        <!-- 加载编辑器的容器 是否显示在推荐位-->
+                        <script id="container" name="content" type="text/plain"></script>
+                        <ucu-ueditor options="context"></ucu-ueditor>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">类型</label>
+                    <div class="col-sm-3">
+                        <ui-select ng-model="courseType.choiceType" theme="bootstrap">
+                            <ui-select-match  placeholder="请选择类型">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="area in courseType.allType track by $index">
+                                <span ng-bind-html="area.Name" class="text-center-folded"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">是否显示在推荐位</label>
+                    <div class="col-sm-3">
+                        <ui-select ng-model="featured.choiceType" theme="bootstrap">
+                            <ui-select-match  placeholder="请选择">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="area in featured.allType track by $index">
+                                <span ng-bind-html="area.Name" class="text-center-folded"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+                        <button type="button" style="margin-left: 40px;" class="btn w-xs btn-icon" ng-click="back()">
+                            <a ui-sref="access.app.internal.servicePackageManagement.mentalServicePackage">取消</a>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

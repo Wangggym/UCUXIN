@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../../../../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../../../../../bower_components/bootstrap/dist/css/bootstrap.css">
+    <script src="../../../../public/configure/urlConfig.js"></script>
+    <title>支付结果</title>
+
+</head>
+
+<body id="order-check" data-com="pagecommon">
+
+<div class="wrapper-list">
+    <h4>支付结果</h4>
+    <dl class="list">
+        <dd>
+            <dl>
+                <dd class="kv-line-r dd-padding">
+                    <h1 id="result" style="color:#ff0000;"></h1>
+                </dd>
+
+                <dd class="kv-line-r dd-padding">
+                    <h6 id="">
+                        将在<span id="timer" style="color:#ff0000;">5</span>秒内关闭该页面。
+                    </h6>
+                </dd>
+
+            </dl>
+        </dd>
+    </dl>
+
+</div>
+<script type="text/javascript">
+
+    //读取URL参数值
+    function GetQueryString(name) {
+        name = name.toLowerCase();
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var seachurl = window.location.search.toLowerCase();
+        var r = seachurl.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+
+    }
+
+
+    var chargeID= GetQueryString('ChargeID');   //支付中心订单号
+    var OrderNo= GetQueryString('OrderNo');   //第三方订单号
+    var payStatus= GetQueryString('payStatus'); //支付结果
+    var extra= GetQueryString('extra'); //额外参数
+
+
+
+
+    if(payStatus|| payStatus=='true')
+    {
+
+        $('#result').html('订单号：'+OrderNo+'支付成功');
+
+    }
+    else{
+
+        $('#result').html('订单号：'+OrderNo+'支付失败');
+    }
+
+
+    tier5();
+    var i = 5
+    function  tier5() {
+        i--;
+         if(i==-1){
+             closeWindow();
+         }
+         else   {
+             setTimeout(function () {
+                 $('#timer').html(i);
+                 tier5();
+             },1000);
+         }
+    }
+
+
+
+    function closeWindow()
+    {
+        window.opener = null;
+        window.open(' ', '_self', ' ');
+        window.close();
+    }
+
+</script>
+</body>
+</html>

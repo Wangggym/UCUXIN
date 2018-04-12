@@ -1,0 +1,70 @@
+<div ng-controller="advertising" class="ng-scope">
+    <div class="wrapper-md" style="width: 50%; margin: auto;!important">
+        <div>
+        <a ui-sref="access.app.internal.UXLive.adviertisement()"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回上一级</a>
+        </div>
+        <div class="panel panel-default" style="padding: 20px;">
+            <div style="margin-bottom: 30px;">
+                <h2>发布新广告</h2>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h4>广告标题</h4>
+                <div style="border-bottom: 1px solid #000">
+                    <input type="text" value="" class="saveTitle" maxlength="30" style="border:none;width: 95%;" placeholder="不超过30个字"  >
+                    <!--<span>00/30</span>-->
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h4>链接地址</h4>
+                <div style="border-bottom: 1px solid #000">
+                    <input type="text" value="" class="saveUrl" placeholder="http://"  style="border:none;width: 100%;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;height: 350px;overflow: hidden;">
+                <h4>生效时间</h4>
+
+
+
+                     <div class="form-group" style="float: left;">
+                        <span class="spanColor"style="float: left;">从：</span>
+
+                        <div class="input-group w-sm" style="float: left;">
+                            <input type="text" class="form-control saveStartTime" datepicker-popup="{{format}}"
+                                   ng-model="dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="float: right;margin-right: 20%;">
+                        <span class="spanColor" style="float: left;">到：</span>
+
+                        <div class="input-group w-sm" style="float: left;">
+                            <input type="text" class="form-control saveEndTime" datepicker-popup="{{format}}"
+                                   ng-model="dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div style="width: 50%;margin: auto;overflow: hidden" >
+                <button  class="btn btn-xs btn-success"   style="float: left;width: 50px;height: 40px;" ui-sref="access.app.internal.UXLive.adviertisement()">取消</button>
+                <button  class="btn btn-xs btn-success"  style="float: right;width: 50px;height: 40px;" ng-click="pubAd()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

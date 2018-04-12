@@ -1,0 +1,79 @@
+<div ng-controller="mentalExpert">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">心理专家
+    </h1>
+  </div>
+  <div class="wrapper-md">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="query-group-form form-inline" role="form" name="form">
+
+          <div class="form-group">
+            <label>专家名称：</label>
+
+            <div class="input-group">
+              <input type="text" ng-model="name" class="form-control">
+            </div>
+          </div>
+
+          <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                  ng-disabled="form.$invalid">
+            查询
+          </button>
+          <button type="submit" class="form-group btn btn-info" ui-sref="access.app.internal.expertTeam.addOrg"
+                  ng-disabled="form.$invalid">
+            新增
+          </button>
+        </form>
+      </div>
+      <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+          <th>地区</th>
+          <th>专家名称</th>
+          <th>专家数量</th>
+          <th>量表数量</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in viewList">
+          <td class="v-middle">
+            <span ng-bind="item.PRName + item.CRName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.Name"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.ExpertCnt"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.ScaleCnt"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.ST == 1 ? '正常' : '无效'"></span>
+          </td>
+          <td class="v-middle">
+                        <span>
+                            <button type="submit" class="form-group btn btn-info btn-sm" ui-sref="access.app.internal.expertTeam.editOrg({id:item.ID})">
+                                修改
+                            </button>
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:" class="btn btn-danger btn-sm" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="del(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        </span>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+      <page-Directive options="pageIndex"></page-Directive>
+    </div>
+  </div>
+</div>
+

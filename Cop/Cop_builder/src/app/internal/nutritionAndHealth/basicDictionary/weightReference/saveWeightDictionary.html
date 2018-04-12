@@ -1,0 +1,77 @@
+<div class="bg-light lter b-b wrapper-md">
+  <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="vm.cancel()"><i
+      class="fa fa-long-arrow-left"></i></a>
+
+  <h1 class="m-n font-thin h3">{{vm.isAdd ? '修改': '新增'}}体重字典</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-horizontal form-line-dashed form-validation">
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 月龄：</label>
+          <div class="col-sm-4">
+            <input class="form-control" ng-model="vm.submitData.MonthAge"  type="text" placeholder="月龄" ng-change="vm.computeAge()" ng-pattern="/^\d+$/" required>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 年龄：</label>
+          <div class="col-sm-4">
+            <input class="form-control" ng-model="vm.submitData.Age" type="text" placeholder="年龄" ng-pattern="/^\d+$/" required readonly>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 性别：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline i-checks"><input type="radio" ng-model="vm.submitData.Sex" name="Sex" value="1" required><i></i>男</label>
+            <label class="radio-inline i-checks"><input type="radio" ng-model="vm.submitData.Sex" name="Sex" value="0" required><i></i>女</label>
+            <label class="radio-inline i-checks"><input type="radio" ng-model="vm.submitData.Sex" name="Sex" value="-1" required><i></i>不限</label>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 中位数：</label>
+          <div class="col-sm-4">
+            <input class="form-control" ng-model="vm.submitData.Median" type="text" placeholder="中位数" ng-pattern="/^\d+(\.\d+)?$/" required>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 第一范围：</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="vm.submitData.FirstMin" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最小值">
+              <span class="input-group-addon">至</span>
+              <input type="text" class="form-control" ng-model="vm.submitData.FirstMax" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最大值">
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 第二范围：</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="vm.submitData.SecondMin" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最小值">
+              <span class="input-group-addon">至</span>
+              <input type="text" class="form-control" ng-model="vm.submitData.SecondMax" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最大值">
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-lg-offset-2">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 第三范围：</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="vm.submitData.ThirdMin" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最小值">
+              <span class="input-group-addon">至</span>
+              <input type="text" class="form-control" ng-model="vm.submitData.ThirdMax" ng-pattern="/^\d+(\.\d+)?$/" placeholder="最大值">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="button" class="btn w-xs btn-info" ng-click="vm.save()">保存</button>
+            <button type="button" class="btn w-xs btn-default" ng-click="vm.cancel()">取消</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

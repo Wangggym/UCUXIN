@@ -1,0 +1,46 @@
+<div ng-controller="userMenuPermissionsPartnersController">
+    <div class="bg-light lter b-b wrapper-md">
+        <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="go()"><i class="fa fa-long-arrow-left"></i></a>
+        <h1 class="m-n font-thin h3">{{model.title}} 的菜单功能权限
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>一级菜单</th>
+                    <th>二级菜单</th>
+                    <th>三级菜单</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName2"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown ng-show="item.IsOwn == true">
+                            <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle>删除该菜单权限</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn btn-info btn-sm" ng-click="addUserMenu(item)" ng-show="item.IsOwn == false">添加该菜单权限</div>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <!--<page-Directive options="pageIndex"></page-Directive>-->
+        </div>
+    </div>
+</div>

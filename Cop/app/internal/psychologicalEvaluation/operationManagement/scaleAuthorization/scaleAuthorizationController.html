@@ -1,0 +1,181 @@
+<div ng-controller="scaleAuthorizationController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">量表授权
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>量表：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.scaleId" theme="bootstrap">
+                                <ui-select-match placeholder="请选择量表">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices repeat="item.ID as item in model.scaleList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.scaleId=undefined" class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.selectedGid=undefined" class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">查询</button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="addNew()">新增</button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>学校</th>
+                    <th>量表</th>
+                    <th>使用说明</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="model.itemList.length < 1||!model.itemList">
+                    <td colspan="10" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">当前没有授权的量表信息，请新增</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.TopGName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ScaName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-show="item.Desc.length>30?false:true">{{item.Desc}}</span>
+                        <span ng-show="item.Desc.length>30?true:false" popover="{{item.Desc}}"
+                              popover-trigger="mouseenter">{{item.Desc.substring(0,30) + '...'}}</span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown>
+                            <a class="btn btn-sm btn-info" ng-click="modify(item)">修改</a>
+                        </div>
+                        <div class="btn-group" dropdown>
+                            <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-directive options="pageIndex"></page-directive>
+        </div>
+    </div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="newAddMyModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">量表授权</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>量表选择：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newAddMyModelCtrl.ScaID" theme="bootstrap"
+                                   ng-disabled="newAddMyModelCtrl.disabled">
+                            <ui-select-match placeholder="请选择量表">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in newAddMyModelCtrl.scaleIdList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="newAddMyModelCtrl.ScaID=undefined" class="btn btn-default"
+                                        type="button" ng-disabled="newAddMyModelCtrl.disabled">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>合作伙伴：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newAddMyModelCtrl.OrgID" theme="bootstrap"
+                                   ng-change="selectPartner()">
+                            <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.OrgID as item in newAddMyModelCtrl.partnersList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newAddMyModelCtrl.OrgID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校选择：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newAddMyModelCtrl.TopGID" theme="bootstrap">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in newAddMyModelCtrl.schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newAddMyModelCtrl.TopGID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>使用说明：</label>
+
+                    <div class="input-group">
+                        <textarea class="form-control" ng-model="newAddMyModelCtrl.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="newAddMyModelCtrl.ScaID&&newAddMyModelCtrl.OrgID&&newAddMyModelCtrl.TopGID?false:true">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

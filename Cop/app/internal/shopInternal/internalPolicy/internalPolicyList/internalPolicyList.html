@@ -1,0 +1,179 @@
+<div ng-controller="internalPolicyListController">
+        <div class="bg-light lter b-b wrapper-md">
+            <h1 class="m-n font-thin h3">积分策略
+            </h1>
+        </div>
+        <div class="wrapper-md ng-scope">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="panel-heading"></div>
+                    <form class="query-group form-inline clearfix ng-pristine ng-valid">
+                        <div class="form-group">
+                            <label> 策略类型：</label>
+                            <div class="input-group">
+                                <ui-select ng-model="model.type_v"
+                                           theme="bootstrap">
+                                    <ui-select-match placeholder="请选择策略类型">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.id as item in model.typeList| filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label> 策略状态：</label>
+                            <div class="input-group">
+                                <ui-select ng-model="model.state_v"
+                                           theme="bootstrap">
+                                    <ui-select-match placeholder="请选择策略状态">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.id as item in model.stateList| filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label> </label>
+                            <input type="text" class="form-control" placeholder="请输入策略集名称" ng-model="model.name_v">
+                        </div>
+                        <button type="button" class="btn m-b-md w-xs btn-success m-l-md" data-ng-click="search()">搜索</button>
+                        <button type="button" class="btn m-b-md w-xs btn-info m-l-md" data-ng-click="add()">新增</button>
+                    </form>
+
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width:20%">积分策略名</th>
+                            <th style="width:10%">类型</th>
+                            <th style="width:10%">状态</th>
+                            <th style="width:10%">编辑日期</th>
+                            <th style="width:20%">备注</th>
+                            <th style="width:10%">规则清单</th>
+                            <th style="width:10%">生效角色</th>
+                            <th style="width:20%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr st-select-row="row" ng-repeat="item in model.itemList" >
+
+                            <td class="v-middle">
+                                <span ng-bind="item.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.STypaName"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.STName"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.MDate"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Desc"></span>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-xs btn-primary" ng-click="createRlue(item)"
+                                        >
+                                    规则清单
+                                </button>
+                            <!--<a href="access.app.internal.internalPolicy.listOfRegulation" ui-sref="access.app.internal.internalPolicy.listOfRegulation" class="btn btn-xs btn-primary">规则清单</a>-->
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-xs btn-primary" ng-click="createEffctRole(item)"
+                                >
+                                    生效角色
+                                </button>
+                            </td>
+                            <td>
+                                <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="edit(item)"><i
+                                        class="fa fa-edit"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i
+                                        class="fa fa-remove"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <page-Directive options="pageIndex"></page-Directive>
+                </div>
+            </div>
+        </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="newAddPolicyList.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{newModel.title}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group"  >
+                    <label> <span class="spanColor">*</span>策略名称：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入策略名称" ng-model="newModel.Name">
+                    </div>
+                </div>
+                    <br/>
+                <div class="form-group"  >
+                    <label> <span class="spanColor">*</span>类型：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.typev"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择类型">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.typeList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group"  >
+                    <label> <span class="spanColor">*</span>状态：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.st"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.StateList| filter: $select.search"    refresh-delay="500">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>描述：</label>
+
+                    <div class="input-group">
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="!(newModel.Name )">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>
+
+
+

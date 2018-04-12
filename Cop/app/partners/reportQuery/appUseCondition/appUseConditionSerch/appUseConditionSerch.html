@@ -1,0 +1,34 @@
+<style>
+    .serchButton{
+        display: inline-block;
+        padding:7px;
+        width: 230px;
+        border: 1px solid #ececec;
+        margin-bottom: 15px;
+    }
+    .linkContent a:link{
+        color: #007acc;
+    }
+    .linkContent a:visited{
+        color: #007acc;
+    }
+    .linkContent .col-sm-3{
+        padding: 0  15px;
+    }
+</style>
+<div ng-controller="appUseConditionSerchController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">APP使用情况查询</h1>
+    </div>
+    <div class="wrapper-md linkContent">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-3"><a class="serchButton" href="javascript:" target="_blank" ng-click="openReport('http://112.74.51.208:88/production/ReportServer?reportlet=rpt%2Fpartner%2F%5B5b66%5D%5B6821%5DAPP%5B7efc%5D%5B5408%5D%5B60c5%5D%5B51b5%5D_%5B5408%5D%5B4f5c%5D%5B4f19%5D%5B4f34%5D.cpt')">学校APP综合查询</a></div>
+                <div class="col-sm-3"><a class="serchButton" href="javascript:" target="_blank" ng-click="openReport('http://112.74.51.208:88/production/ReportServer?reportlet=rpt%2Fpartner%2F%5B5b66%5D%5B6821%5D%5B73ed%5D%5B4e3b%5D%5B4efb%5D%5B4f7f%5D%5B7528%5D%5B60c5%5D%5B51b5%5D_%5B5408%5D%5B4f5c%5D%5B4f19%5D%5B4f34%5D.cpt')">学校班主任使用情况</a></div>
+                <div class="col-sm-3"><a class="serchButton" href="javascript:" target="_blank" ng-click="openReport('http://112.74.51.208:88/production/ReportServer?reportlet=rpt%2Fpartner%2F%5B5b66%5D%5B6821%5D%5B8001%5D%5B5e08%5D%5B4f7f%5D%5B7528%5D%5B60c5%5D%5B51b5%5D_%5B5408%5D%5B4f5c%5D%5B4f19%5D%5B4f34%5D.cpt')">学校老师使用情况</a></div>
+                <div class="col-sm-3"><a class="serchButton" href="javascript:" target="_blank" ng-click="openReport('http://112.74.51.208:88/production/ReportServer?reportlet=rpt%2Fpartner%2F%5B5b66%5D%5B6821%5D%5B8001%5D%5B5e08%5D%5B4fe1%5D%5B606f%5D%5B53d1%5D%5B9001%5D%5B60c5%5D%5B51b5%5D_%5B5408%5D%5B4f5c%5D%5B4f19%5D%5B4f34%5D.cpt')">学校老师信息发送情况</a></div>
+                <div class="col-sm-3"><a class="serchButton" href="javascript:" target="_blank" ng-click="openReport('http://112.74.51.208:88/production/ReportServer?reportlet=rpt%2Fpartner%2F%5B7528%5D%5B6237%5D%5B767b%5D%5B5f55%5D%5B7387%5D_%5B5408%5D%5B4f5c%5D%5B4f19%5D%5B4f34%5D.cpt')">用户登录率</a></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,464 @@
+<div ng-controller="liveUserListController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 优信直播
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+
+            <tabset class="tab-container">
+                <tab ng-click="changeTab(1)" class="tabItem"    tabType="1" >
+                    <tab-heading>
+                        直播员 <span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form" style="text-align: right;">
+
+                                    <div class="input-group" style="width: 20%;float: right;margin:-20px 0 10px 0;">
+
+                                        <input type="text" class="input-sm form-control" ng-model="modelLivePart.keyword" placeholder="输入用户名/账号">
+                                        <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-default" type="button" style="margin-left: -21px;" ng-click="BtnSearch()">Go!</button>
+                                </span>
+                                    </div>
+                                    <!--<div class="form-group" style="width: 20%;float: right;margin:-20px 20px 10px 0;">-->
+                                    <!--<label>状态：</label>-->
+                                    <!--<div class="input-group">-->
+                                    <!--<ui-select ng-model="modelLivePart.s_state"-->
+                                    <!--theme="bootstrap">-->
+                                    <!--<ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>-->
+                                    <!--<ui-select-choices-->
+                                    <!--repeat="item.id as item in modelLivePart.stateList| filter: $select.search">-->
+                                    <!--<div ng-bind-html="item.name | highlight: $select.search"></div>-->
+                                    <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+                                    <!--<th style="width: 55px;">   </th>-->
+                                    <th>用户名</th>
+                                    <th>帐号</th>
+                                    <th>直播次数</th>
+                                    <th>直播总时长(小时)</th>
+                                    <th>平均收视率</th>
+                                    <th>被指定次数</th>
+                                    <th>执行次数</th>
+                                    <th>执行率</th>
+                                    <!--<th>状态</th>-->
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody class="liveListBox">
+                                <tr st-select-row="row"  ng-repeat="item in modelLivePart.itemList">
+                                    <!--<td><label class="i-checks"><input type="checkbox" ng-model="item.checked"-->
+                                    <!--ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>-->
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.AnchorName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Tel"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.LiveCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.LiveHours"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.AvgPlayRate"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.AssignCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ExecuteCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ExecuteRate"></span>
+                                    </td>
+                                    <!--<td class="v-middle">-->
+                                    <!--<span ng-bind="item.StatusName"></span>-->
+                                    <!--</td>-->
+                                    <td>
+
+                                        <!--<a href="javascript:;" ng-show="item.Status==0 || item.Status==-1" class="btn btn-xs btn-danger" title="封号" ng-click="Disable(item)">封号</a>-->
+                                        <!--<a href="javascript:;" ng-show="item.Status==0" class="btn btn-xs btn-primary" title="禁言" ng-click="Shutup(item)">禁言</a>-->
+                                        <!--<a href="javascript:;" ng-show="item.Status==-2 || item.Status==-1" class="btn btn-xs btn-success" title="开启" ng-click="Start(item)">开启</a>-->
+                                        <a href="javascript:;"  class="btn btn-xs btn-info" title="开启" ng-click="toLiveRecordList(item)">直播记录</a>
+
+                                    </td>
+                                </tr>
+                                </tbody >
+                                <div style="position: absolute; bottom: 0;left: 33px;">
+                                    <!--<label class="i-checks"><input type="checkbox" ng-model="checkedAllA"-->
+                                    <!--ng-click="checkAll(checkedAllA)"><i></i>全选</label>-->
+                                    <!--<a href="" style="margin-left: 10px;color: #00a0e9;"data-ng-click="DisableAll()">封号</a>-->
+                                </div>
+                            </table>
+
+                        </li>
+
+                    </ul>
+                </tab>
+
+                <tab  ng-click="changeTab(2)"   class="tabItem"    tabType="2" >
+                    <tab-heading>
+                        发布员 <span class="badge bg-danger badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-alt list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form" style="text-align: right;">
+                                    <div class="input-group" style="width: 20%;float: right;margin:-20px 0 10px 0;">
+
+                                        <input type="text" class="input-sm form-control" placeholder="输入用户名/账号" ng-model="pubPersion.keyword">
+                                        <span class="input-group-btn">
+                                 <button class="btn btn-sm btn-default" type="button" style="margin-left: -21px;" ng-click="BtnSearch()">Go!</button>
+                                </span>
+                                    </div>
+                                    <!--<div class="form-group" style="width: 20%;float: right;margin:-20px 20px 10px 0;">-->
+                                    <!--<label>状态：</label>-->
+                                    <!--<div class="input-group">-->
+                                    <!--<ui-select ng-model="pubPersion.s_state"-->
+                                    <!--theme="bootstrap">-->
+                                    <!--<ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>-->
+                                    <!--<ui-select-choices-->
+                                    <!--repeat="item.id as item in pubPersion.stateList| filter: $select.search">-->
+                                    <!--<div ng-bind-html="item.name | highlight: $select.search"></div>-->
+                                    <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+                                    <!--<th style="width: 55px;"> </th>-->
+                                    <th>用户名</th>
+                                    <th>帐号</th>
+                                    <th>发布次数</th>
+                                    <th>直播次数</th>
+                                    <th>直播总时长(小时)</th>
+                                    <th>平均收视率</th>
+                                    <th>被指定次数</th>
+                                    <th>执行次数</th>
+                                    <th>执行率</th>
+                                    <!--<th>状态</th>-->
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody  class="liveListBox">
+                                <tr st-select-row="row"  ng-repeat="item in pubPersion.itemList">
+                                    <!--<td><label class="i-checks"><input type="checkbox" ng-model="item.checked"-->
+                                    <!--ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>-->
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.PubMbrName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Tel"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.PubCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.LiveCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.LiveHours"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.AvgPlayRate"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.AssignCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ExecuteCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ExecuteRate"></span>
+                                    </td>
+                                    <!--<td class="v-middle">-->
+                                    <!--<span ng-bind="item.StatusName"></span>-->
+                                    <!--</td>-->
+                                    <td>
+
+                                        <!--<a href="javascript:;" ng-show="item.Status==0 || item.Status==-1" class="btn btn-xs btn-danger" title="封号" ng-click="Disable(item)">封号</a>-->
+                                        <!--<a href="javascript:;" ng-show="item.Status==0" class="btn btn-xs btn-primary" title="禁言" ng-click="Shutup(item)">禁言</a>-->
+                                        <!--<a href="javascript:;" ng-show="item.Status==-2 || item.Status==-1" class="btn btn-xs btn-success" title="开启" ng-click="Start(item)">开启</a>-->
+                                        <a href="javascript:;"  class="btn btn-xs btn-info" title="开启" ng-click="toReleaseRecordList(item)">发布记录</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <!--<div style="position: absolute; bottom: 0;left: 33px;">-->
+                                <!--<label class="i-checks"><input type="checkbox" ng-model="checkedAllB"-->
+                                <!--ng-click="checkAll(checkedAllB)"><i></i>全选</label>-->
+                                <!--<a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="DisableAll()">封号</a>-->
+                                <!--</div>-->
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+                <tab  ng-click="changeTab(3)"  class="tabItem"   tabType="3" >
+                    <tab-heading>
+                        受众用户 <span class="badge bg-danger badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-alt list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+                                    <div class="form-group" style="width: 100%;">
+                                        <div class="input-group" style="width: 20%;float: right;">
+                                            <input type="text" class="input-sm form-control" ng-model="modelAudience.keyword" placeholder="请输入直播名称">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-default" type="button" style="width: 100%" ng-click="BtnSearch()">Go!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="margin: -135px 0 0 0; width:25%;">
+                                        <label> 省：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_province" theme="bootstrap"
+                                                       style="min-width:130px;" ng-change="province(modelAudience.s_province)">
+                                                <ui-select-match placeholder="请选择省">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.id as item in modelAudience.provinceList | filter: $select.search">
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="input-group-btn">
+                                                    <button ng-click="deleteProvince()" class="btn btn-default"
+                                                            type="button">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                    </button>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: -135px 0 0 0; width:25%;">
+                                        <label> 市：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_city" theme="bootstrap" ng-change="selectCity(modelAudience.s_city)"
+                                                       style="min-width:130px;" ng-disabled="modelAudience.s_province?false:true">
+                                                <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.id as item in modelAudience.cityList | filter: $select.search">
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="input-group-btn">
+                                                <button ng-click="deleteCity()" class="btn btn-default"
+                                                        type="button" ng-disabled="modelAudience.s_province?false:true">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: -135px 0 0 0; width:25%;">
+                                        <label> 县：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_county" theme="bootstrap"
+                                                       style="min-width:130px;" ng-disabled="modelAudience.s_city?false:true">
+                                                <ui-select-match placeholder="请选择县">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.id as item in modelAudience.countyList | filter: $select.search">
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="input-group-btn">
+                                                <button ng-click="modelAudience.s_county = undefined" class="btn btn-default"
+                                                        type="button" ng-disabled="modelAudience.s_city?false:true">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group" style="margin: -65px 0 0 0; width:25%;">
+                                        <label> 学校/组织：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_school" theme="bootstrap" ng-change="choiceSchool()">
+                                                <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.GID as item in modelAudience.schoolList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="input-group-btn">
+                                                <button ng-click="modelAudience.s_school = undefined" class="btn btn-default"
+                                                        type="button"  >
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: -65px 0 0 0; width:25%;">
+                                        <label> 班级：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_class" theme="bootstrap" ng-change="changeClass()"
+                                                       style="min-width:130px;" ng-disabled="modelAudience.s_school?false:true">
+                                                <ui-select-match placeholder="请选择县">{{$select.selected.Name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.GID as item in modelAudience.classList | filter: $select.search">
+                                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="input-group-btn">
+                                                <button ng-click="modelAudience.s_class = undefined" class="btn btn-default"
+                                                        type="button" ng-disabled="modelAudience.s_school?false:true">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"  style="margin: -65px 0 0 0;width:25%;" >
+                                        <!--状态选择-->
+                                        <label>状态:</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="modelAudience.s_state"
+                                                       theme="bootstrap"  >
+                                                <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.id as item in modelAudience.stateList| filter: $select.search"  >
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!--排序按钮-->
+                                    <div style="float: right">
+
+                                        <button class="btn btn-default btn-sm" ng-click="pre_sort(1)">按评论量升序</button>
+                                        <button class="btn btn-default btn-sm" ng-click="pre_sort(2)">按点分享量升序 </button>
+                                        <button class="btn btn-default btn-sm" ng-click="pre_sort(3)">按收藏量升序</button>
+                                        <button class="btn btn-default btn-sm" ng-click="pre_sort(4)">按时长降序</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+                                    <th style="width: 55px;"> </th>
+                                    <th>用户名</th>
+                                    <th>性别</th>
+                                    <th>帐号</th>
+                                    <th>所在省</th>
+                                    <th>所在市</th>
+                                    <th>所在县/区</th>
+                                    <th>所在机构</th>
+                                    <th>所在班级</th>
+                                    <th>注册时间</th>
+                                    <th>观看总时长</th>
+                                    <th>评论量</th>
+                                    <th>分享量</th>
+                                    <th>收藏量</th>
+                                    <th>点赞量</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody class="liveListBox">
+                                <tr st-select-row="row" ng-repeat="item in modelAudience.itemList">
+                                    <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                                       ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.UserName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Gender"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Tel"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Province"></span>
+                                    </td>
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.City"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.County"></span>
+                                    </td>
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.GrpName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ClassName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.RegisterDate"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <a class="btn btn-xs btn-primary" ng-click="toWacthRecordList(item)">
+                                            <span ng-bind="item.PlayHours"></span>H
+                                        </a>
+                                    </td>
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.CmtCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ShareCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.FavCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.PraiseCnt"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.StatusName"></span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" ng-show="item.Status==0 || item.Status==-1" class="btn btn-xs btn-danger" title="封号" ng-click="Disable(item)">封号</a>
+                                        <a href="javascript:;" ng-show="item.Status==0" class="btn btn-xs btn-primary" title="禁言" ng-click="Shutup(item)">禁言</a>
+                                        <a href="javascript:;" ng-show="item.Status==-2 || item.Status==-1" class="btn btn-xs btn-success" title="开启" ng-click="Start(item)">开启</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <div style="position: absolute; bottom: 0;left: 33px;">
+                                    <label class="i-checks"><input type="checkbox" ng-model="checkedAllC"
+                                                                   ng-click="checkAll(checkedAllC)"><i></i>全选</label>
+                                    <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="DisableAll()">封号</a>
+                                    <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="ShutupAll()">禁言</a>
+                                </div>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+            </tabset>
+            <page-Directive options="pageIndex"  ></page-Directive>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">{{msgTitle}}</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

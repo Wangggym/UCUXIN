@@ -1,0 +1,150 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">学生服务包赠送
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="giveStudentServicePackageController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.selectedGid = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>产品：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.selectProductPackageID" theme="bootstrap"
+                                   ng-disabled="queryFields.selectedGid?false:true;" ng-change="productPackageChange()">
+                            <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in model.productPackageList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.selectProductPackageID=undefined" class="btn btn-default"
+                                    ng-disabled="queryFields.selectedGid?false:true;"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>服务包：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.openProductId" theme="bootstrap"
+                                   ng-disabled="model.selectProductPackageID?false:true;">
+                            <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in model.openProductList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.openProductId=undefined"
+                                        class="btn btn-default"
+                                        ng-disabled="model.selectProductPackageID?false:true;" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                    </div>
+                    <button type="submit" class="btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button class="btn btn-primary"
+                            ui-sref="access.app.partner.payCostSalePartner.addStuFuncServiceByGive">添加赠送
+                    </button>
+                    <button class="btn btn-danger" ng-click="delet()">删除</button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>
+                    <label class="i-checks" style="margin-bottom:0px;">
+                        <input type="checkbox" data-ng-click="checkAll()" ng-model="model.checkAll"><i></i>
+                    </label>全选
+                </th>
+                <th>学校</th>
+                <th>班级</th>
+                <th>学生</th>
+                <th>产品</th>
+                <th>服务包</th>
+                <th>服务包有效期</th>
+                <th>赠送时间</th>
+                <th>操作人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in studentList">
+                <td style="width: 100px">
+                    <label class="i-checks" style="margin-bottom:0px;">
+                        <input type="checkbox" data-ng-click="check(item)" ng-checked="item.checked"><i></i>
+                    </label>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.GName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.ClassName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.MName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.ProductName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.ChargeName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.SDateEDate}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.OrderCDate}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.CName}}</span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <page-Directive options="pageIndex"></page-Directive>
+    </div>
+</div>

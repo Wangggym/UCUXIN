@@ -1,0 +1,73 @@
+<div ng-controller="servicePackageCourseController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">服务包课程</h1>
+        <a ui-sref="access.app.internal.servicePackageManagement.mentalServicePackage"
+           style="color: white;float: right;position: relative;top:-30px">
+            <button type="button" class="btn m-b-md w-xs btn-info">返回</button>
+        </a>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"
+                        ng-click="openAdd()">
+                    添加课程
+                </button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only" style="max-width: 700px">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">课程顺序</th>
+                    <th style="text-align: center;">课程名</th>
+                    <th style="width:200px;text-align: center;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in model.viewList track by $index">
+                    <td ng-bind="item.Seq" style="text-align: center;"></td>
+                    <td ng-bind="item.ServiceName" style="text-align: center;"></td>
+                    <td  class="v-middle"  style="text-align: center;">
+                        <div class="btn-group" dropdown >
+                            <button type="submit" class="btn btn-info btn-xs" data-ng-click="change(item)" style="margin-right: 10px">
+                                修改
+                            </button>
+                            <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle >删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="servicePackageCourseAddController.html">
+    <div class=" no-border">
+        <div class="panel-body" style="border-bottom: none;">
+            <form class="bs-example form-horizontal ng-pristine ng-valid">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">选择课程</label>
+                    <div class="input-group col-md-4">
+                        <select class="form-control" ng-options="a as a.Name for a in webList" ng-model="model.course"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">课程顺序</label>
+                    <input type="number" class="form-control " style="width: 200px" ng-model="courseOrder" >
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="submit" class="btn btn-success" ng-click="ok()">保存</button>
+        <button type="submit" class="btn btn-default" ng-click="close()">返回</button>
+    </div>
+</script>

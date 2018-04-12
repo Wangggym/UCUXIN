@@ -1,0 +1,109 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">已测试明细</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="hasTestDetailController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <div class="form-group" ng-if="showClass">
+          <label> 班级：</label>
+          <div class="input-group">
+            <ui-select ng-model="class.choiceClass" theme="bootstrap">
+              <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+              <ui-select-choices
+                      repeat="item.GID as item in class.allList | filter: $select.search">
+                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+              <button type="button" ng-click="class.choiceClass=0"  class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{nName}}</label>
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="stuName">
+          </div>
+        </div>
+        <div class="form-group">
+          <label> 测试时间：</label>
+          <div class="input-group">
+            <div class="input-group pull-left" style="width: 180px">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate" datepicker-options="dateOptions"
+                     is-open="startOpened" max-date="eDate" ng-required="true" clear-text="清除"
+                     current-text="今天" close-text="关闭" readonly>
+              <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                              class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+            <span class="form-control-static pull-left">&nbsp;~&nbsp;</span>
+            <div class="input-group pull-left" style="width: 180px">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                     is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除"
+                     current-text="今天" close-text="关闭" readonly>
+              <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i
+                              class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="search()">查询</button>
+        <button  type="button" class="btn m-b-md w-xs btn-success m-l-md" ng-click="export()">导出名单</button>
+        <button  type="button" class="btn m-b-md btn-primary m-l-md" ng-click="exportDetail()">导出详细结果</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+          <th>学校</th>
+          <th>身份类型</th>
+          <th>班级</th>
+          <th>姓名</th>
+          <th>测试时间</th>
+          <th>展示简单报告</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="18" class="prompt text-center" data-ng-show="!hasTestList || hasTestList.length == 0">
+            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请尝试改变查询条件
+            </div>
+          </td>
+        </tr>
+        <tr data-ng-repeat="item in hasTestList">
+          <td>{{item.SchoolName}}</td>
+          <td>{{item.mTypeName}}</td>
+          <td>{{item.ClassName}}</td>
+          <td>{{item.StudentName}}</td>
+          <td>{{item.BDateTime}} 至 {{item.EDateTime}}</td>
+          <td>
+            <label class="i-switch m-t-xs m-r" >
+              <input type="checkbox" ng-checked="item.IsShowSimple" ng-click="setSimpleReport(item)">
+              <i></i>
+            </label>
+          </td>
+          <td style="width: 210px">
+            <button type="button" class="btn btn-xs btn-success" data-ng-click="showDetail(item)">查看详细结果</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer pagination-bar" ng-hide="!hasTestList || hasTestList.length == 0">
+        <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+        <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                    max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                    next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                    last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

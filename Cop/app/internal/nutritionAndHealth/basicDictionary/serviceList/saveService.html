@@ -1,0 +1,126 @@
+<div class="bg-light lter b-b wrapper-md">
+    <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="vm.cancel()"><i
+            class="fa fa-long-arrow-left"></i></a>
+
+    <h1 class="m-n font-thin h3">{{vm.isAdd ? '修改': '新增'}}服务</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal form-line-dashed form-validation">
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 标题：</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" ng-model="vm.submitData.Name" maxlength="15" type="text"
+                               placeholder="标题" required>
+                        <span class="help-block">标题字数15字以内</span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 类别：</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline i-checks">
+                            <input type="radio" ng-model="vm.submitData.Category"
+                                   name="Category" value="1"
+                                   required><i></i>免费提问</label>
+                        <label class="radio-inline i-checks">
+                            <input type="radio" ng-model="vm.submitData.Category"
+                                   name="Category" value="2"
+                                   required><i></i>标准测试</label>
+                        <label class="radio-inline i-checks">
+                            <input type="radio" ng-model="vm.submitData.Category"
+                                   name="Category" value="3"
+                                   required><i></i>专家导测</label>
+                        <label class="radio-inline i-checks">
+                            <input type="radio" ng-model="vm.submitData.Category"
+                                   name="Category" value="4"
+                                   required><i></i>营养管家</label>
+                        <label class="radio-inline i-checks">
+                            <input type="radio" ng-model="vm.submitData.Category"
+                                   name="Category" value="5"
+                                   required><i></i>详细报告</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b>问卷名称：</label>
+                    <div class="col-sm-6">
+                        <div class="input-group w-md">
+                            <ui-select ng-model="vm.submitData.ScaleID" theme="bootstrap"
+                                       ng-disabled="vm.submitData.Category==2||vm.submitData.Category==3?false:true;">
+                                <ui-select-match placeholder="问卷名称">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in vm.scaleNameList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 金额：</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="vm.submitData.Money"
+                               ng-pattern="/^\d+(\.\d+)?$/" placeholder="金额">
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 介绍：</label>
+
+                    <div class="col-sm-6">
+                        <textarea class="form-control" rows="3" ng-model="vm.submitData.Instro" placeholder="简介"
+                                  required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 缩略图：</label>
+
+                    <div class="col-sm-6">
+                        <button class="btn btn-warning btn-addon" ngf-select ng-model="vm.picFile" name="file"
+                                ngf-accept="'image/jpg,image/jpeg,image/gif,image/png'"
+                                ng-change="vm.uploadPic(vm.picFile)"><i class="fa fa-plus"></i>选择文件
+                        </button>
+                        <span class="help-block">建议缩略图尺寸大小为720px*230px</span>
+                        <span class="inline bg-white wrapper-sm b-a" style="margin-top: 15px;"
+                              ng-if="vm.vm.picFile || vm.submitData.ImgUrl">
+                      <div class="bg-light" style="width: 320px;min-height: 160px;">
+                          <img ng-if="vm.picFile" ngf-src="vm.picFile" style="width: 100%">
+                          <img ng-if="!vm.picFile" ng-src="{{vm.submitData.ImgUrl}}" style="width: 100%">
+                      </div>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 链接：</label>
+                    <div class="col-sm-6">
+                        <input type="url" class="form-control" ng-model="vm.submitData.Url"
+                               placeholder="eg: http://www.ucuxin.com/">
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 状态：</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline i-checks"><input type="radio" ng-model="vm.submitData.ST"
+                                                                    name="status" value="1" required><i></i>有效</label>
+                        <label class="radio-inline i-checks"><input type="radio" ng-model="vm.submitData.ST"
+                                                                    name="status" value="2" required><i></i>无效</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注：</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" rows="3" ng-model="vm.submitData.Notes"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="button" class="btn w-xs btn-info" ng-click="vm.save()">保存</button>
+                        <button type="button" class="btn w-xs btn-default" ng-click="vm.cancel()">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

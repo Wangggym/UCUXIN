@@ -1,0 +1,33 @@
+.catalog {
+  padding: 10px;
+  > .catalog-item {
+    display: flex;
+    height: 42px;
+    padding: 5px;
+    align-items: center;
+    &:not(:first-child){
+      border-top:1px solid #eee;
+    }
+    .catalog-item-hd{
+      margin-right: 8px;
+    }
+    .catalog-item-bd{
+      flex: 1;
+    }
+    .catalog-item-ft{
+      margin-left: 8px;
+      .anticon{
+        font-size: 14px;
+        cursor: pointer;
+        &:not(:first-child){
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  .catalog-no-data{
+    text-align: center;
+    color: #999;
+  }
+}

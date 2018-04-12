@@ -1,0 +1,21 @@
+.plan{
+  padding: 0 0.5rem;
+  background: #ffffff;
+  >.title{
+    display: flex;
+    justify-content: space-between;
+    line-height: 0.7rem;
+    font-weight: bold;
+    font-size: 0.3rem;
+    span{
+      &:first-child{
+        width: 70%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+
+}

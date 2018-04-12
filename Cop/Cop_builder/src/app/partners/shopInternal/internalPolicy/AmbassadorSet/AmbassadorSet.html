@@ -1,0 +1,128 @@
+<div ng-controller="AmbassadorSetController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">关爱使设置
+        </h1>
+    </div>
+    <div class="wrapper-md ng-scope">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+
+                    <div class="form-group"  >
+                        <label> <span class="spanColor">*</span>学校列表：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.schoolID" ng-change="search()"
+                                       theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.schoolList| filter: $select.search"    refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+
+                        </div>
+                    </div>
+                    <!--<button type="submit" style="margin-right: 0;float:right;" class="form-group btn btn-success" data-ng-click="just()">-->
+                        <!--新增关爱使-->
+                    <!--</button>-->
+
+
+                </form>
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+                        <th>关爱使名称</th>
+                        <th>学校名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList">
+                        <td class="v-middle">
+                            <span ng-bind="item.Name"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.GName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i
+                                    class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <page-Directive options="pageIndex"></page-Directive>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="AddAmbassador.html">
+        <div class="wrapper-md ng-scope">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="query-group-form form-inline" role="form" name="form">
+
+                        <div class="form-group"  >
+                            <label> <span class="spanColor">*</span>学校列表：</label>
+                            <div class="input-group">
+                                <ui-select ng-model="newModel.schoolID" ng-change="search()"
+                                           theme="bootstrap">
+                                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in newModel.schoolList| filter: $select.search"    refresh-delay="500">
+                                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+
+
+                    </form>
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th style="width:20px;">
+                                <label class="i-checks m-b-none" ng-click="selectAll()">
+                                    <input type="checkbox" ng-model="isAll"><i></i>
+                                </label>
+                            </th>
+                            <th>关爱使名称</th>
+                            <th>电话号码</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr st-select-row="row" ng-repeat="item in newModel.itemList">
+                            <td><label class="i-checks m-b-none"><input type="checkbox" ng-model="item.check" ng-click="checkItem(item,$index)"><i></i></label></td>
+                            <!--<td><label class="i-checks"><input type="checkbox" ng-model="item.IsChecked"-->
+                                                               <!--ng-click="checkedSingle(item.IsChecked, item.ID)"><i></i></label>-->
+                            <!--</td>-->
+                            <td class="v-middle">
+                                <span ng-bind="item.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Tel"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>
+
+
+
+

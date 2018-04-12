@@ -1,0 +1,356 @@
+<style>
+  .wrapper-md  .panel-body  .input-group{float:left !important;
+    clear:right;}
+  .wrapper-md  .panel-body .form-group>label{float:left !important;}
+</style>
+<div ng-controller="addOrEditSchoolApplicationOpeningController">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">{{model.head}}应用定义
+      <button type="submit" id="btnReturn" class="pull-right btn btn-default"
+              ui-sref="access.app.internal.authorizationConfig.applicationTreeConfig()">
+        返回
+      </button>
+    </h1>
+  </div>
+  <div class="wrapper-md">
+    <div class="panel panel-default col-sm-8">
+      <div class="panel-body">
+        <form class="form-horizontal" method="get" name="registration">
+          <div class="form-group" >
+            <label> 应用编号：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control" style="width:220px;"
+                     placeholder="名称"
+                     ng-model="model.No" ng-disabled="model.noEdit">
+
+            </div>
+          </div>
+          <div class="form-group" >
+            <label><span class="spanColor">*</span>应用名称：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control" style="width:220px;"
+                     placeholder="名称"
+                     ng-model="model.Name">
+              <input type="checkbox" style="width:15px; height: 15px;" class="form-control"
+                     ng-model="model.IsShow">    可见
+            </div>
+          </div>
+          <div class="form-group">
+            <label>描述：</label>
+
+            <div class="input-group">
+                        <textarea class="form-control"
+                                  ng-model="model.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+            </div>
+          </div>
+          <div class="form-group" >
+            <label><span class="spanColor">*</span>服务提供：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control"
+                     placeholder="服务提供"
+                     ng-model="model.Provider">
+            </div>
+          </div>
+          <div class="form-group" >
+            <label><span class="spanColor">*</span>图标地址：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control" style="width:220px;"
+                     placeholder="请选择图标地址"
+                     ng-model="model.Icon" ng-disabled="model.noEdit">
+                      <span class="input-group-btn" style="float: left; width: 140px;">
+                              <button class="btn btn-success btn-addon"  ng-click="ManageIconList()" ><i class="fa fa-plus"></i>图标上传  </button>
+                        </span>
+            </div>
+          </div>
+          <div class="form-group" >
+            <label> 安卓最低版本：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control"
+                     placeholder="安卓最低版本"
+                     ng-model="model.AndroidAppVer">
+            </div>
+          </div>
+          <div class="form-group" >
+            <label> IOS最低版本：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control"
+                     placeholder="IOS最低版本"
+                     ng-model="model.IosAppVer">
+            </div>
+          </div>
+          <div class="form-group">
+            <label><span class="spanColor">*</span> 指令类型：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.ActType" theme="bootstrap" style="width:220px;">
+                <ui-select-match placeholder="请选择指令类型">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.ActTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+          <div class="form-group" >
+            <label><span class="spanColor">*</span>指令：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control"
+                     placeholder="指令"
+                     ng-model="model.Action">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><span class="spanColor">*</span> 所属分组：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.CatgID" theme="bootstrap" style="width:220px;" ng-change="catgChange(model.CatgID)">
+                <ui-select-match placeholder="请选择所属分组">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.CatgIDList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><span class="spanColor">*</span> 元素类型：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.ElemType" theme="bootstrap" ng-change="checkElemType(model.ElemType)" style="width:220px;">
+                <ui-select-match placeholder="请选择所属分组">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.ElemTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label>  元素模板：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.ContType" theme="bootstrap" style="width:220px;" ng-disabled="model.isNoContentType">
+                <ui-select-match placeholder="请选择所属分组">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.ContentTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><span class="spanColor">*</span> 图标区块大小：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.ElemSize" theme="bootstrap" style="width:220px;">
+                <ui-select-match placeholder="请选择所属分组">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.ElemSizeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+
+          <div class="panel panel-default col-sm-12">
+            <div class="panel-heading b-b b-light"><h3>多选区域(可不选)</h3></div>
+            <div class="panel-body">
+              <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <tbody>
+                <tr st-select-row="row"  ng-show="model.isApplicatioType">
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 会话类型：</span>
+                  </td>
+                  <td class="v-middle">
+
+                    <label class="i-checks ng-binding ng-scope lb"   ng-repeat="children in model.STypeListAll"
+                           style="margin-left:20px;">
+                      <input type="checkbox" ng-checked="children.checked" name="toasts"
+                             ng-click="addCheckedOne(model.STypeListAll,$index)"
+                             checked="checked"><i></i>{{children.name}}</label>
+                  </td>
+                </tr>
+
+                <tr st-select-row="row"  >
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 业务领域：</span>
+                  </td>
+                  <td class="v-middle">
+                    <label class="i-checks ng-binding ng-scope lb"    ng-repeat="children in model.BizDomainListAll"
+                           style="margin-left:20px;">
+                      <input type="checkbox" ng-checked="children.checked" name="toasts"
+                             ng-click="addCheckedOne(model.BizDomainListAll,$index)"
+                             checked="checked"><i></i>{{children.name}}</label>
+                  </td>
+                </tr>
+                <tr st-select-row="row"  >
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 机构类型：</span>
+                  </td>
+                  <td class="v-middle">
+                    <label class="i-checks ng-binding ng-scope"
+                           style="margin-left:20px; color:#000; font-weight: bolder;">
+                      <input type="checkbox" ng-checked="model.isGType" ng-click="gTypeStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                    <br/>
+                      <label class="i-checks ng-binding ng-scope lb"  ng-show="model.isGType"  ng-repeat="children in model.GTypeListAll"
+                             style="margin-left:20px;">
+                        <input type="checkbox" ng-checked="children.checked"   name="toasts"
+                               ng-click="addCheckedOne(model.GTypeListAll,$index)"
+                               checked="checked"><i></i>{{children.name}}</label>
+
+
+                  </td>
+                </tr>
+                <tr st-select-row="row"  >
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 适用角色：</span>
+                  </td>
+                  <td class="v-middle">
+
+                    <label class="i-checks ng-binding ng-scope"
+                           style="margin-left:20px; color:#000; font-weight: bolder;">
+                      <input type="checkbox"  ng-checked="model.isRType" ng-click="rTypeStyle($event)"   name="toasts" ><i></i> 是否控制</label>
+                    <br/>
+                    <label class="i-checks ng-binding ng-scope lb" ng-show="model.isRType" ng-repeat="children in model.RTypeListAll"
+                           style="margin-left:20px;">
+                      <input type="checkbox" ng-checked="children.checked" name="toasts"
+                             ng-click="addCheckedOne(model.RTypeListAll,$index)"
+                             checked="checked"><i></i>{{children.name}}</label>
+                  </td>
+                </tr>
+                <tr st-select-row="row"  >
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 教育阶段：</span>
+                  </td>
+                  <td class="v-middle">
+
+                    <label class="i-checks ng-binding ng-scope"
+                           style="margin-left:20px; color:#000; font-weight: bolder;">
+                      <input type="checkbox"  ng-checked="model.isPhaseList" ng-click="phaseListStyle($event)"   name="toasts" ><i></i> 是否控制</label>
+                    <br/>
+                    <label class="i-checks ng-binding ng-scope lb" ng-show="model.isPhaseList" ng-repeat="children in model.PhaseListAll"
+                           style="margin-left:20px;">
+                      <input type="checkbox" ng-checked="children.checked" name="toasts"
+                             ng-click="addCheckedOne(model.PhaseListAll,$index)"
+                             checked="checked"><i></i>{{children.name}}</label>
+                  </td>
+                </tr>
+                <tr st-select-row="row"  >
+                  <td class="v-middle" style="width:22%;">
+                    <span class="pull-right"> 年级段：</span>
+                  </td>
+                  <td class="v-middle">
+
+                    <label class="i-checks ng-binding ng-scope"
+                           style="margin-left:20px; color:#000; font-weight: bolder;">
+                      <input type="checkbox"  ng-checked="model.isGrdType" ng-click="grdTypeStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                    <br/>
+                    <label class="i-checks ng-binding ng-scope lb" ng-show="model.isGrdType" ng-repeat="children in model.GrdTypeListAll"
+                           style="margin-left:20px;">
+                      <input type="checkbox" ng-checked="children.checked" name="toasts"
+                             ng-click="addCheckedOne(model.GrdTypeListAll,$index)"
+                             checked="checked"><i></i>{{children.name}}</label>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-default col-sm-8">
+      <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+      <div class="panel-body">
+        <button class="btn btn-success" ng-click="save()">全部保存</button>
+        <button class="btn btn-default"
+                ui-sref="access.app.internal.authorizationConfig.applicationTreeConfig({type:'{{$stateParams.type}}',gid:'{{$stateParams.gid}}'})">
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+<!--图标集维护-->
+<script type="text/ng-template" id="addIconsContent.html">
+  <div class="bg-light">
+    <div class="modal-footer">
+      <span class="pull-left h4">图标上传</span>
+    </div>
+  </div>
+
+  <div class="panel-body" style="margin-bottom:-30px;">
+    <form class="query-group-form form-inline">
+
+
+    </form>
+
+  </div>
+  <table class="table table-bordered table-hover table-condensed bg-white-only">
+    <thead>
+    <tr>
+
+      <th>图标集</th>
+      <th>地址</th>
+      <th>预览图</th>
+      <th>上传</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr st-select-row="row" ng-repeat="item in iconModel.itemList">
+
+      <td class="v-middle">
+        <span ng-bind="item.IconSetName"></span>
+      </td>
+      <td class="v-middle">
+        <span ng-bind="item.IconUrl" style="display: block; max-width: 200px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"></span>
+      </td>
+      <td class="v-middle">
+        <img style="width: 60px;height: 50px;" ng-src="{{item.IconUrl}}" alt="">
+      </td>
+      <td class="v-middle">
+              <span class="input-group-btn">
+                            <button class="btn btn-default" ngf-select name="file" ngf-pattern="'image/*'"
+                                    ngf-accept="'image/png'"
+                                    ng-model="item.IconUrl"
+                                    ng-change="uploadIosOssfileChange(item.IconUrl,item.IconSetID,item)" type="file">
+                                <span class="glyphicon glyphicon-plus">上传</span>
+                            </button>
+                        </span>
+
+        <span class="input-group-btn">
+                            <button ng-click="item.IconUrl=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+          </span>
+      </td>
+
+
+    </tr>
+    </tbody>
+  </table>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-click="iconsSave()"
+            ng-disabled="$scope.skinModel.skinID?true:false">
+      确定
+    </button>
+    <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+  </div>
+</script>

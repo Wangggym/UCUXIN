@@ -1,0 +1,683 @@
+<style>
+    thead tr th,.table tbody tr td{text-align: center;vertical-align: middle;}
+    tbody tr{border-bottom: 1px solid #e9f2e5;}
+    .dropdown-menu{text-align: center!important;min-width: 80px;padding: 0;top:80%;left: 35%;}
+    .dropdown-menu li{border-bottom: 1px solid #ddd;}
+</style>
+<div ng-controller="DataDetailController">
+    <!--标题-->
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 优信直播</h1>
+    </div>
+    <!--内容部分-->
+    <div class="wrapper-md">
+        <div class="panel-default panel" style="position: relative;">
+            <!--时间选择开始-->
+            <div class="datePicker" style="position: absolute;z-index: 1;left: 50%;top:60px;left: 350px;">
+                <!--<div style="float: left;width:auto;height: 34px;line-height: 34px;">按发布时间：</div>-->
+                <div class="input-group" style="width: 150px;float: left;">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate"
+                           is-open="openedStart" max-date="" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                           current-text="今天" close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openStartDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                </div>
+                <div style="float: left;height: 34px;">__</div>
+                <div class="input-group" style="width: 150px;float: left;margin-right: 5px;">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                           is-open="endOpened" min-date="" ng-required="true" clear-text="清除" current-text="今天"
+                           close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openEndDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                </div>
+                <button class="btn m-b-xs  btn-info" ng-click="dateSearch()">查询</button>
+            </div>
+            <!--时间选择结束-->
+            <tabset class="tab-container">
+                <tab ng-click="changeTab(0)" class="tabItem" tabType="0">
+                    <tab-heading>
+                        视频数量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn btn-sm  btn-info" style="margin-right: 10px;">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(0)">按省排行</button>-->
+                                        <button class="btn btn-default btn-sm partner" ng-click="sortPartner()" ng-show="model.OrgLevel == 1">按合作伙伴排行</button>
+                                        <button class="btn btn-default btn-sm group" ng-click="sortGroup()">按机构排行</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--合作伙伴表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == true">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>合作伙伴</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-ptnID = "{{item.PtnID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.PtnName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toPidCharts(model,item.PtnID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--机构表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == false">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>机构</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr st-select-row="row" ng-repeat="item in model.itemList" data-GID = "{{item.GID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.GName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toGidCharts(model,item.GID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(1)" class="tabItem" tabType="1">
+                    <tab-heading>
+                        分享量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn btn-sm  btn-info" style="margin-right: 10px;">返回上一级</a>
+                                        <button class="btn btn-default btn-sm partner" ng-click="sortPartner()" ng-show="model.OrgLevel == 1">按合作伙伴排行</button>
+                                        <button class="btn btn-default btn-sm group" ng-click="sortGroup()">按机构排行</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--合作伙伴表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == true">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>合作伙伴</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-ptnID = "{{item.PtnID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.PtnName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toPidCharts(model,item.PtnID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--机构表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == false">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>机构</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-GID = "{{item.GID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.GName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toGidCharts(model,item.GID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(2)" class="tabItem" tabType="2">
+                    <tab-heading>
+                        评论量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn btn-sm  btn-info" style="margin-right: 10px;">返回上一级</a>
+                                        <button class="btn btn-default btn-sm partner" ng-click="sortPartner()" ng-show="model.OrgLevel == 1">按合作伙伴排行</button>
+                                        <button class="btn btn-default btn-sm group" ng-click="sortGroup()">按机构排行</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--合作伙伴表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == true">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>合作伙伴</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-ptnID = "{{item.PtnID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.PtnName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toPidCharts(model,item.PtnID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--机构表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == false">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>机构</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-GID = "{{item.GID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.GName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toGidCharts(model,item.GID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(3)" class="tabItem" tabType="3">
+                    <tab-heading>
+                        点赞量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn btn-sm  btn-info" style="margin-right: 10px;">返回上一级</a>
+                                        <button class="btn btn-default btn-sm partner" ng-click="sortPartner()" ng-show="model.OrgLevel == 1">按合作伙伴排行</button>
+                                        <button class="btn btn-default btn-sm group" ng-click="sortGroup()">按机构排行</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--合作伙伴表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == true">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>合作伙伴</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-ptnID = "{{item.PtnID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.PtnName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toPidCharts(model,item.PtnID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--机构表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == false">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>机构</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-GID = "{{item.GID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.GName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toGidCharts(model,item.GID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(4)" class="tabItem" tabType="4">
+                    <tab-heading>
+                        收藏量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn btn-sm  btn-info" style="margin-right: 10px;">返回上一级</a>
+                                        <button class="btn btn-default btn-sm partner" ng-click="sortPartner()" ng-show="model.OrgLevel == 1">按合作伙伴排行</button>
+                                        <button class="btn btn-default btn-sm group" ng-click="sortGroup()">按机构排行</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--合作伙伴表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == true">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>合作伙伴</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-ptnID = "{{item.PtnID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.PtnName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toPidCharts(model,item.PtnID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--机构表格数据部分-->
+                            <table class="table table-striped b-t b-light"  ng-model="model.partnerType"  ng-show="model.partnerType == false">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>机构</th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">日均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="daySort(true)">升序</a></li>
+                                            <li><a href="" ng-click="daySort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">月均量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="monthSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="monthSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="dropdown" dropdown="false">
+                                        <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">总数量 <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" ng-click="sumSort(true)">升序</a></li>
+                                            <li><a href="" ng-click="sumSort(false)">降序</a></li>
+                                        </ul>
+                                    </th>
+                                    <th>曲线图</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList" data-GID = "{{item.GID}}">
+                                    <td>
+                                        <span ng-bind="item.index"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.GName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toGidCharts(model,item.GID)"><i class="iconfont icon-graph"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+            </tabset>
+            <page-Directive options="pageIndex"  ></page-Directive>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,172 @@
+.ux_logintop {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 100px 20px 20px 20px;
+}
+
+.ux_logintop span {
+  display: inline-block;
+  background: url(../img/logo1.png) no-repeat left center;
+  font: bold 20px/40px "Microsoft YaHei", "simsun";
+  line-height: 47px;
+  padding-left: 50px;
+  color: #999;
+}
+
+.ux_login {
+  margin: 0;
+  width: 100%;
+  height: 424px;
+  font-size: 14px;
+  background: #1dadf5;
+}
+
+.uxux_loginmain {
+  margin: 0 auto;
+  position: relative;
+  width: 1000px;
+  height: 424px;
+  background: url(../img/loginbg.jpg) no-repeat left top;
+}
+
+.uxux_loginmain form {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  min-height: 450px;
+  border-radius: 10px;
+  background: #ffffff;
+  margin-top: -15px;
+}
+
+.ux_loginfoot {
+  width: 1000px;
+  height: 85px;
+  padding: 100px;
+  margin: 0 auto;
+}
+
+.ux_loginfoot1, .ux_loginfoot1 a, .ux_loginfoot1 a:link, .ux_loginfoot1 a:visited {
+  color: #666;
+  font-size: 16px;
+  text-align: center;
+  font: normal 12px/24px "Microsoft YaHei", "simsun";
+}
+
+.ux_loginfoot2 {
+  padding-top: 20px;
+  line-height: 30px;
+  color: #999999;
+  font-size: 14px;
+  text-align: center;
+  font: normal 12px/24px "Microsoft YaHei", "simsun";
+}
+
+.validation div {
+  background: url(../img/background-img.jpg) no-repeat left top;
+  height: 40px;
+  width: 100px;
+  font-style: oblique;
+  font-style: italic;
+  user-select: none;
+  resize: none;
+}
+
+.list-group-hover div {
+  height: 81px;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.list-group-hover a {
+  line-height: 60px;
+  color: #ffffff;
+}
+
+.list-group-hover div:first-child {
+  background: #ffcc66;
+}
+
+.list-group-hover div:first-child:hover {
+  background: #ea8e74;
+}
+
+.list-group-hover div:nth-child(2) {
+  background: #7accf5;
+}
+
+.list-group-hover div:nth-child(2):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:nth-child(3) {
+  background: #59879e;
+}
+
+.list-group-hover div:nth-child(3):hover {
+  background: #31586b;
+}
+
+.list-group-hover div:nth-child(4) {
+  background: #ab621b;
+}
+
+.list-group-hover div:nth-child(4):hover {
+  background: #653d17;
+}
+
+.list-group-hover div:nth-child(5) {
+  background: #95f5a9;
+}
+
+.list-group-hover div:nth-child(5):hover {
+  background: #caabcb;
+}
+
+.list-group-hover div:nth-child(6) {
+  background: #eff53b;
+}
+
+.list-group-hover div:nth-child(6):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:nth-child(7) {
+  background: #7accf5;
+}
+
+.list-group-hover div:nth-child(7):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:nth-child(8) {
+  background: #7accf5;
+}
+
+.list-group-hover div:nth-child(8):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:nth-child(9) {
+  background: #7accf5;
+}
+
+.list-group-hover div:nth-child(9):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:nth-child(10) {
+  background: #7accf5;
+}
+
+.list-group-hover div:nth-child(10):hover {
+  background: #1f92cb;
+}
+
+.list-group-hover div:last-child {
+  background: #74bb90;
+}
+
+.list-group-hover div:last-child:hover {
+  background: #8fac55;
+}

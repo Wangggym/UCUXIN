@@ -1,0 +1,128 @@
+.person-homepage {
+    // background: #ccc;
+    .person-bg {
+        height: 30vh;
+        background: linear-gradient(45deg, rgb(104, 201, 76), rgb(177, 232, 30));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.2rem 0.3rem;
+        font-size: 0.28rem;
+        color: white;
+        .name {
+            font-size: 0.35rem;
+        }
+        .head-img {
+            background: #ccc;
+            width: 1.3rem;
+            height: 1.3rem;
+            border-radius: 50%;
+            border: 0.1rem #ebf8d6 solid;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+    }
+    .data {
+        display: flex;
+        justify-content: space-around;
+        height: 15vh;
+        a {
+            display: flex;
+            flex:1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            color: #000;
+            padding: 0 0.2rem;
+            .value {
+                font-size: 0.32rem;
+                font-weight: bold;
+                color: rgb(253, 99, 15);
+            }
+            .name {
+                font-size: 0.28rem;
+                border: 2PX #ccc solid;
+                padding: 0.1rem 0.2rem;
+                border-radius: 0.3rem;
+            }
+        }
+    }
+    .person-list {
+        a {
+            display: flex;
+            justify-content: space-between;
+            height: 6vh;
+            align-items: center;
+            font-size: 0.28rem;
+            padding: 0.1rem;
+            margin: 0 0.1rem;
+            border-bottom: 1PX #ccc solid;
+            color: #000;
+            div {
+                padding: 0.1rem;
+                padding-left: 0.7rem;
+                background-size: contain;
+            }
+        }
+
+    }
+    .footer-list {
+        display: flex;
+        justify-content: space-around;
+        height: 8vh;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        padding: 0.1rem;
+        align-items: center;
+        li {
+            padding-top: 0.5rem;
+        }
+    }
+}
+
+.personList-achievement {
+    div {
+        background: url("../../assets/images/skin_mine_honor_kin.png") no-repeat;
+    }
+}
+
+.personList-info {
+    div {
+        background: url("../../assets/images/skin_mine_account_kin.png") no-repeat;
+    }
+}
+
+.personList-course {
+    div {
+        background: url("../../assets/images/skin_mine_1minutes_kin.png") no-repeat;
+    }
+}
+
+.personList-lecturer {
+    div {
+        background: url("../../assets/images/skin_mine_service_def.png") no-repeat;
+    }
+}
+
+.personList-order {
+    div {
+        background: url("../../assets/images/skin_mine_tofriend_kin.png") no-repeat;
+    }
+}
+
+.personList-favorite {
+    div {
+        background: url("../../assets/images/skin_mine_collection_kin.png") no-repeat;
+    }
+}
+

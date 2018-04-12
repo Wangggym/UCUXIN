@@ -1,0 +1,182 @@
+.head{
+	background-color: #fff;
+	padding: 20px 0 ;
+	text-align: center;
+	*{
+		margin:0;
+	}
+}
+body{
+	background-color: #F5F5F9 !important;
+}
+
+.body{
+	text-align: center; 
+	p{
+		color: #333;
+	}
+	font-family: 'PingFang SC';
+}
+.btn{
+	background: linear-gradient(to right, #40ADF9, #41C7F9); 
+	color:#fff;
+	width: 45%;
+	height:84px;	 
+	margin:30px auto 30px auto;
+	border-radius: 40px;
+	line-height: 84px;
+	font-size: 34px;
+
+}
+.card{
+	border-radius: 5px;
+	background-color: #fff; 
+	padding: 60px 30px 20px 30px;
+	
+	// height: 380px;
+	overflow: hidden;
+	margin:20px auto 0 auto;
+
+	
+	.content{
+		display: flex;
+		justify-content: space-around;
+		// overflow: hidden;
+		align-items: center;
+		 
+		ul{
+			width: 100%;
+			li{
+				height: 100px;
+				display: flex;
+				align-items: center;
+				padding:25px 35px 25px 30px;
+				border-bottom: 1px solid #dcdcdc;
+				.card_img{
+					width: 20%;
+					text-align: center;
+				}
+				.card_content{
+					width: 80%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					& > div{
+						display: flex;
+						justify-content: space-between;
+						color:#333;
+						font-weight: 600;
+
+					}
+					span{
+						font-size: 30px;
+						width: 30%;
+					}
+
+					div:nth-child(1) {
+
+						span:nth-child(2) {
+							text-align: center,
+						}
+						span:nth-child(3) {
+							text-align: right,
+						}
+					}
+					
+					p{
+					
+						color:#888;
+						font-size: 24px;
+						.uparrow {
+							width:0;height:0;
+							border-width:16px;
+							border-style:solid;
+							border-color:transparent transparent #F52F16 transparent;
+							position:relative;
+							bottom: 36px;
+							margin-right: 10px;
+						}
+						.uparrow:after {
+							content:"";
+							width:16px;
+							height:16px;
+							background-color:#F52F16;
+							position:absolute;
+							bottom:-30px;
+							left:-8px;
+						}
+						.downarrow {
+							width:0;height:0;
+							border-width:16px;
+							border-style:solid;
+							border-color:#5DCE3D transparent transparent transparent;
+							position:relative;
+							top: 36px;
+							margin-right: 10px;
+						}
+						   .downarrow:after {
+							content:"";
+							width:16px;
+							height:16px;
+							background-color:#5DCE3D;
+							position:absolute;
+							top:-30px;
+							left:-8px;
+						}
+						.fontSpan {
+							font-size: 25px;
+						}
+						  
+						 
+					}
+				}
+				.rule{
+					width: 100%;
+					height: 80px;
+					background:url('../../public/assets/bzph_rule.png') no-repeat;
+					background-size: 100% 100%;
+					display: flex;
+					align-items: center;
+					color:#fff;
+					justify-content: center;
+					padding: 8px;
+					// text-indent: 66px;
+					line-height: 1.4;
+					span {
+						margin-left: 85px;
+						margin-right: 10px;
+					}
+
+				}
+			}
+		}
+		 
+	}
+	.mydata{
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		height: 180px;
+		margin: 20px 0;
+		img{
+			width: 50px;
+			height: 50px;
+		}
+		.item{
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			text-align: center;
+			p{
+				font-size: 22px;
+			}
+			h4{
+				small{
+				color:#888;
+			}
+			}
+		}
+	}
+}

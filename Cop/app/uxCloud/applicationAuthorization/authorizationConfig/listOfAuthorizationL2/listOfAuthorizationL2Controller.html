@@ -1,0 +1,284 @@
+<div ng-controller="listOfAuthorizationL2Contoller">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">区域云L2应用规则配置
+    </h1>
+  </div>
+  <div class="wrapper-md">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="query-group-form form-inline" role="form" name="form">
+          <div class="form-group">
+            <label> 规则范围类型：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.scopeType"
+                    ng-change="changeScopeType()"     theme="bootstrap">
+                <ui-select-match placeholder="请选择规则规范类型">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.scopeTypeList| filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+     <div class="form-group">
+          <label> 规则范围：</label>
+          <div class="input-group">
+            <ui-select ng-model="model.scopeID"
+                   ng-disabled="model.isScope"      theme="bootstrap">
+              <ui-select-match placeholder="请选择规则规范">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in model.scopeList| filter: $select.search"   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                              <button ng-click="delChangePartners()" class="btn btn-default"
+                                      type="button">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+               </span>
+          </div>
+      </div>
+          <div class="form-group">
+            <label> 应用名称：</label>
+            <input type="text" class="form-control" placeholder="应用名称" ng-model="model.subAppName">
+          </div>
+
+          <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+            查询
+          </button>
+
+          <button type="submit" class="form-group btn btn-primary" data-ng-click="pushMessage()">
+            推送
+          </button>
+
+        </form>
+      </div>
+      <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+          <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                  ng-click="checkAll()"><i></i></label></th>
+          <th>入口</th>
+          <th>分组</th>
+          <th>应用名</th>
+          <th>应用编号</th>
+          <th>规则范围类型</th>
+          <th>规则范围</th>
+          <th>状态</th>
+          <th>适用范围</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in model.itemList"   >
+          <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                             ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.EntrTypeName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.CatgName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.SubAppName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.SubAppNo"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.ScopeTypeName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.ScopeName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.OpenTypeName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.SuitRange"></span>
+          </td>
+          <td class="v-middle">
+            <a href="javascript:;" class="btn btn-xs btn-primary" title="编辑"   ng-click="addOrEdit(item,2)"><i
+                    class="fa fa-edit"></i></a>
+
+            <a href="javascript:;" class="btn btn-xs btn-success" title="添加" ng-click="addOrEdit(item,1)"><i
+                    class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i
+                    class="fa fa-remove"></i></a>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <page-Directive options="pageIndex"></page-Directive>
+    </div>
+  </div>
+  <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+  <script type="text/ng-template" id="newAddConfigL2Content.html">
+    <div class="bg-light">
+      <div class="modal-footer">
+        <span class="pull-left h4">添加/编辑特殊规则</span>
+      </div>
+    </div>
+    <div class="panel-body" style="margin-bottom:-30px;">
+      <form class="query-group-form form-inline">
+        <div class="form-group">
+          <label><span class="spanColor"></span>名称：</label>
+          <input type="text" ng-disabled="newModel.noEdit" class="form-control" placeholder="名称" ng-model="newModel.SubAppName">
+        </div>
+<br/>
+          <div class="form-group" ng-show="newModel.ScopeTypeShow">
+            <label><span class="spanColor">*</span>规则范围类型：</label>
+            <div class="input-group">
+              <ui-select ng-model="newModel.ScopeType" ng-disabled="!newModel.ScopeTypeEdit"
+                         ng-change="changeitem($select.selected.name,1,newModel)" theme="bootstrap">
+                <ui-select-match placeholder="请选择规则范围类型">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in newModel.ScopeTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+
+        <div class="form-group"  ng-show="newModel.ScopeShow">
+          <label><span class="spanColor">*</span> 规则范围：</label>
+          <div class="input-group">
+            <ui-select ng-model="newModel.ScopeID" ng-disabled="!newModel.ScopeEdit"
+                            theme="bootstrap">
+              <ui-select-match placeholder="请选择规则规范">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in newModel.ScopeList| filter: $select.search"   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+
+<br/>
+        <div class="form-group" ng-show="newModel.OpenTypeShow">
+          <label> <span class="spanColor">*</span>状态：</label>
+          <div class="input-group">
+            <ui-select ng-model="newModel.OpenType" ng-disabled="!newModel.OpenTypeEdit"
+                            theme="bootstrap">
+              <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in newModel.OpenTypeList| filter: $select.search"   refresh-delay="500">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+
+
+        <div class="panel panel-default col-sm-12">
+          <div class="panel-heading b-b b-light"><h3> </h3></div>
+          <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+              <tbody>
+              <tr st-select-row="row"  ng-show="newModel.GTypeListShow" >
+                <td class="v-middle" style="width:22%;">
+                  <span class="pull-right"> 机构类型：</span>
+                </td>
+                <td class="v-middle"   style='{{newModel.GTypeListEdit==true ?"color:#000;":"color:#cccccc;"}}' >
+
+                  <label class="i-checks ng-binding ng-scope"
+                         style="margin-left:20px; color:#000; font-weight: bolder;">
+                    <input type="checkbox" ng-checked="newModel.GTypeIsPub" ng-click="gTypeStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                  <br/>
+
+                  <label class="i-checks ng-binding ng-scope lb" ng-repeat="children in newModel.GTypeListAll" ng-show="newModel.GTypeIsPub"
+                         style="margin-left:20px;">
+                    <input type="checkbox" ng-checked="children.checked" name="toasts" ng-disabled="!newModel.GTypeListEdit"
+                           ng-click="addCheckedOne(newModel.GTypeListAll,$index)"
+                           checked="checked"><i></i>{{children.name}}</label>
+                </td>
+              </tr>
+
+              <tr st-select-row="row"  ng-show="newModel.PhaseListShow">
+                <td class="v-middle" style="width:22%;">
+                  <span class="pull-right"> 教育阶段：</span>
+                </td>
+                <td class="v-middle" style='{{newModel.RTypeListEdit==true ?"color:#000;":"color:#cccccc;"}}' >
+                  <label class="i-checks ng-binding ng-scope"
+                         style="margin-left:20px; color:#000; font-weight: bolder;">
+                    <input type="checkbox" ng-checked="newModel.PhaseIsPub" ng-click="phaseListStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                  <br/>
+
+                  <label class="i-checks ng-binding ng-scope lb" ng-repeat="children in newModel.PhaseListAll" ng-show="newModel.PhaseIsPub"
+                         style="margin-left:20px;">
+                    <input type="checkbox" ng-checked="children.checked" name="toasts" ng-disabled="!newModel.RTypeListEdit"
+                           ng-click="addCheckedOne(newModel.PhaseListAll,$index)"
+                           checked="checked"><i></i>{{children.name}}</label>
+                </td>
+              </tr>
+              <tr st-select-row="row" ng-show="newModel.GrdTypeListShow" >
+                <td class="v-middle" style="width:22%;">
+                  <span class="pull-right"> 年级段：</span>
+                </td>
+                <td class="v-middle"   style='{{newModel.GrdTypeListEdit==true ?"color:#000;":"color:#cccccc;"}}'>
+                  <label class="i-checks ng-binding ng-scope"
+                         style="margin-left:20px; color:#000; font-weight: bolder;">
+                    <input type="checkbox" ng-checked="newModel.GrdTypeIsPub" ng-click="grdTypeStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                  <br/>
+
+
+                  <label class="i-checks ng-binding ng-scope" ng-repeat="children in newModel.GrdTypeListAll" ng-show="newModel.GrdTypeIsPub"
+                         style="margin-left:20px;">
+                    <input type="checkbox" ng-checked="children.checked" name="toasts" ng-disabled="!newModel.GrdTypeListEdit"
+                           ng-click="addCheckedOne(newModel.GrdTypeListAll,$index)"
+                           checked="checked"><i></i>{{children.name}}</label>
+                </td>
+              </tr>
+              <tr st-select-row="row"  ng-show="newModel.RTypeListShow">
+                <td class="v-middle" style="width:22%;">
+                  <span class="pull-right">   角色：</span>
+                </td>
+                <td class="v-middle" style='{{newModel.RTypeListEdit==true ?"color:#000;":"color:#cccccc;"}}'>
+
+                  <label class="i-checks ng-binding ng-scope"
+                         style="margin-left:20px; color:#000; font-weight: bolder;">
+                    <input type="checkbox" ng-checked="newModel.RTypeIsPub" ng-click="rTypeStyle($event)"  name="toasts" ><i></i> 是否控制</label>
+                  <br/>
+
+                  <label class="i-checks ng-binding ng-scope" ng-repeat="children in newModel.RTypeListAll" ng-show="newModel.RTypeIsPub"
+                         style="margin-left:20px;">
+                    <input type="checkbox" ng-checked="children.checked" name="toasts" ng-disabled="!newModel.RTypeListEdit"
+                           ng-click="addCheckedOne(newModel.RTypeListAll,$index)"
+                           checked="checked"><i></i>{{children.name}}</label>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" ng-click="save()"
+              ng-disabled="!(newModel.ScopeType&&newModel.ScopeID )">
+        保存
+      </button>
+      <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+    </div>
+  </script>
+
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+  <div class="modal-header">
+    <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+  </div>
+  <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+  <div class="modal-footer" style="text-align: center">
+    <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+    <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+  </div>
+</script>

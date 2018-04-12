@@ -1,0 +1,220 @@
+
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+<div ng-controller="applicationTreeConfigController">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">
+    </h1>
+  </div>
+
+  <div class="app-content-body app-content-full fade-in-up ng-scope">
+    <div class="hbox hbox-auto-xs bg-light  ng-scope">
+      <div class="col w lter b-r ng-scope" style="width:435px;">
+        <div class="vbox" id="vbox_group">
+
+    <div style="height:100px;">
+          <div class="form-group" style="display: inline-block;    margin-right: 8px; margin-top:16px; ">
+            <div class="input-group" style="width:85px;">
+              <ui-select ng-model="model.bizDomain" ng-change="changeGroup()" theme="bootstrap" >
+                <ui-select-match placeholder="请选择教育">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.bizDomainList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group" style="display: inline-block;    margin-right: 8px;">
+            <div class="input-group" style="width:85px;">
+              <ui-select ng-model="model.entrType" ng-change="changeGroup()" theme="bootstrap">
+                <ui-select-match placeholder="请选择入口">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.entrTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group" style="display: inline-block;    margin-right: 8px;">
+            <div class="input-group" style="width:85px;">
+              <ui-select ng-model="model.rTypeID" ng-change="changeGroup()" theme="bootstrap">
+                <ui-select-match placeholder="请选择角色">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.roleList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+
+      <div class="form-group" style="display: inline-block;    margin-right: 8px;">
+        <div class="input-group" style="width:85px;">
+          <button type="submit" class="form-group btn btn-success" data-ng-click="addGroup()" style="margin-left: 15px;display: inline-block; ">
+            添加分组
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+
+          <table  class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr n class="ng-scope"><td colspan="2" class="prompt text-center"><div class="alert alert-warning" role="alert">排序请上下拖拽</div></td></tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemListGroups">
+
+              <td  gid="{{item.ID}}" class="v-middle" ng-click="clickType(model.itemListGroups,item,item.ID)"   ng-class="item.active">
+
+                <span ng-bind="item.Name" title="{{item.Name}}"  style="display: block;overflow: hidden;text-overflow: ellipsis; white-space: nowrap; max-width:200px;"></span>
+              </td>
+              <td>
+                <a href="javascript:;" class="btn btn-xs btn-primary" title="编辑" ng-click="editGroup(item)"><i
+                  class="fa fa-edit"></i></a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="vbox" id="vbox_application">
+          <div class="panel-body">
+            <form class="query-group-form form-inline" role="form2" name="form2">
+              <div class="form-group" style="display: inline-block;    margin-right: 8px;">
+                <div class="input-group" style="width:125px;">
+                  <ui-select ng-model="model.bodyrTypeID" theme="bootstrap">
+                    <ui-select-match placeholder="请选择角色">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices
+                      repeat="item.id as item in model.bodyRoleList | filter: $select.search">
+                      <div ng-bind-html="item.name | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+
+                </div>
+              </div>
+              <button type="submit" class="form-group btn btn-success" ng-click="search()">
+                查询
+              </button>
+
+              <button type="submit" class="form-group btn btn-info"
+                      ui-sref="access.app.internal.authorizationConfig.addApplicationTree">
+                添加
+              </button>
+              <button type="submit" class="form-group btn btn-primary" data-ng-click="pushMessage()">
+                推送
+              </button>
+            </form>
+          </div>
+          <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr n class="ng-scope">
+              <td colspan="7" class="prompt text-center"><div class="alert alert-warning" role="alert"><span>排序请上下拖拽</span><span style="color: #ff0000;margin-left:20px; font-size: large; ">区块大的靠前显示</span></div>
+              </td>
+
+            </tr>
+            <tr>
+              <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                      ng-click="checkAll()"><i></i></label></th>
+              <th>编号</th>
+              <th>应用名称</th>
+              <th>图标区块</th>
+              <th>应用来源(服务/模块)</th>
+              <th>教育阶段</th>
+              <th>适用角色</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemList">
+              <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                 ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+              </td>
+              <td class="v-middle" ElemSize="{{item.ElemSize}}"  gid="{{item.SubAppID}}">
+                <span ng-bind="item.No"></span>
+              </td>
+              <td class="v-middle">
+                <span ng-bind="item.Name"></span>
+              </td>
+              <td class="v-middle">
+                <span ng-bind="item.ElemSizeName"></span>
+              </td>
+              <td class="v-middle">
+                <span ng-bind="item.Provider"></span>
+              </td>
+              <td class="v-middle" ElemSize="{{item.ElemSize}}"  gid="{{item.SubAppID}}">
+                <span ng-bind="item.PhaseNames"></span>
+              </td>
+              <td class="v-middle">
+                <span ng-bind="item.RTypeNames"></span>
+              </td>
+              <td class="v-middle">
+                <button class="btn btn-sm btn-primary"  ng-click="addOrEdit(item)">修改</button>
+                <button class="btn btn-sm btn-danger" ng-click="SetSubAppOnOffShelf(item)" ng-if="item.ST==1">下架</button>
+                <button class="btn btn-sm btn-primary" ng-click="SetSubAppOnOffShelf(item)" ng-if="item.ST==-1||item.ST==0">上架</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script  type="text/ng-template" id="addGroupType.html">
+    <div class="bg-light">
+      <div class="modal-footer">
+        <span class="pull-left h4">添加修改应用分组</span>
+      </div>
+      <div class="panel-body" style="margin-bottom:-30px;">
+        <form class="query-group-form form-inline">
+          <div class="form-group">
+            <label><span class="spanColor">*</span> 入口类型：</label>
+            <div class="input-group">
+              <ui-select ng-model="groupModel.EntrType" theme="bootstrap">
+                <ui-select-match placeholder="请选择入口类型">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in groupModel.entrTypeList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+          <div class="form-group" >
+            <label><span class="spanColor">*</span>分组名称：</label>
+
+            <div class="input-group">
+              <input type="text" class="form-control" style="width:220px;"
+                     id="name" placeholder="名称"
+                     ng-model="groupModel.Name">
+            </div>
+          </div>
+          <br />
+          <div class="form-group" >
+            <label style="display: inline-block; width:78px;"> </label>
+
+            <div class="input-group">
+              <input type="checkbox" style="width:15px; height: 15px;" class="form-control"
+                     ng-model="groupModel.IsShowName">    分组名可见
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" ng-click="groupSsave()"
+                ng-disabled="groupModel.Name ?false:true">
+          保存
+        </button>
+        <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+      </div>
+    </div>
+  </script>
+
+
+</div>

@@ -1,0 +1,201 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">短信群发</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label>关键字：</label>
+                    <input class="form-control" type="text" ng-model="queryFields.keywords" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <label>开始时间：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate" datepicker-options="dateOptions"
+                               is-open="openedStart" max-date="eDate" ng-required="true" clear-text="清除"
+                               current-text="今天" close-text="关闭" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>结束时间：</label>
+                    <div class="input-group" ng-click="openEndDate($event)">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                               is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除" current-text="今天"
+                               close-text="关闭" readonly>
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)">查询</button>
+                <button type="button" class="btn w-xs btn-primary m-l-lg" ng-click="export($event)">导出</button>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" ng-click="add($event)"><i class="fa fa-plus"></i> 新增</button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>接收对象</th>
+                        <th>操作时间</th>
+                        <th>短信数量</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!dataList">
+                        <td colspan="6" class="prompt text-center">
+                            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...<a href="javascript:;" ng-click="add()">新增</a></div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in dataList">
+                        <td>{{item.RvName}}</td>
+                        <td>{{item.Date}}</td>
+                        <td>{{item.SmsCnt}}</td>
+                        <td>{{item.ST?'发送完毕':'发送中'}}</td>
+                        <td>
+                            <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="detail(item)" title="查看">查看</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="AddSmsGroupSend.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>新增短信群发</h3>
+    </div>
+    <div class="modal-body ">
+        <form class="form-horizontal form-line-dashed add-sms-group">
+            <div class="form-group">
+                <label class="control-label"><b class="text-danger">*</b> 接收对象：</label>
+                <input type="text" ng-model="pushData.RvName" class="form-control" placeholder="名称由所选学校、指定级届、身份类型、激活状态自动生成" ng-disabled="true">
+            </div>
+            <div class="form-group col-lg-offset-2">
+                <label class="control-label"><b class="text-danger">*</b> 短信内容：</label>
+                <textarea rows="3" class="form-control" placeholder="短信内容" ng-model="pushData.SmsCont"></textarea>
+                <span class="help-block">字数统计包含“[优课优信]”前缀，每67个字算作一条短信。<i class="text-danger pull-right" ng-if="record">共计{{record}}条短信</i></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"><b class="text-danger">*</b> 接收学校：</label>
+
+                <ui-select ng-model="submitModelData.school" theme="bootstrap" ng-change="changeSchool(submitModelData.school)">
+                    <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices repeat="school in schoolList | propsFilter:{FName:$select.search }">
+                        <span ng-bind-html="school.FName"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group">
+                <label class="control-label checkbox-inline i-checks"><input type="checkbox" name="limit" ng-model="limit" ng-change="changeLimit(limit, submitModelData.stage, submitModelData.year)"><i></i> 指定级届：</label>
+                <p ng-if="!limit" class="form-control-static" style="height: 34px;">不限定</p>
+                <div class="form-control-static" ng-if="limit" style="padding-bottom: 0; padding-top: 0;height: 34px">
+                    <label style="vertical-align: 10px;">教育阶段：</label>
+                    <ui-select ng-model="submitModelData.stage" theme="bootstrap" style="display: inline-block;width: 150px;" ng-change="changeStage(submitModelData.stage)">
+                        <ui-select-match placeholder="请输入关键字查询">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="stage in limitConfig.stage | propsFilter:{ name:$select.search }">
+                            <span ng-bind-html="stage.name"></span>
+                        </ui-select-choices>
+                    </ui-select>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label style="vertical-align: 10px;">入学年：</label>
+                    <ui-select ng-model="submitModelData.year" theme="bootstrap" style="display: inline-block;width: 150px" ng-change="changeYear(submitModelData.year)">
+                        <ui-select-match placeholder="请输入关键字查询">{{$select.selected.id}}</ui-select-match>
+                        <ui-select-choices repeat="years in limitConfig.years | propsFilter:{name:$select.search }">
+                            <span ng-bind-html="years.id"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label checkbox-inline i-checks"><input type="checkbox" name="identity" ng-model="identity" ng-change="changeIdentity(identity,submitModelData.MType)"><i></i> 身份类型：</label>
+                <p ng-if="!identity" class="form-control-static">不限制</p>
+                <div ng-if="identity" class="form-control-static"style="padding-top: 0;padding-bottom: 5px;">
+                    <label class="radio-inline i-checks"><input type="radio" name="MType" ng-model="submitModelData.MType.id" value="11" ng-change="changeMType({name:'教师', id: 11})"><i></i> 教师</label>
+                    <label class="radio-inline i-checks"><input type="radio" name="MType" ng-model="submitModelData.MType.id" value="12" ng-change="changeMType({name:'家长', id: 12})"><i></i> 家长</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label checkbox-inline i-checks"><input type="checkbox" name="status" ng-model="status" ng-change="changeParentStatus(status, submitModelData.Status)"><i></i> 激活状态：</label>
+                <p ng-if="!status" class="form-control-static">不限制</p>
+                <div ng-if="status" class="form-control-static" style="padding-top: 0;padding-bottom: 5px;">
+                    <label class="radio-inline i-checks"><input type="radio" name="Status" ng-model="submitModelData.Status.id" value="1" ng-change="changeStatus({name:'已激活', id: 1})"><i></i> 已激活</label>
+                    <label class="radio-inline i-checks"><input type="radio" name="Status" ng-model="submitModelData.Status.id" value="0" ng-change="changeStatus({name:'未激活', id: 0})"><i></i> 未激活</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="DetailSmsGroupSend.html">
+    <div class="modal-header">
+        <h3 class="modal-title">查看短信群发</h3>
+    </div>
+    <div class="modal-body ">
+        <form class="form-horizontal form-line-dashed add-sms-group">
+            <div class="form-group">
+                <label class="control-label">接收对象：</label>
+                <p class="form-control-static">{{singleDate.RvName}}</p>
+            </div>
+            <div class="form-group col-lg-offset-2">
+                <label class="control-label">短信内容：</label>
+                <p class="form-control-static">{{singleDate.SmsCont}}</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">接收学校：</label>
+                <p class="form-control-static">
+                    <span class="label label-info" ng-repeat="school in smsSchool" style="margin-right: 5px;">{{school.AttrValueName || school.AttrValue}}</span>
+                </p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">指定级届：</label>
+                <p class="form-control-static">{{smsLimit[0].AttrValueName ? smsLimit[0].AttrValueName : '不限制'}}</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">身份类型：</label>
+                <p class="form-control-static">{{smsIdentity[0].AttrValueName?smsIdentity[0].AttrValueName: '不限制'}}</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">激活状态：</label>
+                <p class="form-control-static">{{smsStatus[0].AttrValueName?smsStatus[0].AttrValueName: '不限制'}}</p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="cancel()">返回</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ConfirmSmsGroupSend.html">
+    <div class="modal-header">
+        <h3 class="modal-title">短信群发信息确认</h3>
+    </div>
+    <div class="modal-body ">是否确认发送？请仔细检查发送的范围，短信发送后不可撤回。</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="confirmSms()">确定</button>
+        <button class="btn btn-default" ng-click="cancelSms()">取消</button>
+    </div>
+</script>

@@ -1,0 +1,310 @@
+<div ng-controller="listOfAuthorizationL1Contoller">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">运营L1授权区域云
+    </h1>
+  </div>
+  <div class="wrapper-md">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="query-group-form form-inline" role="form" name="form">
+          <div class="form-group">
+            <label> 区域云：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.cloudID"
+                         theme="bootstrap">
+                <ui-select-match placeholder="请选择区域云">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                  repeat="item.id as item in model.cloudList| filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+              <!--<span class="input-group-btn">-->
+                            <!--<button ng-click="model.cloudID=undefined" class="btn btn-default"-->
+                                    <!--type="button">-->
+                                <!--<span class="glyphicon glyphicon-trash"></span>-->
+                            <!--</button>-->
+            </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label> 应用名：</label>
+            <input type="text" class="form-control" placeholder="应用名" ng-model="model.subAppName">
+          </div>
+          <div class="form-group">
+            <label> 授权状态：</label>
+            <div class="input-group">
+              <ui-select ng-model="model.grantID"
+                         theme="bootstrap">
+                <ui-select-match placeholder="请选择授权状态">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices
+                        repeat="item.id as item in model.grantList| filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+              <!--<span class="input-group-btn">-->
+              <!--<button ng-click="model.cloudID=undefined" class="btn btn-default"-->
+              <!--type="button">-->
+              <!--<span class="glyphicon glyphicon-trash"></span>-->
+              <!--</button>-->
+              </span>
+            </div>
+          </div>
+          <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+            查询
+          </button>
+          <button type="submit" class="form-group btn btn-success" data-ng-click="SaveGrant()">
+            保存授权
+          </button>
+          <button type="submit" class="form-group btn btn-danger" data-ng-click="CancelGrant()">
+            取消授权
+          </button>
+          <button type="submit" class="form-group btn btn-primary" data-ng-click="pushMessage()">
+            推送
+          </button>
+        </form>
+      </div>
+      <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+          <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                  ng-click="checkAll()"><i></i></label></th>
+          <th>入口</th>
+          <th>分组</th>
+          <th>应用名</th>
+          <th>应用编号</th>
+          <th>授权状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in model.itemList">
+          <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                             ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.EntrTypeName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.CatgName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.SubAppName"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.SubAppNo"></span>
+          </td>
+          <td class="v-middle">
+            <span ng-bind="item.GrantStatusName"></span>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+      <page-Directive options="pageIndex"></page-Directive>
+    </div>
+  </div>
+  <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+  <script type="text/ng-template" id="newAddSkinContent.html">
+    <div class="bg-light">
+      <div class="modal-footer">
+        <span class="pull-left h4">添加修改主题包</span>
+      </div>
+    </div>
+    <div class="panel-body" style="margin-bottom:-30px;">
+      <form class="query-group-form form-inline">
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>图标集：</label>
+          <div class="input-group">
+            <ui-select ng-model="newModel.IconSetID"
+                       ng-change="changeitem($select.selected.name,1,newModel)" theme="bootstrap">
+              <ui-select-match placeholder="请选择图标集">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in newModel.IconsetList | filter: $select.search">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                            <button ng-click="newModel.IconSetID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>编号：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="编号" ng-model="newModel.No"
+                   ng-disabled="newModel.onlyreadInput">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>色系：</label>
+          <div class="input-group">
+            <ui-select ng-model="newModel.ColorID" ng-change="changeitem($select.selected.name,2,newModel)"
+                       theme="bootstrap">
+              <ui-select-match placeholder="请选择色系">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in newModel.ColorList | filter: $select.search">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                            <button ng-click="newModel.ColorID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>字体：</label>
+
+          <div class="input-group">
+            <ui-select ng-model="newModel.FontID" ng-change="changeitem($select.selected.name,3,newModel)"
+                       theme="bootstrap">
+              <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in newModel.FontList | filter: $select.search">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                            <button ng-click="newModel.FontID=undefined" class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+          </div>
+        </div>
+
+        <div class="form-group" style="width:100% ;">
+          <label><span class="spanColor">*</span>特别说明：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" style="width:460px ;" ng-keyup="changeitem(newModel.Explain,4,newModel)" placeholder="特别说明" ng-model="newModel.Explain"
+            >
+          </div>
+        </div>
+
+        <div class="form-group" style="width:100% ;">
+          <label><span class="spanColor">*</span>名称：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" style="width:460px ;"
+                   ng-disabled="newModel.onlyreadInput" id="name" placeholder="名称" ng-value="newModel.Name"
+                   ng-model="newModel.Name">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>描述：</label>
+
+          <div class="input-group">
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><span class="spanColor">*</span> 预览图：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="请选择图片" ng-model="newModel.PreviewImg"
+                   ng-disabled="newModel.onlyreadInput">
+            <span class="input-group-btn">
+                              <button class="btn btn-success btn-addon" ngf-select name="file"
+                                      ng-model="newModel.PreviewImg"
+                                      ng-change="fileChange(newModel.PreviewImg)" ngf-pattern="'image/*'"
+                                      ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+                                class="fa fa-plus"></i>图片上传
+                            </button>
+                        </span>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <label> </label>
+          <div class="input-group">
+            <img ng-src="{{newModel.PreviewImg}}" style="width:200px; height:100px; margin-left: 65px;"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>Android资源路径：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="请选择Android资源路径" id="AndroidUrl"
+                   ng-model="newModel.AndroidUrl" ng-disabled="newModel.onlyreadInput">
+            <span class="input-group-btn">
+                            <button class="btn btn-default" ngf-select name="file"
+                                    ng-model="newModel.AndroidUrl"
+                                    ng-change="uploadAndroidOssfileChange(newModel.AndroidUrl)" type="file">
+                                <span class="glyphicon glyphicon-plus">请选择文件</span>
+                            </button>
+                        </span>
+
+          </div>
+
+        </div>
+        <div class="form-group" style="width:100%;">
+          <label> </label>
+          <div class="input-group">
+
+            <div class="indicating example" id="andPerBox" style="display: none;">
+
+              <p style="width:330px;"></p>
+              <div class="ui indicating progress active" style="width:330px; " data-percent="{{newModel.AndroidPrenct}}">
+                <div class="bar" id="AndroidPrenct" style="transition-duration: 300ms; width: 0%;  text-align: center;">333</div>
+                <div class="" id="andperValue">{{newModel.AndroidPrenct}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="spanColor">*</span>Ios资源路径：</label>
+
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="请选择Ios资源路径" id="IosUrl"
+                   ng-model="newModel.IosUrl" ng-disabled="newModel.onlyreadInput">
+            <span class="input-group-btn">
+                            <button class="btn btn-default" ngf-select name="file"
+                                    ng-model="newModel.IosUrl"
+                                    ng-change="uploadIosOssfileChange(newModel.IosUrl)" type="file">
+                                <span class="glyphicon glyphicon-plus">请选择文件</span>
+                            </button>
+                        </span>
+          </div>
+        </div>
+        <div class="form-group" style="width:100%;">
+          <label> </label>
+          <div class="input-group">
+
+            <div class="indicating example" id="iosPerBox" style="display: none;">
+
+              <p style="width:330px;"></p>
+              <div class="ui indicating progress active" style="width:330px; " data-percent="0">
+                <div class="bar" id="IosPrenct" style="transition-duration: 300ms; width: 0%;  text-align: center;"></div>
+                <div class="label" id="iosperValue"> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" ng-click="save()"
+              ng-disabled="!(newModel.IconSetID&&newModel.ColorID&&newModel.FontID&&newModel.AndroidUrl&&newModel.IosUrl&&newModel.PreviewImg)">
+        保存
+      </button>
+      <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+    </div>
+  </script>
+
+</div>

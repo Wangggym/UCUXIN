@@ -1,0 +1,302 @@
+<div ng-controller="listOfLimitConfigController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">主题包配置页面
+
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>区域云：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.cloudid" theme="bootstrap" ng-change="changeCouldConfig()">
+                                <ui-select-match placeholder="请选择区域云">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.cloudList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <!--<span class="input-group-btn">-->
+                            <!--<button ng-click="newModel.cloudid=undefined" class="btn btn-default"-->
+                                    <!--type="button">-->
+                                <!--<span class="glyphicon glyphicon-trash"></span>-->
+                            <!--</button>-->
+            <!--</span>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><b class="text-danger">*</b>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.gid" theme="bootstrap" ng-change="changeSchool()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                              <button ng-click="delChangeSchool()" class="btn btn-default"
+                                      type="button">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>教育阶段：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.phaseid" theme="bootstrap">
+                                <ui-select-match placeholder="请选择教育阶段">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.phaseList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <!--<span class="input-group-btn">-->
+                            <!--<button ng-click="newModel.phaseid=undefined" class="btn btn-default"-->
+                                    <!--type="button">-->
+                                <!--<span class="glyphicon glyphicon-trash"></span>-->
+                            <!--</button>-->
+                               <!--</span>-->
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                      查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="add()">
+                        添加配置
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="push()">
+                        推送
+                    </button>
+
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                            ng-click="checkAll()"><i></i></label></th>
+
+                    <th>区域云</th>
+                    <th>学校</th>
+                    <th>教育阶段</th>
+                    <th>主题包</th>
+                    <th>主题包描述</th>
+                    <th>预览图</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                       ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                    </td>
+
+                    <td class="v-middle">
+                        <span ng-bind="item.Cloud"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GrpName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Phase"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.SkinPackName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;max-width: 200px;" title="{{item.SkinPackDesc}}"> <span ng-bind="item.SkinPackDesc"></span></div>
+                    </td>
+                    <td class="v-middle">
+
+                        <div style="text-overflow: ellipsis; white-space: nowrap;overflow: hidden;max-width: 200px;" title="{{item.SkinPackPreview}}"> <span ng-bind="item.SkinPackPreview"></span></div>
+                    </td>
+                    <td class="v-middle">
+                        <button class="btn btn-sm btn-primary" ng-click="edit(item)">编辑</button>
+                        <button class="btn btn-sm btn-danger" ng-click="delete(item)">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="newAddSkinContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">添加修改主题包配置</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.CloudID" ng-change="changeitem($select.selected.name,1,newModel)"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="请选择区域云">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.cloudList| filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newModel.CloudID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+            </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label> 学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.GID" theme="bootstrap" ng-change="changeModelSchool()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.GID as item in newModel.schoolList | filter: $select.search"
+                                    refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                              <button ng-click="delChangeSchool()" class="btn btn-default"
+                                      type="button">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label> 教育阶段：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.PhaseID" theme="bootstrap">
+                            <ui-select-match placeholder="请选择教育阶段">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.phaseList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newModel.PhaseID=undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span> 主题包：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请选择主题包" ng-model="newModel.SkinPackName"
+                               ng-disabled="newModel.onlyreadInput">
+                        <span class="input-group-btn">
+                              <button class="btn btn-success btn-addon" ng-click="CheckSkin()"><i
+                                      class="fa fa-plus"></i>搜索
+                            </button>
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label> 预览图：</label>
+
+                    <div class="input-group">
+                        <img ng-src="{{newModel.SkinPackPreview}}"
+                             style="width:200px; height:100px; margin-left: 65px;"/>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="newModel.CloudID&&newModel.SkinPackName ?false:true">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+    <!--主题包选择-->
+    <script type="text/ng-template" id="checkSkinContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">选择主题包</span>
+            </div>
+        </div>
+
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor"></span>名称：</label>
+                    <input type="text" class="form-control" placeholder="名称" ng-model="model.keyWord">
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="skinSearch(model.keyWord)">
+                    查询
+                </button>
+            </form>
+
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th style="width: 55px;"></th>
+                <th>序号</th>
+                <th>名称</th>
+                <th>描述</th>
+                <th>预览图</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in skinModel.itemList">
+                <td><label class="i-checks"><input type="radio" name="21" groupName="21"
+                                                   ng-click="checkedSkin(item.ID,item.Name,item.PreviewImg)"><i></i></label>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="$index + 1"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Name"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Desc"></span>
+                </td>
+                <td class="v-middle">
+                    <img style="width: 60px;height: 50px;" ng-src="{{item.PreviewImg}}" alt="">
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="skinSave()"
+                    ng-disabled="$scope.skinModel.skinID?true:false">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

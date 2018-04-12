@@ -1,0 +1,60 @@
+<div ng-controller="corporateRegistrationIconController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">应用图标维护
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>图标描述：</label>
+                        <div class="col-sm-6">
+                        <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                  ng-model="model.imageDesc" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>图标：</label>
+
+                        <div class="col-sm-6">
+                            <button class="btn btn-success btn-addon" ngf-select name="file"
+                                    ng-model="model.imgUrl"
+                                    ng-change="fileChange(model.imgUrl)" ngf-pattern="'image/*'"
+                                    ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+                                    class="fa fa-plus"></i>图片上传
+                            </button>
+                            <div class="img-upload" style="padding-top:10px;">
+                                <img ng-src="{{model.imgUrlPath}}"
+                                     class="img-thumbnail"
+                                     style="min-width:200px;min-height:200px;max-width:440px;max-height: 200px;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-body pull-right">
+                <button class="btn btn-success" ng-click="save()"
+                        ng-disabled="model.imgUrlPath&&model.imageDesc?false:true">保存
+                </button>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-heading b-b b-light"><h3>图标库</h3></div>
+            <div class="panel-body" style="max-height: 500px;overflow-y: scroll;">
+                <div class="col-lg-2" ng-repeat="item in model.imageList">
+                    <div class="panel b-a" style="position: relative;">
+                        <i class="icon fa-times" style="position: absolute;cursor:pointer;"
+                           ng-click="deleteIcon(item)"></i>
+                        <div class="text-center bg-info no-border" style="background-color:#ececec;">
+                            <img ng-src="{{item.Path}}" style="height: 100px;"/>
+                        </div>
+                        <div class="panel-footer text-center">
+                            {{item.Des}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

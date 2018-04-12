@@ -1,0 +1,52 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">新增量表</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel psychological-scale">
+    <div id="status-buttons" class="psychological-status">
+      <a href="javascript:;" ng-class="{'active': steps.index >= 1}"><span>1</span> 基本信息</a>
+      <a href="javascript:;" ng-class="{'active': steps.index >= 2}"><span>2</span> 用户属性</a>
+      <a href="javascript:;" ng-class="{'active': steps.index >= 3}"><span>3</span> 题库</a>
+      <a href="javascript:;" ng-class="{'active': steps.index >= 4}"><span>4</span> 因子定义</a>
+      <a href="javascript:;" ng-class="{'active': steps.index >= 5}"><span>5</span> 异常判定</a>
+      <a href="javascript:;" ng-class="{'active': steps.index >= 6}"><span>6</span> 因子解释</a>
+    </div>
+    <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+    <div class="panel-body">
+      <div id="form-views" class="form-validation" ui-view></div>
+      <div class="text-center btn-operate">
+        <a ng-if="steps.index == 1" ng-click="submitInfo($event)" class="btn btn-default btn-rounded">下一步</a>
+
+        <a ng-if="steps.index == 2" ng-click="prev()" ui-sref=".basicInfo" class="btn btn-default btn-rounded">上一步</a>
+        <a ng-if="steps.index == 2" ng-click="submitUserAttr($event)" class="btn btn-default btn-rounded">下一步</a>
+
+        <a ng-if="steps.index == 3" ng-click="prev()" ui-sref=".userAttribute" class="btn btn-default btn-rounded">上一步</a>
+        <a ng-if="steps.index == 3" ng-click="submitQuestionsBank($event)" class="btn btn-default btn-rounded">下一步</a>
+
+        <a ng-if="steps.index == 4" ng-click="prev()" ui-sref=".questionBank" class="btn btn-default btn-rounded">上一步</a>
+        <a ng-if="steps.index == 4" ng-click="submitFactorDefine($event)"  class="btn btn-default btn-rounded">下一步</a>
+
+        <a ng-if="steps.index == 5" ng-click="prev()" ui-sref=".factorDefinition" class="btn btn-default btn-rounded">上一步</a>
+        <a ng-if="steps.index == 5" ng-click="submitFactorAnomaly($event)" class="btn btn-default btn-rounded">下一步</a>
+
+        <a ng-if="steps.index == 6" ng-click="prev()" ui-sref=".anomalyJudgment" class="btn btn-default btn-rounded">上一步</a>
+        <a ng-if="steps.index == 6" ng-click="submitFactorExplain()" class="btn btn-info btn-rounded">提交</a>
+        <a ng-if="steps.index == 6" ng-click="scaleStatic()" class="btn btn-primary btn-rounded">生成量表</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+
+<script type="text/ng-template" id="removeConfirm.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa fa-trash-o"></i>{{name}}删除</h3>
+  </div>
+  <div class="modal-body ">确定要删除{{name}}：<strong>{{item.Title || item.Name || (item.FactorName || '总分')}}</strong>？</div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="comfirm()">确认</button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</script>
+
+

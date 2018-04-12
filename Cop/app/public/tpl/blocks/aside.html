@@ -1,0 +1,46 @@
+<div class="aside-wrap">
+    <!-- if you want to use a custom scroll when aside fixed, use the slimScroll
+      <div class="navi-wrap" ui-jq="slimScroll" ui-options="{height:'100%', size:'8px'}">
+    -->
+    <div class="navi-wrap">
+        <!-- user -->
+        <div class="clearfix hidden-xs text-center hide" id="aside-user">
+            <div class="dropdown wrapper" dropdown>
+                <a ui-sref="app.page.profile">
+          <span class="thumb-lg w-auto-folded avatar m-t-sm">
+            <img src="{{pic}}" onerror="javascript:this.src='./public/img/a0.jpg'" class="img-full" alt="没有照片">
+          </span>
+                </a>
+                <a href class="dropdown-toggle hidden-folded" dropdown-toggle>
+          <span class="clear">
+            <span class="block m-t-sm">
+              <strong class="font-bold text-lt">{{userName}}</strong>
+              <b class="caret"></b>
+            </span>
+          </span>
+                </a>
+                <!-- dropdown -->
+                <ul class="dropdown-menu animated fadeInRight w hidden-folded">
+                    <li class="wrapper b-b m-b-sm bg-light m-t-n-xs">
+                        <div>
+                            <p ng-bind="userName" ng-model="userName"></p>
+                        </div>
+                    </li>
+                    <li ng-repeat="list in userList" ng-click="changeUser(list)">
+                        <a ng-bind="list.OrgName" ui-sref="{{list.path}}"></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a ng-click="returnIndex()">返回</a>
+                    </li>
+                </ul>
+                <!-- / dropdown -->
+            </div>
+            <div class="line dk hidden-folded"></div>
+        </div>
+        <!-- / user -->
+
+        <!-- nav -->
+        <nav ui-nav class="navi clearfix" ng-include="'public/tpl/blocks/nav.html'" data-type="nav-Blocks"></nav>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div ng-controller="cancelTrialClassController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">取消试用的班级
+            <button type="submit" class="pull-right btn btn-default" ng-click="historyBack()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">学校和服务包</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">学校：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.gidName"
+                                   placeholder="学校" ng-disabled="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">产品：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.productPackageName"
+                                   placeholder="产品" ng-disabled="true"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">选择班级</h3>
+            </div>
+            <div class="panel-body">
+                <form class="query-group-form" role="form">
+                    <div class="panel panel-default student-area">
+                        <div class="panel-heading"><i class="fa fa-list"></i>请选择要开通服务的班级</div>
+                        <div class="panel-body row">
+                            <div class="col-sm-6">
+                                <h5>未选择班级</h5>
+
+                                <div class="student-list student-select">
+                                    <span class="label label-info"
+                                          ng-repeat="item in model.classList track by $index"
+                                          ng-click="addStudent(item,$index)">{{item.ClassName}} <i
+                                            class="fa fa-plus"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="student-selected-heading">
+                                    <a href="javascript:;" ng-click="clearStudentSelected()">重置</a>
+                                    <h5>已选择班级</h5>
+                                </div>
+                                <div class="student-list student-selected">
+                                    <span class="label label-info"
+                                          ng-repeat="item in model.studentSelectedList track by $index">{{item.ClassName}} <i
+                                            class="fa fa-times" ng-click="deleteSelected(item,$index)"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()">确定</button>
+                <button class="btn btn-default" ng-click="historyBack()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

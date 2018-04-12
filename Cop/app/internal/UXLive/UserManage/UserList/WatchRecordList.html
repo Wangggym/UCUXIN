@@ -1,0 +1,136 @@
+<div ng-controller="WatchRecordListController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{model.Title}}的观看记录
+            <button type="submit" id="btnReturn" class="pull-right btn btn-default" ng-click="btnReturn()" >
+                返回
+            </button>
+        </h1>
+    </div>
+
+    <div class="wrapper-md">
+        <div class="panel panel-default" style="position: relative;">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                    <!--search-->
+
+
+                    <div class="form-group" >
+                        <label>年：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.Year"
+                                       theme="bootstrap">
+                                <ui-select-match placeholder="请选择年">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.YearList| filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.Year=undefined" class="btn btn-default"
+                                        type="button"  >
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>月：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.Month"
+                                       theme="bootstrap">
+                                <ui-select-match placeholder="请选择月">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.MonthList| filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.Month=undefined" class="btn btn-default"
+                                        type="button"  >
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                        <button class="btn m-b-xs  btn-info" data-ng-click="btnSearch()" style="margin-bottom: 15px;">查询</button>
+
+
+                    </div>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+
+                    <th>直播名称</th>
+                    <th>视频时长</th>
+                    <th>发布者</th>
+                    <th>所在省</th>
+                    <th>所在市</th>
+                    <th>所在县/区</th>
+                    <th>所在组织</th>
+                    <th>观看时间</th>
+                    <th>观看时长</th>
+                </tr>
+                </thead>
+                <tbody  >
+                <tr>
+                    <td colspan="9" class="prompt text-center" data-ng-show="model.itemList.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+                        </div>
+                    </td>
+                </tr>
+                <tr st-select-row="row"  ng-repeat="item in model.itemList">
+
+                    <td class="v-middle">
+                        <span ng-bind="item.LiveName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.VideoDuration"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PubMbrName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Province"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.City"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.County"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GrpName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.WatchTime"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PlayDuration"></span>
+                    </td>
+
+                </tr>
+                </tbody >
+
+            </table>
+
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">{{msgTitle}}</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

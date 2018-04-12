@@ -1,0 +1,149 @@
+<div ng-controller="listOfOrganizationsController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">合作伙伴创建
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>名称：</label>
+                        <input type="text" class="form-control" placeholder="名称" ng-model="model.nameId">
+                    </div>
+                    <div class="form-group">
+                        <label>类型：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.type" theme="bootstrap">
+                                <ui-select-match placeholder="请选择类型">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.typeList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.type = undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="add()">
+                        添加组织
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.typeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.STName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <button class="btn btn-sm btn-primary" ng-click="edit(item)">编辑</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="newAddMyModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">添加或修改组织机构</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>名称：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="名称" ng-model="newModel.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>类型：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.typeId" theme="bootstrap" ng-disabled="newModel.disabled">
+                            <ui-select-match placeholder="请选择类型">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in newModel.typeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newModel.typeId=undefined" class="btn btn-default"
+                                    type="button" ng-disabled="newModel.disabled">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>状态：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="newModel.ST" theme="bootstrap">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.STid as item in newModel.STList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="newModel.ST=undefined" class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>简介：</label>
+
+                    <div class="input-group">
+                        <textarea class="form-control" ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="newModel.name&&newModel.typeId&&newModel.ST?false:true">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

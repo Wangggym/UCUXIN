@@ -1,0 +1,116 @@
+<div ng-controller="costStatisticsController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">导入线下收费
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>合作伙伴：</label>
+
+                        <!--<div class="input-group">-->
+                        <!--<ui-select ng-model="model.partners" theme="bootstrap">-->
+                        <!--<ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>-->
+                        <!--<ui-select-choices-->
+                        <!--repeat="item.OrgID as item in model.partnersList | filter: $select.search">-->
+                        <!--<div ng-bind-html="item.Name | highlight: $select.search"></div>-->
+                        <!--</ui-select-choices>-->
+                        <!--</ui-select>-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button ng-click="model.partners = undefined" class="btn btn-default"-->
+                        <!--type="button">-->
+                        <!--<span class="glyphicon glyphicon-trash"></span>-->
+                        <!--</button>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="model.partners">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <!--<div class="input-group">-->
+                        <!--<ui-select ng-model="queryFields.selectedGid" theme="bootstrap"-->
+                        <!--ng-change="changeGid()">-->
+                        <!--<ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>-->
+                        <!--<ui-select-choices repeat="item.GID as item in schoolList | filter: $select.search"-->
+                        <!--refresh="refreshAddresses($select.search)" refresh-delay="500">-->
+                        <!--<div ng-bind-html="item.FName | highlight: $select.search"></div>-->
+                        <!--</ui-select-choices>-->
+                        <!--</ui-select>-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button ng-click="queryFields.selectedGid = undefined" class="btn btn-default"-->
+                        <!--type="button">-->
+                        <!--<span class="glyphicon glyphicon-trash"></span>-->
+                        <!--</button>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="model.gname">
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="export()">
+                        导出
+                    </button>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="exportDownload()">
+                        下载导入模板
+                    </button>
+                    <button type="submit" class="form-group btn btn-success"  ngf-select ng-model="file" name="file"
+                            ng-change="fileUpload(file)" ngf-pattern="'.xls,.xlsx'"
+                            ngf-accept="'.xls,.xlsx'">
+                        导入
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>学校</th>
+                    <th>班级</th>
+                    <th>学生</th>
+                    <th>产品</th>
+                    <th>开通方式</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.PartnerName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClassName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ProductName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.OpenType"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

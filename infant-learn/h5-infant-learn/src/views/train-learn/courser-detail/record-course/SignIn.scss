@@ -1,0 +1,44 @@
+.course-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 92vh;
+  padding-top: 8vh;
+  //p{
+  //  &:first-child{
+  //    margin-bottom: 0.4rem;
+  //  }
+  //  &:last-child{
+  //    color: #43b622;
+  //    margin-top: 0.3rem;
+  //  }
+  //}
+  .info-box{
+    margin-top: 0.3rem;
+    font-size: 0.3rem;
+    div{
+      margin-bottom: 0.32rem;
+    }
+    span{
+      color: #a7a7a7;
+    }
+    b{
+      font-weight: normal;
+    }
+  }
+  .operation{
+    padding-top: 0.2rem;
+    border-top: 1px solid #999999;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    p{
+      &:first-child{
+        color: #999999;
+      }
+      &:last-child{
+        color: #43b622;
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+<div class="bg-light lter b-b wrapper-md">
+    <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="vm.cancel()"><i
+            class="fa fa-long-arrow-left"></i></a>
+    <h1 class="m-n font-thin h3">{{vm.isAdd ? '设备维护': '批量设置推流'}}</h1>
+</div>
+<div class="wrapper-md cloud-watch-form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row form-inline">
+                <div class="col-sm-4 ">
+                    <div class="form-group">
+                        <label class="control-label"><b class="text-danger">*</b> 安装位置：</label>
+                        <input class="form-control" ng-model="vm.submitData.Position" type="text" placeholder="安装位置"
+                               required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label"><b class="text-danger">*</b> 位置类型：</label>
+                        <ui-select ng-model="vm.submitData.PosType" theme="bootstrap">
+                            <ui-select-match placeholder="请选择位置类型">{{$select.selected.value}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in vm.model.posType | filter: $select.search">
+                                <div ng-bind-html="item.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="col-sm-4" ng-if="vm.submitData.PosType === 1"><!--ng-if="vm.submitData.PosType === 1"-->
+                    <div class="form-group">
+                        <label class="control-label"><b class="text-danger">*</b> 所属班级：</label>
+                        <ui-select ng-model="vm.submitData.ClassID" theme="bootstrap">
+                            <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ClassID as item in vm.model.classList | filter: $select.search">
+                                <div ng-bind-html="item.ClassName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">设备编码：</label>
+                        <p class="form-control-static">{{vm.submitData.No|| '未知'}}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">设备名称：</label>
+                        <p class="form-control-static">{{vm.submitData.EDevName|| '未知'}}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">设备类型：</label>
+                        <p class="form-control-static">{{vm.submitData.EDevTypeDesc|| '未知'}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">mac地址：</label>
+                        <p class="form-control-static">{{vm.submitData.EMacAddr|| '未知'}}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">状态：</label>
+                        <p class="form-control-static">{{vm.submitData.EStatusDesc|| '未知'}}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">推流状态：</label>
+                        <p class="form-control-static">{{vm.submitData.EPubStatusDesc|| '未知'}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">设备别名：</label>
+                        <div class="col-sm-2">
+                            <input maxlength="15" class="form-control" ng-model="vm.submitData.EName" type="text" placeholder="设备别名">
+                        </div>
+                        <p class="form-control-static">{{vm.submitData.EName|| '未知'}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="col-sm-11">
+                    <div class="form-group">
+                        <label class="control-label">播放地址：</label>
+                        <p class="form-control-static">{{vm.submitData.PlayUrl|| '未知'}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="col-sm-11">
+                    <div class="form-group">
+                        <label class="control-label">推流地址：</label>
+                        <p class="form-control-static">{{vm.submitData.PublishUrl|| '未知'}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cloud-watch-push-flow"><label><input type="checkbox" ng-model="vm.submitData.EIsPub">
+                开启推流</label>
+            </div>
+
+            <!--<h5>推流时间</h5>-->
+            <div class="cloud-watch-push-rule" ng-if="vm.submitData.EIsPub">
+                <div class="form-group">
+                    <label class="control-label"><b class="text-danger">*</b> 星期：</label>
+
+                    <label class="checkbox" ng-repeat="item in vm.model.week"><input type="checkbox"
+                                                                                     ng-model="item.selected">
+                        {{item.text}}</label>
+                </div>
+
+                <div class="form-group cloud-watch-time-range">
+                    <label class="control-label"><b class="text-danger">*</b> 时间段：</label>
+
+                    <div class="time-range-list" ng-repeat="item in vm.model.timeSlots track by $index">
+                        <input type="text" class="form-control" ng-model="item.startHours" ng-pattern="/^\d+$/"><b>:</b>
+                        <input type="text" class="form-control" ng-model="item.startMinutes"
+                               ng-pattern="/^\d+$/"><b>~</b>
+                        <input type="text" class="form-control" ng-model="item.endHours" ng-pattern="/^\d+$/"><b>:</b>
+                        <input type="text" class="form-control" ng-model="item.endMinutes" ng-pattern="/^\d+$/">
+
+                        <a href="javascript:;" title="删除" class="btn btn-danger" ng-click="vm.delRule($index)"><i
+                                class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;" title="新增" class="btn btn-info" ng-click="vm.addRule()"
+                           ng-if="$index === (vm.model.timeSlots.length-1)"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding-top: 15px;">
+                <div class="text-left">
+                    <button type="button" class="btn w-xs btn-info" ng-click="vm.save()">保存</button>
+                    <button type="button" class="btn w-xs btn-default" ng-click="vm.cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

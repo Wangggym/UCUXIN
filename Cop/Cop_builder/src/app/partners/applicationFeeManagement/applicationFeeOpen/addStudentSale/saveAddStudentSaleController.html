@@ -1,0 +1,185 @@
+<div ng-controller="saveAddStudentSaleController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">添加学生优惠
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.partner.payCostSalePartner.addStudentSale">返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" novalidate='false'>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                       ng-change="changeGid(queryFields.selectedGid)">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteQueryFieldsGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>产品：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectProductPackageID" theme="bootstrap"
+                                       ng-disabled="queryFields.selectedGid?false:true;" ng-change="productPackageChange()">
+                                <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.productPackageList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteProductPackage()" class="btn btn-default"
+                                    ng-disabled="queryFields.selectedGid?false:true;"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>服务包：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.openProductId" theme="bootstrap"
+                                       ng-disabled="model.selectProductPackageID?false:true;">
+                                <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices repeat="item.ID as item in model.openProductList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteOpenProduct()" class="btn btn-default"
+                                        ng-disabled="model.selectProductPackageID?false:true;"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>班级：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="queryFields.selectedClassID" theme="bootstrap"
+                                       ng-change="changeClass(queryFields.selectedClassID)"
+                                       ng-disabled="model.selectProductPackageID&&model.openProductId?false:true;">
+                                <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                                <ui-select-choices repeat="item in classList | filter: $select.search">
+                                    <div ng-bind-html="item.ClassName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteQueryFieldsClassID()" class="btn btn-default"
+                                        ng-disabled="model.selectProductPackageID&&model.openProductId?false:true;"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>学生：</label>
+                        <input type="text" class="form-control" ng-model="studentName" placeholder="请输入学生名字">
+                    </div>
+
+                    <div class="form-group">
+                        <label>优惠金额:</label>
+                        <input type="number" class="form-control" ng-model="SaleAmount" placeholder="请输入优惠金额">
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label>有效期：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="SDate" datepicker-options="dateOptions"
+                                   is-open="startOpened1" max-date="EDate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="openStartDate1($event)"><i
+                                      class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <label class="input-group">至</label>
+                        <div class="input-group"  ng-click="openEndDate1($event)">
+                            <input type="text" class="form-control w-md" datepicker-popup="{{format}}"
+                                   ng-model="EDate" datepicker-options="dateOptions"
+                                   is-open="endOpened1" min-date="SDate" ng-required="true" clear-text="清除"
+                                   current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="save()">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel b-a" style="overflow: auto; zoom:1;overflow-x:hidden;">
+                    <div class="bg-info panel-heading font-bold">选择学生</div>
+                    <div class="col-lg-12">
+                        <div class="panel" style="margin:10px 10px 10px 10px;">
+                            <div ui-jq="slimScroll" ui-options="{height:'600px'}" style="position: relative;">
+                                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:5%;">操作</th>
+                                        <th>学校</th>
+                                        <th>班级</th>
+                                        <th>姓名</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody name="distribution">
+                                    <tr st-select-row="row" ng-repeat="student in studentList">
+                                        <td data-value="1">
+                                            <label class="i-checks">
+                                                <input type="checkbox"
+                                                       data-ng-click="checkedOne(studentList,$index)"><i></i>
+                                            </label>
+                                        </td>
+                                        <td class="v-middle">
+                                            <span ng-bind="student.CompanyName"></span>
+                                        </td>
+                                        <td class="v-middle">
+                                            <span ng-bind="student.ClassName"></span>
+                                        </td>
+                                        <td class="v-middle">
+                                            <span ng-bind="student.UName"></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

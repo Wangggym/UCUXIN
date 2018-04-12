@@ -1,0 +1,180 @@
+<div ng-controller="addOrEditSchoolApplicationOpeningController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{model.head}}学校应用开通
+            <button type="submit" class="pull-right btn btn-default"
+                    ui-sref="access.app.internal.schoolApplicationManagement.schoolApplicationOpening({selectedGid:'{{$stateParams.selectedGid}}',selectedGidName:'{{$stateParams.selectedGidName}}'})">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group" ng-if="$stateParams.GID">
+                        <label class="col-sm-3 control-label"><b class="text-danger">*</b>学校：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.schoolName" ng-disabled="true"
+                                   placeholder="学校"/>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="!$stateParams.GID">
+                        <label class="col-sm-3 control-label"><b class="text-danger">*</b>学校：</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="schoolChange()">
+                                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                            refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.selectedGid = undefined" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="$stateParams.GID">
+                        <label class="col-sm-3 control-label"><b class="text-danger">*</b>机构认证码：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.companyCode"
+                                   placeholder="机构认证码" ng-disabled="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"><b class="text-danger">*</b>允许推送消息超时小时数：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.hoursPerHour"
+                                   onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                   placeholder="允许推送消息超时小时数"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">晨检枪供应商：</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.selectedSupplier" theme="bootstrap">
+                                    <ui-select-match placeholder="请选供应商">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.id as item in model.supplierList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.selectedSupplier = undefined" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否开启晨检打电话功能：</label>
+
+                        <div class="col-sm-9">
+                            <label class="i-switch i-switch-md bg-info m-t-xs m-r">
+                                <input type="checkbox" ng-checked='model.inputJudge' ng-model="model.inputJudge"
+                                       ng-click="clickInput(model.inputJudge)">
+                                <i></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">刷卡是否发短信：</label>
+                        <div class="col-sm-9">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.messageJudge" theme="bootstrap">
+                                    <ui-select-match placeholder="刷卡短信模式">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.id as item in model.noteTypeList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <!--<label class="i-switch i-switch-md bg-info m-t-xs m-r">-->
+                                <!--&lt;!&ndash;<input type="checkbox" ng-checked='model.messageJudge' ng-model="model.messageJudge"&ndash;&gt;-->
+                                       <!--&lt;!&ndash;ng-click="clickMessageInput(model.messageJudge)">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<i></i>&ndash;&gt;-->
+                            <!--</label>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">异常刷卡是否推送：</label>
+
+                        <div class="col-sm-9">
+                            <label class="i-switch i-switch-md bg-info m-t-xs m-r">
+                                <input type="checkbox" ng-checked='model.sendJudge' ng-model="model.sendJudge"
+                                       ng-click="clickSendInput(model.sendJudge)">
+                                <i></i>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading b-b b-light"><h3>开启的业务</h3></div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList">
+                        <td class="v-middle" style="width:22%;">
+                            <span class="pull-right">{{item.ProductName}}：</span>
+                        </td>
+                        <td class="v-middle">
+                            <label class="i-checks ng-binding ng-scope" ng-repeat="children in item.children"
+                                   style="margin-left:20px;">
+                                <input type="checkbox" ng-checked="children.checked" name="toasts"
+                                       ng-click="addCheckedOne(item.children,$index)"
+                                       checked="checked"><i></i>{{children.Name}}</label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--<div class="panel panel-default col-sm-8">-->
+            <!--<div class="panel-heading b-b b-light"><h3>学校自定义开启的业务</h3></div>-->
+            <!--<div class="panel-body">-->
+                <!--<table class="table table-bordered table-hover table-condensed bg-white-only">-->
+                    <!--<tbody>-->
+                    <!--<tr st-select-row="row" ng-repeat="item in model.schoolItemList">-->
+                        <!--<td class="v-middle" style="width:22%;">-->
+                            <!--<span class="pull-right">{{item.ProductName}}：</span>-->
+                        <!--</td>-->
+                        <!--<td class="v-middle">-->
+                            <!--<label class="i-checks ng-binding ng-scope" ng-repeat="children in item.children"-->
+                                   <!--style="margin-left:20px;">-->
+                                <!--<input type="checkbox" ng-checked="children.checked" name="toasts"-->
+                                       <!--ng-click="addCheckedOne(item.children,$index)"-->
+                                       <!--checked="checked"><i></i>{{children.Name}}</label>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()">全部保存</button>
+                <button class="btn btn-default"
+                        ui-sref="access.app.internal.schoolApplicationManagement.schoolApplicationOpening({type:'{{$stateParams.type}}',gid:'{{$stateParams.gid}}'})">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

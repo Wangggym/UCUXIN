@@ -1,0 +1,28 @@
+<style>
+    .serchButton{
+        display: inline-block;
+        padding:7px;
+        width: 230px;
+        border: 1px solid #ececec;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .linkContent a{
+        color: #007acc;
+    }
+
+</style>
+<div ng-controller="functionUsageRate">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">功能使用率情况查询</h1>
+    </div>
+    <div class="wrapper-md linkContent">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-3"><a class="serchButton" ng-click="goTeacher()">老师功能使用率查询</a></div>
+                <div class="col-sm-3"><a class="serchButton" ng-click="goClass()">班级功能使用率查询</a></div>
+                <div class="col-sm-3"><a class="serchButton" ng-click="goSchool()">学校功能使用率查询</a></div>
+            </div>
+        </div>
+    </div>
+</div>

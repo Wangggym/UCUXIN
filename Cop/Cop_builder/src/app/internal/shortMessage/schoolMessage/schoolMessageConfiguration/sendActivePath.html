@@ -1,0 +1,91 @@
+<form class="form-inline" role="form">
+    <div class="panel-body">
+        <div class="form-group form-inline">
+            <label><span class="spanColor">*</span>学校：</label>
+
+            <div class="input-group">
+                <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="selectModelGid()">
+                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="item.GID as item in model.schoolList | filter: $select.search"
+                            refresh="refreshAddresses($select.search)" refresh-delay="500">
+                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="deleteModelGid()"
+                                class="btn btn-default"
+                                type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" data-ng-click="searchSend()"
+                    ng-disabled="searchSendDisable">
+                查询
+            </button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"
+                    ui-sref="access.app.internal.schoolMessage.addOrEditConfiguration({type:'send'})">
+                新增短信发送规则
+            </button>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+            <th>操作</th>
+            <th>发送者</th>
+            <th>会话类型</th>
+            <th>短信条数</th>
+            <th>周期</th>
+            <th>次数</th>
+            <th>开始日期</th>
+            <th>结束日期</th>
+            <th>学校</th>
+            <th>是否有效</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in sendList">
+            <td class="v-middle">
+                <button class="btn btn-sm btn-info" ng-click="editSend(item)"
+                        ui-sref="access.app.internal.schoolMessage.addOrEditConfiguration({type:'send',gid:'{{item.TopGID}}'})">
+                    编辑
+                </button>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SendUName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.STypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.ContSmsCnt}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.LimitPrdTypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.PerDayLimit}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.Begin}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.End}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.TopGrpName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.STName}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <page-Directive options="pageIndexSend"></page-Directive>
+</form>

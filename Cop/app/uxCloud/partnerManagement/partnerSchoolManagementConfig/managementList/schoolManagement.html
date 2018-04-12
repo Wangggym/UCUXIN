@@ -1,0 +1,137 @@
+<div ng-controller="schoolManagementController">
+   <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">合作伙伴学校权限</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>
+                            <span class="spanColor">*</span>
+                            合作伙伴：
+                        </label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.scopeType"
+                                       ng-change="changeScopeType(model.scopeType)"     theme="bootstrap">
+                                <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.scopeTypeList| filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label> 学校：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入学校关键词查询" style="width:200px" ng-model="model.keyword">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            区域：
+                        </label>
+                        <div class="input-group" style="margin-left:10px">
+                            <ui-select ng-model="model.scopeID"
+                                             theme="bootstrap" ng-change="province(model.scopeID)">
+                                <ui-select-match placeholder="请选择省份">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.RID as item in model.scopeList| filter: $select.search"   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="model.scopeID = undefined" ng-disabled="!model.scopeID" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="input-group" style="margin-left:10px">
+                            <ui-select ng-model="model.city"
+                                       ng-disabled="model.ScopeTypeEdit"      theme="bootstrap" ng-change="city(model.city)">
+                                <ui-select-match placeholder="请选择城市">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.RID as item in model.scopePList| filter: $select.search"   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="model.city = undefined" ng-disabled="!model.city" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="input-group" style="margin-left:10px">
+                            <ui-select ng-model="model.county"
+                                       ng-disabled="model.isScope"      theme="bootstrap" ng-change="county(model.county)">
+                                <ui-select-match placeholder="请选择区县">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.RID as item in model.TypescopeList| filter: $select.search"   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="model.county = undefined" ng-disabled="!model.county" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="form-group btn btn-info" data-ng-click="selectList()">
+                        查询
+                    </button>
+
+                    <button type="submit" class="form-group btn btn-info" ui-sref="access.app.cloud.addPartnersConfig.addPartnersListSchool">
+                        分配学校
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" data-ng-click="checkAllList()">
+                        批量删除
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                            ng-click="checkAll()"><i></i></label></th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>区</th>
+                    <th>学校</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="21" class="prompt text-center" ng-if="!model.scopePageList">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请选择条件查询</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row"  ng-repeat="item in model.scopePageList">
+                    <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                       ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                    <td class="v-middle">{{item.ProviceName}}</td>
+                    <td class="v-middle">{{item.CityName}}</td>
+                    <td class="v-middle">{{item.CountyName}}</td>
+                    <td class="v-middle">{{item.FName}}</td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"     ng-click="delete(item)">
+                            <i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">用户学校权限分配</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label><b class="text-danger">*</b> 合作伙伴：</label>
+                    <ui-select ng-model="queryFields.partner" theme="bootstrap" reset-search-input="false">
+                        <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="partner.OrgID as partner in config.partner | propsFilter:{ Name:$select.search }">
+                            <span ng-bind-html="partner.Name| highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label><b class="text-danger">*</b> 用户：</label>
+                    <ui-select ng-model="queryFields.user" theme="bootstrap" reset-search-input="false" ng-disabled="!config.user.length">
+                        <ui-select-match placeholder="请选择用户">{{$select.selected.UName}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="user.UID as user in config.user | propsFilter:{ UName:$select.search }">
+                            <span ng-bind-html="user.UName| highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.school" theme="bootstrap" reset-search-input="false">
+                            <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="school.GID as school in config.school track by $index" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                <span ng-bind-html="school.FName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                          <button type="button" ng-click="queryFields.school = undefined"
+                                  ng-disabled="!queryFields.school" class="btn btn-default">
+                              <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                        </span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)" ng-disabled="!queryFields.partner || !queryFields.user">查询</button>
+                <button type="button" class="btn btn-info" ng-click="save(queryFields.partner, queryFields.user)">分配学校</button>
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>学校</th>
+                    <th>用户名</th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>区县</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="7" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...<a href="javascript:;" ng-click="save()">分配学校</a></div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{item.OrgName}}</td>
+                    <td>{{item.GName}}</td>
+                    <td><a class="text-info" ng-click="save(item.OrgID, item.UID)">{{item.UName}}</a></td>
+                    <td>{{item.ProviceName}}</td>
+                    <td>{{item.CityName}}</td>
+                    <td>{{item.CcountyName}}</td>
+
+                    <td class="table-btn-fa">
+                        <a href="javascript:;" title="删除" class="btn btn-xs btn-danger" ng-click="del(item)"><i
+                                class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeConfirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>用户学校删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除用户学校：<strong>{{item.GName}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

@@ -1,0 +1,75 @@
+<div ng-controller="userCanceAuthorzationController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">解除激活状态
+        </h1>
+    </div>
+    <div class="wrapper-md ng-scope">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-heading"></div>
+                <form class="query-group form-inline clearfix ng-pristine ng-valid">
+
+                    <div class="form-group">
+                        <label> </label>
+                        <input type="text" class="form-control" placeholder="请输入手机号码" ng-model="model.Tel">
+                    </div>
+                    <button type="button" class="btn m-b-md w-xs btn-success m-l-md" data-ng-click="search()">搜索</button>
+                    <button type="button" class="btn m-b-md w-xs btn-info m-l-md" data-ng-click="cancelAuthorizetion()">解除激活</button>
+                </form>
+
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th  ><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                                ng-click="checkAll()"><i></i></label></th>
+                        <th style="width:20%">机构</th>
+                        <th style="width:20%">身份类型</th>
+                        <th style="width:10%">成员名称</th>
+                        <th style="width:10%">手机号</th>
+                        <th style="width:20%">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList" >
+                        <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                           ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.GFName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.GTypeName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Name"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Tel"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.stateName"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要将选中项解除激活状态?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">解除激活后用户将能够收到通知类的短信。</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>
+
+
+

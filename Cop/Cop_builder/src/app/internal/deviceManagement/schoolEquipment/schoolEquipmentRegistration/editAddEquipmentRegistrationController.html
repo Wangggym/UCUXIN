@@ -1,0 +1,335 @@
+<div ng-controller="editAddEquipmentRegistrationController">
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">{{model.head}}
+        <button type="submit" class="pull-right btn btn-default" name="return"
+                ui-sref="access.app.internal.schoolEquipment.schoolEquipmentRegistration({id:'{{$stateParams.id}}',newModel:'{{$stateParams.newModel}}'})">
+            返回
+        </button>
+    </h1>
+</div>
+<div class="wrapper-md">
+<div class="panel panel-default col-sm-8">
+    <div class="panel-body">
+        <form class="form-horizontal" method="get" name="editModel">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b>学校：</label>
+
+                <div class="col-sm-10">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                    refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.selectedGid = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b>设备名称/设备地点：</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control w-md" ng-model="model.Name" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b>设备编号：</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control w-md" ng-model="model.ENO" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b>设备类型：</label>
+
+                <div class="col-sm-10">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="model.EquipmentType" theme="bootstrap">
+                            <ui-select-match placeholder="设备类型">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.equipmentType as item in model.EquipmentTypeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.EquipmentType = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b>供应商：</label>
+
+                <div class="col-sm-10">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="model.Supplier" theme="bootstrap">
+                            <ui-select-match placeholder="供应商选择">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.SupplierList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.Supplier = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label">最新参数版本号：</label>-->
+
+            <!--<div class="col-sm-10">-->
+            <!--<input type="text" class="form-control w-md" ng-model="model.NewParamVersion" required/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label">当前App版本号：</label>-->
+
+            <!--<div class="col-sm-10">-->
+            <!--<input type="text" class="form-control w-md" ng-model="model.Version" required/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label">当前参数版本号：</label>-->
+
+            <!--<div class="col-sm-10">-->
+            <!--<input type="text" class="form-control w-md" ng-model="model.CurParamVersion" required/>-->
+            <!--</div>-->
+            <!--</div>-->
+        </form>
+    </div>
+</div>
+<div class="panel panel-default col-sm-8">
+    <div class="panel-body">
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th style="width:20%;">参数名称</th>
+                <th>参数值</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>考勤模式</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="equipment.check" theme="bootstrap">
+                            <ui-select-match placeholder="考勤模式">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.checkList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>是否展示预留照片</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="equipment.judgePic" theme="bootstrap">
+                            <ui-select-match placeholder="是/否">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.judgeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>是否展示食谱模块</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="equipment.judgeRecipes" theme="bootstrap">
+                            <ui-select-match placeholder="是/否">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.judgeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>考勤机界面显示H5地址</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-xl">
+                        <input type="text" class="form-control" ng-model="equipment.H5address"
+                               placeholder="Http://xxx.ucuxin.com/xxx.html?companyToken=xxxxx">
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>是否上传考勤图片</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-md">
+                        <ui-select ng-model="equipment.judgeAttendancePicture" theme="bootstrap">
+                            <ui-select-match placeholder="是/否">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.judgeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>定时重启考勤机时间</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-xl">
+                        <input type="text" class="form-control" placeholder="530，表示5点30分"
+                               ng-model="equipment.startTime">
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row" ng-show="$stateParams.id&&model.appAddress?true:false;">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>App升级地址</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-xl">
+                        <input type="text" class="form-control" ng-model="model.appAddress" ng-disabled="true"
+                               placeholder="Http://xxx.ucuxin.com/xxx.html?companyToken=xxxxx">
+                    </div>
+                </td>
+            </tr>
+            <tr st-select-row="row">
+                <td class="v-middle">
+                    <span><b class="text-danger">*</b>天气代码</span>
+                </td>
+                <td class="v-middle">
+                    <div class="input-group w-xl">
+                        <input type="text" class="form-control" placeholder="先查询后再输入天气代码"
+                               ng-model="equipment.weatherCode">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="searchWeatherCode()">
+                                查询天气代码
+                            </button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default col-sm-8">
+    <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+    <div class="panel-body">
+        <button class="btn btn-success" ng-click="save()">全部保存</button>
+        <button class="btn btn-default"
+                ui-sref="access.app.internal.schoolEquipment.schoolEquipmentRegistration({id:'{{$stateParams.id}}',newModel:'{{$stateParams.newModel}}'})">
+            取消
+        </button>
+    </div>
+</div>
+</div>
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+<script type="text/ng-template" id="confirmMyModalContent.html">
+    <div class="panel no-border">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                提示
+            </h3>
+        </div>
+        <div class="panel-body">
+            <h2 class="modal-title">
+                确认保存本次修改吗？
+            </h2>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-info" ng-click="confirm()">确定</button>
+            <button class="btn btn-default" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="searchWeatherCodeContent.html">
+    <div class="panel no-border">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                区域查询
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>地区查询：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入所在城市" ng-keyup="myKeyUp($event)"
+                               ng-model="newWeatherModel.address">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="searchAddress()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>县/区</th>
+                    <th>天气代码</th>
+                </tr>
+                </thead>
+            </table>
+            <div style="overflow-x: auto;max-height: 400px;margin-top: -20px;">
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in newWeatherModel.itemList" ng-click="clickItem(item)"
+                        style="cursor:pointer;">
+                        <td class="v-middle">
+                            <span ng-bind="item.provinceZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.leaderZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.cityZh"></span>
+                        </td>
+                        <td class="v-middle">
+                            <a ng-bind="item.id" class="text-info-lt" ng-click="confirm(item)"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="cancel()">关闭</button>
+        </div>
+    </div>
+</script>
+</div>

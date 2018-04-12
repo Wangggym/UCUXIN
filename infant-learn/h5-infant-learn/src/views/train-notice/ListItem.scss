@@ -1,0 +1,11 @@
+.main-list-item{
+    display: flex;
+    line-height: 0.6rem;
+    .name{
+        flex:1;
+        color: #888;
+    }
+    .content{
+        flex:4;
+    }
+}

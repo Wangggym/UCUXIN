@@ -1,0 +1,91 @@
+    <div ng-controller="adviertisement" class="ng-scope">
+        <div class="bg-light lter b-b wrapper-md">
+            <h1 class="m-n font-thin h3">广告维护
+            </h1>
+        </div>
+        <div class="wrapper-md">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="query-group-form form-inline ng-pristine ng-valid" role="form" name="form">
+                            <button  class="btn btn-xs btn-success" ui-sref="access.app.internal.UXLive.advertising()">
+                                +发布广告
+                            </button>
+                    </form>
+                </div>
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+
+                        <th>广告标题</th>
+                        <th>链接</th>
+                        <th>生效时间</th>
+                        <th style="position: relative;" class="dropdown" dropdown="false">
+                            <!--<div>-->
+                                <!--<a  ng-click="sort1()" > PV</a>-->
+                                <!--<i class="fa fa-caret-up" ng-show="visible"></i>-->
+                                <!--<i class="fa fa-caret-down" ng-show="vible"></i>-->
+                                <!--<div class="sort-a" ng-show="block" style="border: 2px solid #cccc77;position: absolute;left:0;bottom: -100%;background: #fffefa">-->
+                                    <!--<button ng-click="ascending()">升序</button>-->
+                                    <!--<button ng-click="descending()">降序</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">PV <span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                                <li><a href="" ng-click="pvSort(true)">升序</a></li>
+                                <li><a href="" ng-click="pvSort(false)">降序</a></li>
+                            </ul>
+                        </th>
+                        <th style="position: relative;" class="dropdown" dropdown="false">
+                            <!--<div>-->
+                                <!--<a ng-click="sort2()">UV</a>-->
+                                <!--<i class="fa fa-caret-up" ng-show="visible2"></i>-->
+                                <!--<i class="fa fa-caret-down"  ng-show="vible2"></i>-->
+                                <!--<div class="sort-b" ng-show="display" style="border: 2px solid #cccc77;position: absolute;left:0;bottom: -100%;background: #fffefa">-->
+                                    <!--<button ng-click="sx(true)">升序</button>-->
+                                    <!--<button ng-click="jx(false)">降序</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <button class="btn btn-default btn-success btn-xs dropdown-toggle" dropdown-toggle="" aria-expanded="false" aria-haspopup="true">UV <span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="min-width: 80px;overflow: hidden">
+                                <li><a href="" ng-click="uvSort(true)">升序</a></li>
+                                <li><a href="" ng-click="uvSort(false)">降序</a></li>
+                            </ul>
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList" data-adID = {{item.ID}}>
+                        <td>
+                            <span ng-bind="item.Title" style="display: block; width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" title="{{item.Title}}"></span>
+                        </td>
+                        <td>
+                            <a ng-bind="item.Url" href="{{item.Url}}" style="display: block; width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color: #00a2d4;"title="{{item.Url}}"></a>
+                        </td>
+                        <td>
+                            <span ng-bind="item.ValidStartDate"></span> - <span ng-bind="item.ValidEndDate"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.PV"></span>
+                        </td>
+
+                        <td>
+                            <span ng-bind="item.UV"></span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" ng-click="change(item)" style="width: 50px;height: 40px;">修改</button>
+                            <button class="btn btn-sm btn-danger" ng-show="item.Status==0" ng-click="offLine(item)" style="width: 50px;height: 40px;"> 下线  </button>
+                            <button class="btn btn-sm btn-info" ng-show="item.Status==-1" ng-click="offLine(item)" style="width: 50px;height: 40px;"> 上线  </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <page-Directive options="pageIndex"></page-Directive>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

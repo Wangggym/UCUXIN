@@ -1,0 +1,258 @@
+<div ng-controller="listOfoliveController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 校园直播
+            <button type="submit" id="btnReturn" class="pull-right btn btn-default"
+                    ui-sref="access.app.internal.internalPolicy.internalPolicyList()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+
+            <tabset class="tab-container">
+                <tab>
+                    <tab-heading>
+                        直播预告 <span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+                                    <div class="form-group">
+                                        <label></label>
+                                        <div class="input-group">
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()"> 全部  </button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  本校</button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  学校</button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  行政部门</button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  社会组织</button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  公司企业</button>
+                                            <button type="submit" class="form-group btn btn-default" data-ng-click="addBaseRule()">  优信官方</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态：</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="model.cloudID"
+                                                       theme="bootstrap">
+                                                <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices
+                                                        repeat="item.id as item in model.cloudList| filter: $select.search">
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+
+                                    <th>直播名称</th>
+                                    <th>节数</th>
+                                    <th>发布员</th>
+                                    <th>直播员</th>
+                                    <th>发布机构</th>
+                                    <th>机构类型</th>
+                                    <th>发布时间</th>
+                                    <th>直播时间</th>
+                                    <th>报名</th>
+                                    <th>评论</th>
+                                    <th>分享</th>
+                                    <th>收藏</th>
+                                    <th>点赞</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" >
+
+
+                                    <td>优课优信使用完整教程</td>
+                                    <td>5</td>
+                                    <td>张三</td>
+                                    <td>直播员</td>
+                                    <td>福豆科技</td>
+                                    <td>公司</td>
+                                    <td>2017-9-02</td>
+                                    <td>2017-10-02</td>
+                                    <td>23</td>
+                                    <td>333</td>
+                                    <td>322</td>
+                                    <td>2323</td>
+                                    <td>323</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editBaseRule(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                                        <!--class="fa fa-remove"></i></a>-->
+                                    </td>
+                                </tr>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList">
+
+
+                                    <td>优课优信使用完整教程</td>
+                                    <td>5</td>
+                                    <td>张三</td>
+                                    <td>直播员</td>
+                                    <td>福豆科技</td>
+                                    <td>公司</td>
+                                    <td>2017-9-02</td>
+                                    <td>2017-10-02</td>
+                                    <td>23</td>
+                                    <td>333</td>
+                                    <td>322</td>
+                                    <td>2323</td>
+                                    <td>323</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editBaseRule(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                                        <!--class="fa fa-remove"></i></a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        进行中 <span class="badge bg-danger badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-alt list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+
+
+                                    <button type="submit" class="form-group btn btn-success" data-ng-click="addMinRule()">
+                                        新增
+                                    </button>
+
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+
+                                    <th>积分项</th>
+                                    <th>最低比列</th>
+                                    <th>分值</th>
+                                    <th>增长比列</th>
+                                    <th>增长分值</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemListMin">
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ActionName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.MinPer"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.MinPoint"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Per"></span>
+                                    </td>
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.PerPoint"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.STName"></span>
+                                    </td>
+
+
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editMinRule(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                                        <!--class="fa fa-remove"></i></a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        往期回顾 <span class="badge bg-danger badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-alt list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+
+
+                                    <button type="submit" class="form-group btn btn-success" data-ng-click="addMinRule()">
+                                        新增
+                                    </button>
+
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+
+                                    <th>积分项</th>
+                                    <th>最低比列</th>
+                                    <th>分值</th>
+                                    <th>增长比列</th>
+                                    <th>增长分值</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemListMin">
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.ActionName"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.MinPer"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.MinPoint"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Per"></span>
+                                    </td>
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.PerPoint"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.STName"></span>
+                                    </td>
+
+
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editMinRule(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <!--<a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i-->
+                                        <!--class="fa fa-remove"></i></a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

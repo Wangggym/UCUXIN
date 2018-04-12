@@ -1,0 +1,190 @@
+<div ng-controller="addOrEditPartnerConfigurationController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{model.head}}
+            <button type="submit" class="pull-right btn btn-default"
+                    ui-sref="access.app.partner.schoolMessage.schoolMessageConfiguration({type:'{{$stateParams.type}}',gid:'{{$stateParams.gid}}'})">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form">
+                    <div class="form-group">
+                        <label class="h4">学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                                       ng-change="changeGid(model.selectedGid)">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.schoolList | filter: $select.search">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.selectedGid = undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-heading clearfix">
+                <i class="icon-pencil m-n font-bold h4 pull-left"></i>
+
+                <h3 class="m-n font-bold h4 pull-left">全校发送规则</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>会话类型</th>
+                            <th>控制周期</th>
+                            <th>次数</th>
+                            <th>单次条数</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                        </tr>
+                        </thead>
+                        <tbody name="common">
+                        <tr st-select-row="row" ng-repeat="item in model.commonList">
+                            <td class="v-middle">
+                                <span>{{item.session}}</span>
+                            </td>
+                            <td class="v-middle">
+                                <select class="form-control" ng-model="item.period"
+                                        ng-options="opt for opt in item.periodList"></select>
+                            </td>
+                            <td class="v-middle">
+                                <input type="number" class="form-control" ng-model="item.PerDayLimit">
+                            </td>
+                            <td class="v-middle">
+                                <input type="number" class="form-control" ng-model="item.ContSmsCnt">
+                            </td>
+                            <td class="v-middle" id="{{item.ID}}start">
+                                <div class="media">
+                                    <input id='{{item.rvID}}start' type="text"
+                                           style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           ng-model="item.Begin" name="time"
+                                           placeholder="选择时间" value="{{item.Begin}}"
+                                           ng-disabled="judgeDisabled">
+                                </div>
+                            </td>
+                            <td class="v-middle" id="{{item.ID}}end">
+                                <div class="media">
+                                    <input id='{{item.rvID}}end' type="text"
+                                           style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           ng-model="item.End" name="time"
+                                           placeholder="选择时间" value="{{item.End}}">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-heading clearfix">
+                <i class="icon-note m-n font-bold h4 pull-left"></i>
+
+                <h3 class="m-n font-bold h4 pull-left">特殊教师发送规则</h3>
+                <button class="btn btn-default pull-right" ng-click="addSpecial()"
+                        ng-show="model.specialList.length>0?false:true">
+                    新增
+                </button>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>操作</th>
+                            <th>教师</th>
+                            <th>会话类型</th>
+                            <th>控制周期</th>
+                            <th>次数</th>
+                            <th>单次条数</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                            <th>复制</th>
+                        </tr>
+                        </thead>
+                        <tbody name="special">
+                        <tr st-select-row="row" ng-repeat="special in model.specialList">
+                            <td class="v-middle">
+                                <a href class="col text-muted b-light" ng-click="specialRemove(special)">
+                                    <i class="icon-trash block fa-2x"></i>
+                                </a>
+                            </td>
+                            <td class="v-middle">
+                                <ui-select ng-model="special.SendUID" theme="bootstrap"
+                                           ng-change="changeTeacher(special)">
+                                    <ui-select-match placeholder="选择老师">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.UID as item in special.teacherList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td class="v-middle">
+                                <select class="form-control" ng-model="special.session"
+                                        ng-options="opt for opt in special.sessionList"></select>
+                            </td>
+                            <td class="v-middle">
+                                <select class="form-control" ng-model="special.period"
+                                        ng-options="opt for opt in special.periodList"></select>
+                            </td>
+                            <td class="v-middle">
+                                <input type="number" class="form-control" ng-model="special.PerDayLimit">
+                            </td>
+                            <td class="v-middle">
+                                <input type="number" class="form-control" ng-model="special.ContSmsCnt">
+                            </td>
+                            <td class="v-middle" id="{{special.ID}}start">
+                                <div class="media">
+                                    <input id='{{special.SendRuleID||special.ID}}start' type="text"
+                                           style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           ng-model="special.Begin" name="time"
+                                           placeholder="选择时间" value="{{special.Begin}}"
+                                           ng-disabled="judgeDisabled">
+                                </div>
+                            </td>
+                            <td class="v-middle" id="{{special.ID}}end">
+                                <div class="media">
+                                    <input id='{{special.SendRuleID||special.ID}}end' type="text"
+                                           style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           ng-model="special.End" name="time"
+                                           placeholder="选择时间" value="{{special.End}}">
+                                </div>
+                            </td>
+                            <td class="v-middle">
+                                <a href class="col text-muted b-r b-light" ng-click="addSpecial(special)">
+                                    <i class="icon-plus block m-b-xs fa-2x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()" ng-disabled="model.allSaveDisabled">全部保存</button>
+                <button class="btn btn-default"
+                        ui-sref="access.app.partner.schoolMessage.schoolMessageConfiguration({type:'{{$stateParams.type}}',gid:'{{$stateParams.gid}}'})">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

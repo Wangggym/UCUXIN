@@ -1,0 +1,161 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">第二步：添加服务包
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="addPackageServiceController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>产品：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectProductPackageID" theme="bootstrap"
+                                   ng-change="changeProductGid(queryFields.selectProductPackageID)"
+                                   ng-disabled="formPackDisabled">
+                            <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in productPackageList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.selectProductPackageID = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>购买到期日期：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate"
+                               datepicker-options="dateOptions"
+                               is-open="startOpened" max-date="eDate" ng-required="true" clear-text="清除"
+                               current-text="今天" close-text="关闭" readonly>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                              class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>至：</label>
+                    <div class="input-group" ng-click="openEndDate($event)">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate"
+                               datepicker-options="dateOptions"
+                               is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除" current-text="今天"
+                               close-text="关闭" readonly>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                    </div>
+                </div>
+                <button type="submit" class="form-group btn btn-info" data-ng-click="search()">
+                    查询
+                </button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info" ng-click="addServicePackage(queryFields.selectedGid,queryFields.selectProductPackageID)">
+                        添加服务包
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th class="v-middle">学校</th>
+                <th class="v-middle">服务包名称</th>
+                <th class="v-middle">产品名称</th>
+                <th class="v-middle">业务领域</th>
+                <th class="v-middle">收费金额</th>
+                <th class="v-middle">购买开始日期</th>
+                <th class="v-middle">购买结束日期</th>
+                <th class="v-middle">服务生效日期</th>
+                <th class="v-middle">服务结束日期</th>
+                <th class="v-middle" style="width: 15%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in itemList">
+                <td class="v-middle">
+                    <span ng-bind="item.GName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Name"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.ProductName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.BusinessAreas"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Amount"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.BuySDate"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.BuyEDate"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.SDate"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.EDate"></span>
+                </td>
+                <td class="v-middle">
+                    <button type="submit" class="form-group btn btn-info" ng-click="save(item.ID)">
+                        修改
+                    </button>
+                    <div class="btn-group" dropdown>
+                        <a class="btn btn-primary btn-danger" dropdown-toggle>删除</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                            <li><a href>取消</a></li>
+                        </ul>
+                    </div>
+                    <button type="submit" class="form-group btn btn-info" ng-click="soldOut(item)">
+                        下架
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+            <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+            <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                        max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                        class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                        num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                        next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                        last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeScale.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>下架服务包</h3>
+    </div>
+    <div class="modal-body ">确定要下架服务包：<strong>{{scale.Name}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

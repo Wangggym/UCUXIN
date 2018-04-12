@@ -1,0 +1,45 @@
+.expert-detail {
+  .blank-title {
+    height: 5vh;
+    line-height: 5vh;
+  }
+  .care {
+    background: linear-gradient(90deg, #498c35, #6b9a27);
+    height: 1rem;
+    text-align: center;
+    line-height: 1rem;
+    color: white;
+    .cared {
+      background: url('../../assets/images/yx_add.png') no-repeat left center / contain;
+    }
+    .nocare {
+      background: url('../../assets/images/yx_del.png') no-repeat left center / contain;
+    }
+    span {
+      padding: 0.06rem 0;
+      padding-left: 0.6rem;
+    }
+    &:active {
+      background: #96AF80;
+    }
+  }
+
+  .message {
+    padding: 0.2rem;
+  }
+  .park {
+    .pic {
+      position: relative;
+      padding: 0.2rem;
+      div {
+        position: absolute;
+        bottom: 1rem;
+        right: 0.8rem;
+        padding: 0.2rem 0.3rem;
+        background: rgb(104, 201, 76);
+        border-radius: 0.5rem;
+        color: white;
+      }
+    }
+  }
+}

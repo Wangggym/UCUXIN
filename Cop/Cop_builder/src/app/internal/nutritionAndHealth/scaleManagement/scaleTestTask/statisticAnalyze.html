@@ -1,0 +1,307 @@
+<style>
+    #chartBar1 div:nth-of-type(2),#chartBar2 div:nth-of-type(2){
+        white-space: normal !important;
+        word-wrap:break-word;
+        word-break:break-all;
+    }
+</style>
+<div ng-controller="statisticAnalyzeController">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">统计分析
+    </h1>
+  </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-12">
+            <div class="panel-body">
+                <!--第一个柱状图-->
+                <div class="col-sm-12" style="padding: 0;border-bottom:1px solid #ececec;margin-bottom: 35px;">
+                    <!--<h4 style="text-align: center">得分情况展示</h4>-->
+                    <div class="chart-container" style="height: 500px;">
+                        <div class="col-lg-3" style="padding: 0;width: 400px;" >
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group">
+                                    <label>班级：</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="model.oneClass" theme="bootstrap" ng-change="choiceClass(1)">
+                                            <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ClassID as item in model.classList | propsFilter:{ ClassName:$select.search }" >
+                                                <span ng-bind-html="item.ClassName | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group">
+                                    <label>姓名：</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="model.oneStudent" theme="bootstrap" ng-change="choiceStudent()">
+                                            <ui-select-match placeholder="请选择姓名">{{$select.selected.Name}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.UMID as item in model.studentList | propsFilter:{ Name:$select.search }">
+                                                <span ng-bind-html="item.Name | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8" style="padding-left: 0;" >
+                            <h4 data-ng-show="model.showTip" style="text-align: center;padding-top: 78px;">暂时没有数据！</h4>
+                            <div data-ng-show="!model.showTip" id="chartBar1" style="height: 500px;width: 1000px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--第二个柱状图-->
+                <div class="col-sm-12" style="padding: 0;border-bottom:1px solid #ececec;margin-bottom: 35px;">
+                    <div class="chart-container" style="height: 500px;">
+                        <div class="col-sm-3" style="padding: 0;width: 400px;">
+                            <form class="query-group-form form-inline" role="form" name="form1">
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input name="one" value="1" type="radio" ng-model="modelTwo.schoolOrClass"  ng-click="bySchool(1)">
+                                            <i></i>
+                                            学校
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;" >
+                                        <label class="i-checks">
+                                            <input name="one" value="2" type="radio" ng-model="modelTwo.schoolOrClass" ng-click="byClass(1)">
+                                            <i></i>
+                                            班级
+                                        </label>
+                                    </div>
+                                    <div class="input-group">
+                                        <ui-select ng-model="modelTwo.class" theme="bootstrap" ng-change="choiceClass(2)"  style="width: 160px;" ng-disabled="modelTwo.schoolOrClass != 2">
+                                            <ui-select-match placeholder="请选择班级" class="choice">{{$select.selected.ClassName}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ClassID as item in model.classList | propsFilter:{ ClassName:$select.search }" >
+                                                <span ng-bind-html="item.ClassName | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form2">
+                                <div class="form-group" style="text-align: left;">
+                                    <div class="radio" >
+                                        <label class="i-checks">
+                                            <input name="three" value="0" type="radio" ng-model="modelTwo.stateTwo" ng-click="choiceState(1)">
+                                            <i></i>
+                                            良好
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="three" value="1" type="radio" ng-model="modelTwo.stateTwo" ng-click="choiceState(1)">
+                                            <i></i>
+                                            欠佳
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="three" value="2" type="radio" ng-model="modelTwo.stateTwo" ng-click="choiceState(1)">
+                                            <i></i>
+                                            较差
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <h4 data-ng-show ="modelTwo.showTip" style="text-align: center;padding-top: 78px;">暂时没有数据！</h4>
+                            <div data-ng-show ="!modelTwo.showTip" id="chartBar2" style="height: 500px;width: 1000px;">
+
+                            </div>
+                        </div>
+                </div>
+            </div>
+                <!--第三个饼状图-->
+                <div class="col-sm-12" style="padding: 0;border-bottom:1px solid #ececec;margin-bottom: 35px;">
+                    <div class="chart-container" style="height: 450px;">
+                        <div class="col-sm-3" style="padding: 0;width: 400px;">
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input name="two-pei" value="1" type="radio" ng-model="modelThree.schoolOrClass" ng-click="byClass(2)">
+                                            <i></i>
+                                            学校
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;" >
+                                        <label class="i-checks">
+                                            <input name="two-pei" value="2" type="radio" ng-model="modelThree.schoolOrClass" ng-click="byClass(2)">
+                                            <i></i>
+                                            班级
+                                        </label>
+                                    </div>
+                                    <div class="input-group">
+                                        <ui-select ng-model="modelThree.class" theme="bootstrap" ng-change="choiceClass(3)"  style="width: 160px;" ng-disabled="modelThree.schoolOrClass != 2">
+                                            <ui-select-match placeholder="请选择班级" class="choice">{{$select.selected.ClassName}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ClassID as item in model.classList | propsFilter:{ ClassName:$select.search }" >
+                                                <span ng-bind-html="item.ClassName | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group" style="text-align: left;">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input name="sexThree" value="-1" type="radio" ng-model="modelThree.sex" ng-click="choiceSex(1)">
+                                            <i></i>
+                                            全部
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="sexThree" value="1" type="radio" ng-model="modelThree.sex" ng-click="choiceSex(1)">
+                                            <i></i>
+                                            男
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="sexThree" value="0" type="radio" ng-model="modelThree.sex" ng-click="choiceSex(1)">
+                                            <i></i>
+                                            女
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group" style="text-align: left;">
+                                    <label for="">因子</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="modelThree.factor" theme="bootstrap" ng-change="changFactor(1)"  style="width: 290px;margin-left: 10px;">
+                                            <ui-select-match placeholder="请选择班级" id="">{{$select.selected.Name}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ID as item in model.factorList | propsFilter:{Name:$select.search }" >
+                                                <span ng-bind-html="item.Name | highlight: $select.search" title="{{item.Name}}"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <h4 data-ng-show="modelThree.showTip" style="text-align: center;padding-top: 78px;">暂时没有数据！</h4>
+                            <div data-ng-show="!modelThree.showTip" id="chartPei1" style="height: 500px;width: 1000px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--第四个饼状图-->
+                <div class="col-sm-12" style="padding: 0;border-bottom:1px solid #ececec;margin-bottom: 35px;">
+                    <div class="chart-container" style="height: 450px;">
+                        <div class="col-sm-3" style="padding: 0;width: 400px;">
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input name="fourSchoolOrClass" value="1" type="radio" ng-model="modelFour.schoolOrClass" ng-click="bySchool(3)">
+                                            <i></i>
+                                            学校
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="fourSchoolOrClass" value="2" type="radio" ng-model="modelFour.schoolOrClass" ng-click="byClass(3)">
+                                            <i></i>
+                                            班级
+                                        </label>
+                                    </div>
+                                    <div class="input-group">
+                                        <ui-select ng-model="modelFour.class" theme="bootstrap" ng-change="choiceClass(4)"  style="width: 160px;" ng-disabled="modelFour.schoolOrClass != 2">
+                                            <ui-select-match placeholder="请选择班级" class="choice">{{$select.selected.ClassName}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ClassID as item in model.classList | propsFilter:{ ClassName:$select.search }" >
+                                                <span ng-bind-html="item.ClassName | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group" style="text-align: left;">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input name="fourSex" value="-1" type="radio"  ng-model="modelFour.sex" ng-click="choiceSex(2)">
+                                            <i></i>
+                                            全部
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="fourSex" value="1" type="radio"  ng-model="modelFour.sex" ng-click="choiceSex(2)">
+                                            <i></i>
+                                            男
+                                        </label>
+                                    </div>
+                                    <div class="radio" style="margin-left: 35px;">
+                                        <label class="i-checks">
+                                            <input name="fourSex" value="0" type="radio"  ng-model="modelFour.sex" ng-click="choiceSex(2)">
+                                            <i></i>
+                                            女
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="form-group" style="text-align: left;">
+                                    <label for="">因子</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="modelFour.factor" theme="bootstrap" ng-change="changFactor(2)"  style="width: 290px;margin-left: 10px;">
+                                            <ui-select-match placeholder="请选择因子" >{{$select.selected.Name}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.ID as item in model.factorList | propsFilter:{Name:$select.search }" >
+                                                <span ng-bind-html="item.Name | highlight: $select.search" title="{{item.Name}}"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="query-group-form form-inline" role="form" name="form">
+                                <div class="radio col-sm-3" style="padding: 0">
+                                    <label class="i-checks">
+                                        <input name="four-age" value="0" type="radio"  ng-model="modelFour.age" ng-click="choiceAge()">
+                                        <i></i>
+                                        全部
+                                    </label>
+                                </div>
+                                <div class="radio col-sm-3" style="padding:0">
+                                    <label class="i-checks">
+                                        <input name="four-age" value="1" type="radio"  ng-model="modelFour.age" ng-click="choiceAge()">
+                                        <i></i>
+                                        年龄段
+                                    </label>
+                                </div>
+                                <div ng-if="modelFour.age == 1" style="text-align: left; padding: 0;position: relative;top: -10px;left: -25px;" class="col-sm-6" >
+                                    <input type="number" class="form-control" style="width: 65px" ng-model="modelFour.minAge" ng-blur="lostBlur(modelFour.minAge)">
+                                    <span>-</span>
+                                    <input type="number" class="form-control" style="width: 65px" ng-model="modelFour.maxAge" ng-blur="lostBlur(modelFour.maxAge)">
+                                    <p ng-if="modelFour.ageState" style="padding-top: 15px;color: red">请输入0或者正整数</p>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <h4 data-ng-show="modelFour.showTip" style="text-align: center;padding-top: 78px;">暂时没有数据！</h4>
+                            <div data-ng-show="!modelFour.showTip" id="chartPei2" style="height: 500px;width: 1000px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

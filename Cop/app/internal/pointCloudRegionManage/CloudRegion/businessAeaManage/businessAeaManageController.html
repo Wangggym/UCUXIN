@@ -1,0 +1,272 @@
+<div ng-controller="businessAeaManageContoller">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">区域云管理
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <!--<div class="nav-tabs-alt">-->
+                <!--<ul class="nav nav-tabs nav-justified">-->
+                    <!--<li ng-class="{'active': tabs[0]}" class="active">-->
+                        <!--<a href="" ng-click="tab(0)" class="">业务领域</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{'active': tabs[1]}" class="">-->
+                        <!--<a href="" ng-click="tab(1)" class="">产品线</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{'active': tabs[2]}" class="">-->
+                        <!--<a href="" ng-click="tab(2)" class="">对应关系</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <tabset class="tab-container">
+                <tab>
+                    <tab-heading>
+                        业务领域 <span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+
+
+                                    <button type="submit" class="form-group btn btn-success" data-ng-click="addBusinessAea()">
+                                        添加业务领域
+                                    </button>
+
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+
+                                    <th>业务领域</th>
+                                    <th>描述</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemList">
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Name"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Desc"></span>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editBusinessAea(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="removeBusinessAea(item)"><i
+                                                class="fa fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        产品线 <span class="badge bg-danger badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-alt list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+
+
+                                    <button type="submit" class="form-group btn btn-success" data-ng-click="addProLine()">
+                                        添加产品线
+                                    </button>
+
+                                </form>
+                            </div>
+                            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                                <thead>
+                                <tr>
+
+                                    <th>产品线</th>
+                                    <th>描述</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in model.itemLineList">
+
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Name"></span>
+                                    </td>
+                                    <td class="v-middle">
+                                        <span ng-bind="item.Desc"></span>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="editProLine(item)"><i
+                                                class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="removeProLine(item)"><i
+                                                class="fa fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+
+                    </ul>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        对应关系 <span class="badge bg-primary badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group list-group-lg no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <div class="panel-body">
+                                <form class="query-group-form form-inline" role="form" name="form">
+                                    <button type="submit" class="form-group btn btn-success" ng-click="saveBusAndLine()">
+                                        保存
+                                    </button>
+                                  <h3 class="b-danger" style="color:#ff0000;">修改业务领域下的产品线，请主要点击保存按钮</h3>
+                                </form>
+                            </div>
+                            <div class="wrapper-md ng-scope">
+                                <div class="row row-sm">
+                                    <div class="col-lg-6 col-md-4 col-sm-6">
+                                        <div class="panel b-a">
+                                            <div class="wrapper text-center b-b b-light">
+                                                <div class="form-group"   >
+
+                                                    <div class="input-group">
+                                                        <ui-select ng-model="model.curBid" theme="bootstrap" style="width:180px;" ng-change="changeBusi(model.curBid)" >
+                                                            <ui-select-match placeholder="请选择">{{$select.selected.Name}}</ui-select-match>
+                                                            <ui-select-choices
+                                                                    repeat="item.ID as item in model.itemList | filter: $select.search">
+                                                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                                            </ui-select-choices>
+                                                        </ui-select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group">
+
+                                                <li class="list-group-item"  ng-repeat="item in model.currentProLineList">
+                                                   <span ng-bind="item.Name"></span>
+                                                    <span href="javascript:;" class="btn-xs btn-xs " title="删除"     style="display: inline-block;  width:22px; height: 22px; cursor:pointer; color:#ff0000; text-align: center;"  ng-click="removeLine(item)"><i
+                                                            class="fa fa-remove"></i></span>
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-4 col-sm-6">
+                                        <div class="panel b-a">
+                                            <div class="wrapper text-center b-b b-light">
+                                                <h3 class="text-u-c m-b-none"> <input class="form-control" style="display: inline-block;width:80%;" ng-model="model.proLineKey" /><button class="btn btn-primary " ng-click="searchAppProLine()">搜索</button></h3>
+                                            </div>
+                                            <ul class="list-group text-center no-borders m-t-sm">
+                                                <li class="list-group-item"  ng-repeat="item in model.allProLineList">
+                                                    <label class="i-checks"><input type="checkbox"  ng-model="item.checked"  ng-click="checkProLine(item.checked, item)"
+                                                                                   ><i></i></label> <span ng-bind="item.Name"></span>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+ <script type="text/ng-template" id="addBusinessAea.html">
+     <div class="bg-light">
+         <div class="modal-footer">
+             <span class="pull-left h4">{{newModel.title}}</span>
+         </div>
+         <div class="panel-body" style="margin-bottom:-30px;">
+             <form class="query-group-form form-inline">
+                 <div class="form-group">
+                     <label><span class="spanColor">*</span>名称：</label>
+
+                     <div class="input-group">
+                         <input type="text" class="form-control" placeholder="请输入业务领域名称" ng-model="newModel.Name">
+                     </div>
+                 </div>
+                 <br />
+
+                 <div class="form-group">
+                     <label> 描述：</label>
+
+                     <div class="input-group">
+
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                     </div>
+                 </div>
+
+             </form>
+         </div>
+         <div class="modal-footer">
+             <button type="submit" class="btn btn-success" ng-click="save()" >
+                 保存
+             </button>
+             <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+         </div>
+     </div>
+ </script>
+<script type="text/ng-template" id="addProLine.html">
+    <div class="bg-light">
+        <div class="modal-footer">
+            <span class="pull-left h4">{{newModel.title}}</span>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>名称：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入业务领域名称" ng-model="newModel.Name">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label> 描述：</label>
+
+                    <div class="input-group">
+
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()" >
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

@@ -1,0 +1,32 @@
+<div ng-controller="loginController" ng-init="app.settings.container = false;">
+    <div class="ux_logintop">
+        <span>优课优信运营平台</span>
+    </div>
+    <div class="ux_login">
+        <div class="uxux_loginmain">
+            <div class="w-xxl w-auto-xs pull-right">
+                <div ng-include="include"></div>
+                <div ng-include="'public/tpl/blocks/prompt.html'"></div>
+                <div ng-include="'public/tpl/blocks/remind.html'"></div>
+                <div class="ui active centered loader" id="loaderVisible" style="display: none;margin-left:0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ux_loginfoot">
+        <div class="ux_loginfoot1"><a href="#">优课优信首页</a> | <a href="#">关于我们</a> | <a href="#">帮助中心</a> | <a href="#">联系我们</a>
+        </div>
+        <div class="ux_loginfoot2">四川福豆科技有限公司(新华文轩旗下子公司)　　 地址：成都市高新区吉庆三街333号蜀都中心二期1栋3单元805号<br>电话：028-68138601/028-68138602
+            4008648333<br>邮箱：fd@co-insight.com
+        </div>
+    </div>
+    <!-- Loading -->
+    <div class="loader" id="loginLoader" style='display: none;'>
+        <div class="loader-inner pacman">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

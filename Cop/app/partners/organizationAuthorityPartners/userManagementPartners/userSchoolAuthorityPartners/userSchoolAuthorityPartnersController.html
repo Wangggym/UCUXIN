@@ -1,0 +1,155 @@
+<div ng-controller="UserSchoolAuthorityPartnersController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> {{config.title}} 已分配的学校</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-heading"></div>
+                <form class="query-group form-inline clearfix">
+                    <div class="form-group">
+                        <label> 省份：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="a.province" theme="bootstrap" reset-search-input="false" ng-change="getCity($select.selected.RID)">
+                                <ui-select-match placeholder="请选择省份">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="province.RID as province in provinceList | propsFilter:{ Name:$select.search }">
+                                    <span ng-bind-html="province.Name| highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                           <span class="input-group-btn">
+                                <button type="button" ng-click="a.province = undefined" ng-disabled="!a.province" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label> 市：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="a.selectCity" theme="bootstrap" reset-search-input="false" ng-change="getArea($select.selected.RID)">
+                                <ui-select-match placeholder="请选择市">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="city.RID as city in citysList | propsFilter:{ Name:$select.search }">
+                                    <span ng-bind-html="city.Name| highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                       <span class="input-group-btn">
+                                <button type="button" ng-click="a.selectCity = undefined" ng-disabled="!a.selectCity" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label> 县：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="b.selectArea" theme="bootstrap" reset-search-input="false">
+                                <ui-select-match placeholder="请选择县">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="area.RID as area in areaList | propsFilter:{ Name:$select.search }">
+                                    <span ng-bind-html="area.Name| highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                                                  <span class="input-group-btn">
+                                <button type="button" ng-click="b.selectArea = undefined" ng-disabled="!b.selectArea" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<div class="checkbox m-l m-r-xs">-->
+                    <!--&lt;!&ndash;<label class="i-checks">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="checkbox" ng-model="hasRight" class="ng-pristine ng-untouched ng-valid"><i></i>有权限&ndash;&gt;-->
+                    <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                    <!--<label><b class="text-danger">*</b> 用户：</label>-->
+                    <!--<ui-select ng-model="queryFields.user" theme="bootstrap" reset-search-input="false">-->
+                    <!--<ui-select-match placeholder="请选择用户">{{$select.selected.UName}}</ui-select-match>-->
+                    <!--<ui-select-choices-->
+                    <!--repeat="user.UID as user in config.user | propsFilter:{ UName:$select.search }">-->
+                    <!--<span ng-bind-html="user.UName| highlight: $select.search"></span>-->
+                    <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <input type="text" class="form-control" ng-model="queryFields.school" placeholder="请输入学校关键字查询">
+                    </div>
+
+                    <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)"
+                            ng-disabled="!queryFields.user">查询
+                    </button>
+                    <button type="button" class="btn btn-info" ng-click="save(queryFields.user)">分配学校权限
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="delet()">删除
+                    </button>
+                    <button type="button" class="btn w-xs btn-default pull-right" onclick="window.history.go(-1)">返回</button>
+
+                </form>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <label class="i-checks">
+                                <input type="checkbox" ng-click="checkAll()" ng-checked="config.choiceAll" checked="item.check" class="ng-pristine ng-untouched ng-valid"><i></i>
+                                全选
+                            </label>
+                        </th>
+                        <th>省</th>
+                        <th>市</th>
+                        <th>区县</th>
+                        <th>学校</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!dataList||dataList.length == 0">
+                        <td colspan="7" class="prompt text-center">
+                            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...</div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in dataList">
+                        <th style="padding: 8px 15px;">
+                            <label class="i-checks">
+                                <input type="checkbox" ng-click="check(item)" ng-checked="item.check" checked="item.check" class="ng-pristine ng-untouched ng-valid"><i></i>
+                                {{$index+1}}
+                            </label>
+                        </th>
+                        <td>{{item.ProviceName}}</td>
+                        <td>{{item.CityName}}</td>
+                        <td>{{item.CountyName}}</td>
+                        <td>{{item.FName}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                    <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                    <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                                max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                                class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                                num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                                next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                                last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeConfirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>用户学校删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除用户学校：<strong>{{item.GName}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

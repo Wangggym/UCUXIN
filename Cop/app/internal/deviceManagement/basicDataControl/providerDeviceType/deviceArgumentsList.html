@@ -1,0 +1,38 @@
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">供应商设备参数列表</h1>
+</div>
+<div class="wrapper-md" ng-controller="deviceArgumentsListController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>设置/上传</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in list ">
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="item.ParamName"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="item.ParamTypeName"></p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

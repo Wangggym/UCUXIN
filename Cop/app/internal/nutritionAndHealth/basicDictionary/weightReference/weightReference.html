@@ -1,0 +1,82 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">体重参考</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <div class="form-group">
+          <label>月龄：</label>
+          <input type="text" class="form-control" ng-model="vm.queryFields.monthAge" placeholder="请输入查询月龄">
+        </div>
+
+
+        <div class="form-group">
+          <label>性别：</label>
+          <div class="input-group">
+            <ui-select ng-model="vm.queryFields.sex" theme="bootstrap">
+              <ui-select-match placeholder="选择查询性别">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices
+                  repeat="sex.id as sex in vm.sex | propsFilter: { name:$select.search }">
+                <span ng-bind-html="sex.name | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                              <button type="button" ng-click="vm.queryFields.sex = undefined"
+                                      ng-disabled="!vm.queryFields.sex" class="btn btn-default">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+          </div>
+
+        </div>
+        <button type="button" class="btn btn-info" ng-click="vm.search($event)"><i class="fa fa-search"></i> 查询</button>
+        <button type="button" class="btn btn-primary" ng-click="vm.save()"><i class="fa fa-plus"></i> 新增</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+          <th>月龄</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>中位数</th>
+          <th>第一范围</th>
+          <th>第二范围</th>
+          <th>第三范围</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="!vm.dataList">
+          <td colspan="8" class="prompt text-center">
+            <div class="alert alert-warning" role="alert">请输入条件查询，数据实时更新</div>
+          </td>
+        </tr>
+        <tr ng-repeat="item in vm.dataList">
+          <td>{{item.MonthAge}}</td>
+          <td>{{item.Age}}</td>
+          <td>{{item.Sex | sexFormat}}</td>
+          <td>{{item.Median}}</td>
+          <td>{{item.FirstMin}}~{{item.FirstMax}}</td>
+          <td>{{item.SecondMin}}~{{item.SecondMax}}</td>
+          <td>{{item.ThirdMin}}~{{item.ThirdMax}}</td>
+          <td>
+            <a href="javascript:;" class="btn btn-info btn-xs" ng-click="vm.save(item.ID)" title="修改"><i class="fa fa-edit"></i></a>
+            <a href="javascript:;" class="btn btn-danger btn-xs" ng-click="vm.del(item.ID)" title="删除"><i class="fa fa-trash-o"></i></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer pagination-bar" ng-hide="!vm.pagination.TotalRecords">
+        <span>页码: {{vm.pagination.PageIndex}} / {{vm.pagination.Pages}}</span>
+        <pagination total-items="vm.pagination.TotalRecords" ng-model="vm.pagination.PageIndex"
+                    max-size="vm.pagination.MaxSize" items-per-page="vm.pagination.PageSize"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="vm.pagination.Pages" previous-text="上页"
+                    next-text="下页" first-text="首页"
+                    last-text="末页" ng-change="vm.search()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

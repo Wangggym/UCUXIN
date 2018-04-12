@@ -1,0 +1,53 @@
+.Courseware-title {
+    padding-bottom: 0.2rem;
+}
+
+.Courseware {
+    display: flex;
+    border-bottom: 1PX #ccc solid;
+    padding: 0.1rem;
+    .icon{
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    .def{
+        background: url("../../../assets/images/file_icon_def.png") no-repeat 0 0 / cover;
+    }
+    .examination{
+        background: url("../../../assets/images/file_icon_examination.png") no-repeat 0 0 / cover;
+    }
+    .excel{
+        background: url("../../../assets/images/file_icon_excel.png") no-repeat 0 0 / cover;
+    }
+    .mp3{
+        background: url("../../../assets/images/file_icon_mp3.png") no-repeat 0 0 / cover;
+    }
+    .mp4{
+        background: url("../../../assets/images/file_icon_mp4.png") no-repeat 0 0 / cover;
+    }
+    .pdf{
+        background: url("../../../assets/images/file_icon_pdf.png") no-repeat 0 0 / cover;
+    }
+    .pic{
+        background: url("../../../assets/images/file_icon_pic.png") no-repeat 0 0 / cover;
+    }
+    .ppt{
+        background: url("../../../assets/images/file_icon_ppt.png") no-repeat 0 0 / cover;
+    }
+    .video{
+        background: url("../../../assets/images/file_icon_video.png") no-repeat 0 0 / cover;
+    }
+    .doc{
+        background: url("../../../assets/images/file_icon_word.png") no-repeat 0 0 / cover;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-left: 0.5rem;
+        width: 70%;
+        .size {
+            font-size: 0.26rem;
+        }
+    }
+}

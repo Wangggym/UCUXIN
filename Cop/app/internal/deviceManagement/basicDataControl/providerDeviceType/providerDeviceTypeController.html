@@ -1,0 +1,62 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">供应商设备定义</h1>
+</div>
+<div class="wrapper-md" ng-controller="providerDeviceTypeController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+      <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+          <th>设备名称</th>
+          <th>供应商</th>
+          <th>设备类型</th>
+          <th>卡号规则</th>
+          <th>进出区分方式</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in list ">
+          <td data-value="1" class="col-lg-2">
+            <div class="media">
+              <div class="media-body">
+                <div><a href="" ng-click="getDetail(item)" ng-bind="item.EqName"></a></div>
+              </div>
+            </div>
+          </td>
+          <td data-value="1" class="col-lg-2">
+            <div class="media">
+              <div class="media-body">
+                <p class="text-muted" ng-bind="item.SupplierName"></p>
+              </div>
+            </div>
+          </td>
+          <td data-value="1" class="col-lg-2">
+            <div class="media">
+              <div class="media-body">
+                <p class="text-muted" ng-bind="item.EqTypeName"></p>
+              </div>
+            </div>
+          </td>
+          <td data-value="1" class="col-lg-2">
+            <div class="media">
+              <div class="media-body">
+                <p class="text-muted" ng-bind="item.CardRuleName"></p>
+              </div>
+            </div>
+          </td>
+          <td data-value="1" class="col-lg-2">
+            <div class="media">
+              <div class="media-body">
+                <p class="text-muted" ><span ng-repeat="x in item.InOutModels"><span ng-bind="x.name"></span>；</span></p>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">{{pageData.title}}</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel psychological-scale">
+        <div id="status-buttons" class="psychological-status">
+            <a href="javascript:;" class="active"><span>1</span> 基本信息</a>
+            <a href="javascript:;" class="active"><span>2</span> 用户属性</a>
+            <a href="javascript:;" ><span>3</span> 题库</a>
+            <a href="javascript:;" ><span>4</span> 因子定义</a>
+            <a href="javascript:;" ><span>5</span> 因子解释</a>
+        </div>
+        <progressbar value="40" class="progress-xs" type="success"></progressbar>
+        <div class="panel-body">
+            <div id="form-views" class="form-validation" ui-view></div>
+            <div class="form-horizontal col-lg-offset-3 scale-user-attr">
+                <div class="form-group">
+                    <div class="col-sm-10 col-lg-8">
+                        <label class="checkbox-inline i-checks" ng-repeat="attr in userAttrList">
+                            <input type="checkbox" value="{{attr.ID}}" name="{{user.Name}}" ng-model="attr.IsCheck"><i></i> {{attr.Name}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center btn-operate">
+                <a  ng-click="prev()" class="btn btn-default btn-rounded">上一步</a>
+                <a  ng-click="next()" class="btn btn-default btn-rounded">下一步</a>
+            </div>
+        </div>
+    </div>
+</div>

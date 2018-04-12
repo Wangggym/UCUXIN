@@ -1,0 +1,222 @@
+.current-inline-block {
+  display: inline-block !important;
+}
+
+.current-none {
+  display: none;
+}
+.no-data{
+  text-align: center;
+  border: 1px solid #dddddd;
+  height: 5rem;
+  line-height: 5rem;
+  color: #dddddd;
+}
+.ant-pagination{
+  text-align: right !important;
+}
+  //题列表
+.subject-list {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+.subject{
+  border: 1px solid #dddddd;
+  &:hover{
+    border-color: #108ee9;
+  }
+}
+  .single-subject{
+    border: 1px solid #dddddd;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    &:hover{
+      border-color: #108ee9;
+    }
+  }
+
+  .subject{
+    margin-bottom: 1.5rem;
+
+    .subject-title{
+      display: flex;
+      font-size: 0.8rem;
+      height: 2rem;
+      background: #ececec;
+      line-height: 2rem;
+      padding: 0 0.5rem;
+      p{
+        margin-right: 2rem;
+        span{
+          border-right: 1px solid #999999;
+          padding-right: 2rem;
+        }
+        &:last-child{
+          span{
+            border: none;
+          }
+        }
+      }
+    }
+    .subject-content{
+      padding: 1rem;
+      .subject-stem{
+        display: inline-block;
+        margin: 0.5rem 0;
+      }
+      .subject-option{
+        width: 60%;
+        span{
+          display: inline-block;
+          margin-right: 15%;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+    .subject-analysis{
+      border-top: 1px solid #dddddd;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      p{
+        margin-top: 1rem;
+      }
+    }
+    .subject-bottom{
+      margin-top: 1rem;
+      height: 2.5rem;
+      line-height: 2rem;
+      padding: 0.25rem 0.5rem;
+      border-top: 1px solid #dddddd;
+    }
+  }
+}
+
+
+//试卷页面
+.line-cute{
+  border-top: 5px solid #108ee9;
+  margin-top: 1rem;
+  .paper-list{
+    &:hover{
+      border-color:#108ee9;
+    }
+    margin-top: 0.5rem;
+    border: 1px solid #dddddd;
+    padding: 0.8rem;
+    display: flex;
+    height: 6rem;
+    .paper-list-logo{
+      flex: 1;
+      background: url("../../../assets/images/paper-logo.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .paper-list-content{
+      padding-left: 1rem;
+      flex: 16;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .paper-list-title{
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+      .paper-tip{
+        color: #999999;
+        span{
+          margin-right: 1.5rem;
+        }
+      }
+    }
+    .paper-list-btn{
+      flex: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+//试卷详情
+.paper-detail{
+
+  width: 100%;
+
+  .paper-detail-title{
+    border-bottom: 1px solid #dddddd;
+    padding: 0.5rem;
+    padding-bottom: 2rem;
+    text-align: center;
+    p{
+      margin-bottom: 0.5rem;
+    }
+    .paper-name{
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .second-name{
+      font-size: 1rem;
+    }
+    .test-info{
+      span{
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+//部分
+.part-list{
+  margin-top: 1rem;
+  .part-list-content{
+    border: 1px solid #dddddd;
+    margin-top: 0.5rem;
+  }
+}
+
+// 表单分类
+  .form-search-group{
+    > .ant-form-item{
+      margin-top: 5px;
+      padding-bottom: 5px;
+      &:first-child{
+        margin-top: 0;
+      }
+    }
+    .line-block{
+      margin-right: 0;
+      display: flex;
+      border-bottom:1px solid #ddd;
+
+      .ant-form-item-label{
+        width: 75px;
+        text-align: right;
+      }
+      .ant-form-item-control-wrapper{
+        flex: 1;
+      }
+    }
+
+    .ant-radio-wrapper, .ant-checkbox-wrapper{
+      .ant-radio, .ant-checkbox{
+        opacity: 0;
+        position: absolute;
+        clip: rect(0,0,0,0);
+      }
+    }
+
+    .ant-radio-wrapper-checked{
+      > span:last-child{
+        background-color: #108ee9;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        color: #fff;
+        border-radius: 3px;
+      }
+    }
+
+    .ant-checkbox-checked + span{
+      background-color: #108ee9;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      color: #fff;
+      border-radius: 3px;
+    }
+  }

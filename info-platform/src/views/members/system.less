@@ -1,0 +1,161 @@
+.system-setting{
+  a{
+    color: #108ee9!important;
+    margin-left: 10px;
+    display: inline-block;
+  }
+  .switch-sure{
+    font-size: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 10px;
+  }
+  .sure{
+    display: inline-block;
+    margin-top: 20px!important;
+    font-size: 20px;
+  }
+  display: flex;
+  //justify-content: center;
+  .order-setting{
+    .cute-line{
+      margin-bottom: 20px;
+    }
+    h1{
+      span{
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.65);
+      }
+    }
+  }
+  .card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eeeeee;
+    padding: 15px;
+    &:hover{
+      border: 1px solid #dddddd;
+      box-shadow: 0 0 5px #888;
+    }
+    .left-title{
+      p{
+        &:first-child{
+          font-size: 22px;
+          color: #108ee9;
+        }
+      }
+    }
+    .not-link{
+      p{
+//      color: #aaaaaa !important;
+      }
+    }
+  }
+  .actoin{
+    position: relative;
+    &:after{
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 10px solid #108ee9;
+      content: "";
+      position: absolute;
+      right: -13px;
+      width: 0;
+    }
+  }
+  .menu{
+    .menu-list{
+      margin-top: 15px;
+      padding: 10px;
+      width: 400px;
+      border: 1px solid #aaaaaa;
+      &:hover{
+        border: 1px solid #dddddd;
+        box-shadow: 0 0 5px #888;
+      }
+      .switch{
+        text-align: right;
+        margin-bottom: 5px;
+      }
+      .content-input{
+        display: flex;
+        //.ant-form-item{
+        //  margin: 0;
+        //}
+
+        span{
+          flex:2;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 24px;
+        }
+        b{margin-bottom: 24px}
+        .ant-row{
+          flex: 4;
+        }
+        b{
+          flex: 2;
+          display: flex;
+          align-items: flex-end;
+          color: #aaaaaa;
+        }
+      }
+      .menu-tip{
+        display: flex;
+        margin-top: 10px;
+        span{
+          flex: 2;
+        }
+        div{
+          flex: 8;
+          margin-left: 25px;
+
+        }
+      }
+    }
+  }
+  .all-order{
+    width: 50%;
+    .tip{
+      color: #aaaaaa;
+    }
+    .title-name{
+      display: flex;
+      justify-content: space-between;
+      margin:10px 0 ;
+      p{
+        b{
+          font-size: 15px;
+        }
+        span{
+          color: #aaaaaa;
+        }
+      }
+    }
+    .ant-input-number{
+      width: 100%;
+      display: block;
+    }
+    a{
+      font-size: 20px;
+      margin-top: 20px;
+      display: block;
+      width: 50px;
+    }
+  }
+  .message-notice{
+    width: 50%;
+  }
+  .expert{
+    .avatar-uploader, .avatar-uploader-trigger, .avatar{
+      width: 400px;
+      height: 100px;
+    }
+  }
+  .introduce{
+    width: 50%;
+  }
+}

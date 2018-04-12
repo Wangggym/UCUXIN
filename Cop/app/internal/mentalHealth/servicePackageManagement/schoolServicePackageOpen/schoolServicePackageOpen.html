@@ -1,0 +1,115 @@
+<div ng-controller="schoolServicePackageOpen">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校心理服务包开通
+        </h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row wrapper">
+
+                <form class=" form-inline" role="form">
+                    <div class="form-group">
+                        <label>学校名称：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.school" theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                                   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin: 0 10px;">
+                        <label >心理服务包名称：</label>
+                        <div class="input-group" style="min-width: 150px;">
+                            <select class="form-control" ng-options="a as a.Name for a in packageList" ng-model="model.package"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-right: 10px;">
+                        <button type="submit" class="btn btn-success" data-ng-click="search()">
+                            查询
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"
+                                ng-click="openAdd()">
+                            新增
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>学校</th>
+                    <th>心理服务包名称</th>
+                    <th>优信服务包名称</th>
+                    <th style="width:200px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in model.viewList track by $index">
+                    <td ng-bind="item.GName"></td>
+                    <td ng-bind="item.PsyChargeName"></td>
+                    <td ng-bind="item.ChargeName"></td>
+                    <td  class="v-middle">
+                        <div class="btn-group" dropdown >
+                            <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle >删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="schoolServicePackageOpenAdd.html">
+    <div class="panel no-border">
+        <div class="panel-body" style="border-bottom: none;">
+            <form class="bs-example form-horizontal ng-pristine ng-valid">
+                <div class="form-group">
+                    <label class="col-md-4 control-label text-center">学校</label>
+
+                    <div class="input-group col-md-6">
+                        <ui-select ng-model="model.school" theme="bootstrap" ng-change="chooseCharge()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item as item in model.schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">心理服务包名称</label>
+                    <div class="input-group col-md-6">
+                        <select class="form-control" ng-model="model.mentalPackage" ng-options="a as a.Name  for a in packageList"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">优信收费服务包名称</label>
+                    <div class="input-group col-md-6">
+                        <select class="form-control" ng-model="model.chargePackage" ng-options="a as a.Name for a in chargeList"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="submit" class="btn btn-success" ng-click="ok()">提交</button>
+        <button type="submit" class="btn btn-default" ng-click="close()">返回</button>
+    </div>
+</script>

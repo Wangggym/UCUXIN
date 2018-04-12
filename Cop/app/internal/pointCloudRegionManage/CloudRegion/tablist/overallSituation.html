@@ -1,0 +1,112 @@
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+<div ng-controller="overallSituation" class="ng-scope">
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline ng-pristine ng-valid" role="form" name="form">
+                    <button class="form-group btn btn-success" ng-click="addtabhtml(Tabs)">
+                        <!--ui-sref="access/app/internal/pointCloudRegionManage/CloudRegion/tablist/addtabs()"-->
+                        新增
+                    </button>
+
+                    <!--<button type="submit" class="form-group btn btn-success" ng-click="saveSort(Tabs)">-->
+                        <!--保存排序-->
+                    <!--</button>-->
+                    <div class="btn-group open" dropdown="">
+                        <button type="submit" class="form-group btn btn-success" dropdown-toggle="" aria-haspopup="true" aria-expanded="true">保存排序</button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a  ng-click="saveSort(Tabs)" href="" class="">确定</a></li>
+                            <li><a href="">取消</a></li>
+                        </ul>
+                    </div>
+
+                </form>
+            </div>
+            <div class="vbox" id="vbox_group">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td colspan="9" class="prompt text-center ng-hide" data-ng-show="!allTaskList || allTaskList.length==0" style="">
+                            <div class="alert alert-warning" role="alert">排序请上下拖拽</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--<th>主键</th>-->
+                        <th>姓名</th>
+                        <th>描述</th>
+                        <th>透明图标</th>
+                        <th>选中图标</th>
+                        <th>未选中图标</th>
+                        <th>命令类型</th>
+                        <th>命令地址</th>
+                        <!--<th>排序</th>-->
+                        <!--<th>可见性</th>-->
+                        <!--<th>状态</th>-->
+                        <th>授权描述</th>
+                        <th>操作</th>
+                    </tr>
+
+                    </thead>
+                    <tbody >
+                    <tr data-ng-repeat="(index,item) in List" class="ng-scope" TabID="{{item.TabID}}" >
+                        <!--<td class="ng-binding" ng-bind="item.TabID"></td>-->
+                        <td class="ng-binding" ng-bind="item.Name"></td>
+                        <td class="ng-binding" ng-bind="item.Desc"></td>
+                        <td class="ng-binding">
+                                <img  ng-src="{{item.Icon1}}" alt="">
+                        </td>
+                        <td class="ng-binding">
+                            <img ng-src="{{item.Icon2}}" alt="">
+                        </td>
+                        <td class="ng-binding">
+                            <img  ng-src="{{item.Icon3}}" alt="">
+                        </td>
+                        <td class="ng-binding" ng-bind="item.ActType"></td>
+                        <td class="ng-binding">
+                            <p ng-bind="item.Url" style="width: 90px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display:inline-block; "title="{{item.Url}}"></p>
+                        </td>
+                        <!--<td class="ng-binding" ng-bind="item.SNO"></td>-->
+                        <!--<td  class="ng-binding" ng-bind="item.Visible"></td>-->
+                        <!--<td class="ng-binding" ng-bind="item.ST"></td>-->
+
+                        <td ng-bind="item.GrantsDesc" style="width: 18%"></td>
+                        <td>
+
+                            <div class="btn-group open" dropdown="">
+                                <button type="submit" class="btn  btn-primary" dropdown-toggle="" aria-haspopup="true" aria-expanded="true"ng-disabled="item.ActType!=model.activeType.H5"> <span ng-bind="item.VisibleName" style="display:inline-block;width: 35px"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="visibleAction(item.Visible,item)" href="" class="">确定</a></li>
+                                    <li><a href="">取消</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group open" dropdown="">
+                                <button type="submit" class="btn  btn-warning" dropdown-toggle="" aria-haspopup="true" aria-expanded="true"ng-disabled="item.ActType!=model.activeType.H5"> <span ng-bind="item.STName" style="display:inline-block;width: 35px"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="sTAction(item.ST,item)" href="" class="">确定</a></li>
+                                    <li><a href="">取消</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group open" dropdown="">
+                                <button type="submit" class="btn  btn-info" dropdown-toggle="" aria-haspopup="true" aria-expanded="true"ng-disabled="item.ActType!=model.activeType.H5"ng-click="edittab(item)">编辑</button>
+                            </div>
+
+                            <div class="btn-group open" dropdown="">
+                                <button type="submit" class="btn  btn-danger" dropdown-toggle="" aria-haspopup="true" aria-expanded="true"ng-disabled="item.ActType!=model.activeType.H5">删除</button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="deletetab(item.TabID)" href="" class="">确定</a></li>
+                                    <li><a href="">取消</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

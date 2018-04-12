@@ -1,0 +1,14 @@
+.collect-button{
+    text-align: right;
+    span{
+        font-size: 0.28rem;
+        padding: 0.02rem 0.1rem;
+        padding-left: 0.5rem;
+        background: url("../../assets/images/ic_collection.png") no-repeat;
+        background-size: contain;
+    }
+    .isFavor{
+        background: url("../../assets/images/ic_score_big_focus.png") no-repeat;
+        background-size: contain;
+    }
+}

@@ -1,0 +1,125 @@
+<div ng-controller="addScaleTestTaskController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{model.modelName}}
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.internal.nutritionScalMannage.scaleTestTask">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="editModel">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>任务名称：</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control w-md" ng-model="model.name" placeholder="任务名称"
+                                   ng-disabled="$stateParams.Name?true:false;"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>学校：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                                           ng-disabled="$stateParams.Name?true:false;">
+                                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                            refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.selectedGid = undefined" class="btn btn-default"
+                                            type="button" ng-disabled="$stateParams.Name?true:false;">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>问卷名称：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.scaleName" theme="bootstrap"
+                                           ng-disabled="$stateParams.Name?true:false;">
+                                    <ui-select-match placeholder="问卷名称">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in model.scaleNameList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.scaleName = undefined" class="btn btn-default"
+                                            type="button" ng-disabled="$stateParams.Name?true:false;">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">开始日期：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                       ng-model="model.dateStart" ng-disabled="true"
+                                       is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn" ng-if="!$stateParams.Name">
+                                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">结束日期：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                       ng-model="model.dateOver" ng-disabled="true"
+                                       is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn" ng-if="!$stateParams.Name">
+                                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注：</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control ng-pristine ng-valid ng-touched" style="height:100px;"
+                                      ng-model="model.desc" ng-disabled="$stateParams.Name?true:false;"
+                                      required></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8" ng-if="!$stateParams.Name">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()"
+                        ng-disabled="model.name&&model.scaleName&&model.selectedGid?false:true;">全部保存
+                </button>
+                <button class="btn btn-default"
+                        ui-sref="access.app.internal.nutritionScalMannage.scaleTestTask">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+.details {
+  .header-small {
+    //margin-bottom: 20px;
+    .icon {
+      float: left;
+      width: 90px;
+      height: 90px;
+      background: #47A9CA;
+      border: 5px #ccc solid;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .main {
+    > h6 {
+      font-size: 16px;
+    }
+    dl{
+      padding-left: 50px;
+    }
+    dt{
+      padding:5px 0;
+    }
+    dd{
+      padding: 0 50px;
+    }
+  }
+  .absolute-center {
+    margin: 0 auto;
+  }
+
+  .blank {
+    padding: 0 30px;
+  }
+
+  .order {
+    padding-right: 30px;
+  }
+
+  .top-contant {
+    margin-left: 120px;
+    margin-bottom: 10px;
+  }
+
+  //.contant {
+  //  padding: 0 20px;
+  //  > dt {
+  //    font-size: 14px;
+  //    margin-bottom: 10px;
+  //  }
+  //  > dd {
+  //    margin-bottom: 5px;
+  //    display: flex;
+  //    > div {
+  //      height: 40px;
+  //      line-height: 40px;
+  //    }
+  //    .icon {
+  //      flex: 1;
+  //
+  //    }
+  //    .name {
+  //      flex: 5;
+  //      text-indent: 1em;
+  //    }
+  //    .size {
+  //      flex: 2;
+  //      text-indent: 1em;
+  //    }
+  //    .operation {
+  //      flex: 2;
+  //    }
+  //
+  //    .def {
+  //      background: url("../../../assets/images/file_icon_def.png") no-repeat center / contain;
+  //    }
+  //    .examination {
+  //      background: url("../../../assets/images/file_icon_examination.png") no-repeat center / contain;
+  //    }
+  //    .excel {
+  //      background: url("../../../assets/images/file_icon_excel.png") no-repeat center / contain;
+  //    }
+  //    .mp3 {
+  //      background: url("../../../assets/images/file_icon_mp3.png") no-repeat center / contain;
+  //    }
+  //    .mp4 {
+  //      background: url("../../../assets/images/file_icon_mp4.png") no-repeat center / contain;
+  //    }
+  //    .pdf {
+  //      background: url("../../../assets/images/file_icon_pdf.png") no-repeat center / contain;
+  //    }
+  //    .pic {
+  //      background: url("../../../assets/images/file_icon_pic.png") no-repeat center / contain;
+  //    }
+  //    .ppt {
+  //      background: url("../../../assets/images/file_icon_ppt.png") no-repeat center / contain;
+  //    }
+  //    .video {
+  //      background: url("../../../assets/images/file_icon_video.png") no-repeat center / contain;
+  //    }
+  //    .word {
+  //      background: url("../../../assets/images/file_icon_word.png") no-repeat center / contain;
+  //    }
+  //
+  //  }
+  //}
+
+}
+
+.status {
+}
+
+.checkButton {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.detailsForm {
+  border-left: 1px solid #ccc;
+  margin-left: 10px;
+  padding-left: 20px;
+}

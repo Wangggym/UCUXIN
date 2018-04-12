@@ -1,0 +1,239 @@
+<style>
+    .input-group label{display: inline-block;width: 100px;text-align: right;}
+    .firstPhase:first-child{margin-left: 100px;}
+</style>
+<div ng-controller="updateInstitutionController">
+
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">  <span ng-show="model.isUpdate">修改--{{model.Title}}</span><span ng-show="!model.isUpdate">添加合作机构</span>
+
+            <a ui-sref="access.app.internal.UXLive.institutionList()" class="pull-right btn btn-default"> 返回</a>
+        </h1>
+
+    </div>
+
+    <div class="wrapper-md" style="width: 70%; margin: auto;!important">
+
+        <div class="  panel-default" style="padding: 20px;">
+
+
+            <form class="form-horizontal" method="get" name="registration">
+                <div class="form-group" >
+                    <div class="input-group">
+                        <label style=" float: left;margin-top: 7px;"> 机构名称：</label>
+                        <ui-select ng-model="model.gid" theme="bootstrap"  style="width:220px; margin-left: 20px; float: left;"  ng-disabled="model.isUpdate"  >
+                            <ui-select-match placeholder="请选择机构">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.grpList | filter: $select.search"
+                                    refresh="refreshGrpList($select.search)" refresh-delay="500" style="width:220px; margin-left:120px;">
+                                <div ng-bind-html="item.name | highlight: $select.search" style=" width:220px;"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group" >
+                    <div class="input-group">
+                        <label> 负责人姓名：</label>
+                        <input type="text" class="form-control" style="width:220px; float:none;display: inline; margin-left: 20px;"
+                               placeholder="负责人姓名"
+                               ng-model="model.item.MasterName" ng-disabled="model.isUpdate">
+
+                    </div>
+                </div>
+
+
+                <div class="form-group" >
+
+
+                    <div class="input-group">
+                        <label> 手机号码：</label>
+                        <input type="text" class="form-control" style="width:220px; float:none;display: inline; margin-left: 20px;"
+                               placeholder="手机号码"
+                               ng-model="model.item.MasterTel" ng-disabled="model.isUpdate">
+
+                    </div>
+                </div>
+
+
+                <div class="form-group" >
+
+
+                    <div class="input-group">
+                        <label> 试用场次：</label>
+                        <input type="text" class="form-control" style="width:220px; float:none;display: inline; margin-left: 20px;"
+                               placeholder="试用场次"
+                               ng-model="model.item.FreeCnt"  >
+
+                    </div>
+                </div>
+
+
+                <div class="form-group" >
+
+
+                    <div class="input-group">
+                        <label> 试用期限开始：</label>
+                        <input type="text" class="form-control dateSlc" datepicker-popup="{{format}}" ng-model="model.item.FreeStartDate"   style="width:220px; float:none;display: inline; margin-left: 20px;"
+                               is-open="openedStart" max-date="" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                               current-text="今天" close-text="关闭" readonly />
+                        <span class="input-group-btn" style="display: inline-block;">
+                                                <button type="button" class="btn btn-default" style="margin-top: -3px;" ng-click="openStartDate($event)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </button>
+                                            </span>
+                    </div>
+
+                    </div>
+
+
+
+                <div class="form-group" >
+
+
+                    <div class="input-group">
+                        <label> 试用期限结束：</label>
+                        <input type="text" class="form-control dateSlc" datepicker-popup="{{format}}" ng-model="model.item.FreeEndDate" datepicker-options="dateOptions" style="width:220px; float:none;display: inline; margin-left: 20px;"
+                               is-open="endOpened" min-date="" ng-required="true" clear-text="清除" current-text="今天"
+                               close-text="关闭" readonly />
+                        <span class="input-group-btn" style="display: inline-block;">
+                                                <button type="button" class="btn btn-default" style="margin-top: -3px;" ng-click="openEndDate($event)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </button>
+                                            </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group" style="width: auto;">
+                        <label >是否特殊机构：</label>
+                        <label class="i-checks ng-binding ng-scope lb"
+                               style="margin-left:20px; width: auto;" >
+                            <input type="checkbox" ng-model="model.IsSpec" name="toasts" ng-disabled="model.OrgID==0?false:true"><i></i>是</label>
+                        <!--model.OrgID > 0?false:true-->
+
+                    </div>
+                </div>
+
+                <div class="form-group" >
+
+
+                    <div class="input-group">
+                        <label> 可用频道：</label>
+                        <label class="i-checks ng-binding ng-scope lb"   ng-repeat="children in model.channelslist"
+                               >
+                            <input type="checkbox" ng-checked="children.checked" name="toasts"
+                                   ng-click="addCheckedOne(model.channelslist,$index)"
+                                   checked="checked" ><i></i>{{children.name}}</label>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group" >
+                    <div class="input-group">
+                        <label> 可见范围：</label>
+                        <label class="i-checks ng-binding ng-scope lb"
+                               style="margin-left:20px; width: auto;">
+                            <input type="checkbox" ng-model="model.IsAllowSelf" name="toasts" ><i></i>本校(本机构)</label>
+
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <div class="input-group">
+                        <label style="display: inline-block;height: 1px;width:70px;">  </label>
+                        <label class="i-checks ng-binding ng-scope lb"
+                               style="margin-left:2px;">
+                            <input type="checkbox" ng-model="model.IsAllowOther" name="toasts" ><i></i>其它</label>
+
+                    </div>
+                </div>
+                <div style="width:100%;height: auto; border:1px solid #777;"  ng-show="model.IsAllowOther" >
+                    <div class="form-group" style="margin-top: 30px;">
+                        <div class="input-group" style="display: inline-block;float: left;margin-top: 5px;">
+
+                            <label class="i-checks ng-binding ng-scope lb"
+                                   style="margin-left:20px;">
+                               指定区域：</label>
+                        </div>
+
+                        <ui-select ng-model="model.regionid" theme="bootstrap" ng-change="changeRegion($select.selected)" style="display:inline-block; width: 200px;float: left;height: 35px;">
+                            <ui-select-match placeholder="请选择起区域">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.RID as item in model.regionList | filter: $select.search"
+                                    refresh="refreshRegion($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                    <div style="width:100%; height: 10px;"></div>
+
+                    <div  ng-repeat="children in model.selectedRegionList" >
+                        <label  style="padding:5px 40px;  color:#0a8ddf; font-weight: bolder;">
+                            <span ng-bind="children.Name"></span>
+                        </label>
+                        <span class="glyphicon glyphicon-remove" ng-click="removeRegion(children)"></span>
+                    </div>
+
+
+                    <div style="width:100%; height: 10px;"></div>
+                    <div class="form-group" >
+                        <div class="input-group" style="display: inline-block;">
+
+                            <label class="i-checks ng-binding ng-scope lb"
+                                   style="width: 120px;">
+                                指定教育阶段：</label>
+                        </div>
+                        <label class="i-checks ng-binding ng-scope lb firstPhase"   ng-repeat="children in model.phaseList"
+                               style="margin-left:10px;">
+                            <input type="checkbox" ng-checked="children.checked"   name="toasts"
+                                   ng-click="addCheckedOne(model.phaseList,$index)"
+                                   checked="checked"><i></i>{{children.Name}}</label>
+                         </div>
+
+                    <div style="width:100%; height: 10px;"></div>
+                    <div class="form-group" style="margin-top: 30px;margin-bottom: 30px;">
+                        <div class="input-group" style="display: inline-block;float: left;margin-top: 5px;">
+
+                            <label class="i-checks ng-binding ng-scope lb"
+                                   style="width: 123px;">
+                                指定学校/机构：</label>
+                        </div>
+                        <ui-select ng-model="model.schoolID" theme="bootstrap" ng-change="changeSchool($select.selected)" style="display:inline-block; width: 200px;float: left;height: 35px;">
+                            <ui-select-match placeholder="请选择起学校/机构">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                    refresh="refreshSchool($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                    <div  ng-repeat="children in model.selectSchoolList" >
+                        <label  style="padding:5px 40px;  color:#0a8ddf; font-weight: bolder;">
+                            <span ng-bind="children.Name"></span>
+                        </label>
+                        <span class="glyphicon glyphicon-remove" ng-click="removeSchool(children)"></span>
+                    </div>
+                </div>
+            </form>
+
+            <div class="form-group" style="margin-top:20px;" >
+
+
+                <button class="btn btn-success" ng-click="save()">全部保存</button>
+                <button class="btn btn-default"
+                        ui-sref="access.app.internal.UXLive.institutionList()">
+                    取消
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>

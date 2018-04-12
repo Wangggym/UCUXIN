@@ -1,0 +1,200 @@
+<style>
+    thead tr th,.table tbody tr td{text-align: center;vertical-align: middle;}
+    tbody tr{border-bottom: 1px solid #e9f2e5;}
+    div .dateSelect{display: block!important;}
+</style>
+<div ng-controller="DataChartsController">
+    <!--标题-->
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 优信直播 </h1>
+    </div>
+    <!--内容部分-->
+    <div class="wrapper-md">
+        <div class="panel-default panel" style="position: relative;">
+
+            <tabset class="tab-container">
+                <tab ng-click="changeTab(0,model)" class="tabItem" tabType="0">
+                    <tab-heading>
+                        视频数量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn m-b-xs backHistory btn-info">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(1)">校园直播</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(2)">学科课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(3)">心理课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(4)">营养课程</button>-->
+                                        <!--日期选择开始-->
+                                        &nbsp;发布时间：
+                                        <ui-select ng-model="model.yearShow.year"
+                                                   theme="bootstrap" ng-change="yearShow($select.selected.year)">
+                                            <ui-select-match placeholder="请选择时间">{{$select.selected.year}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.year as item in model.yearShow| filter: $select.search">
+                                                <div ng-bind-html="item.year | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--日期选择结束-->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--图表部分-->
+                            <!-- 年视频量统计 -->
+                            <div id="mainYear0" style="width: 800px;height:400px;margin: 30px auto;border-bottom: 1px dotted #ccc;"></div>
+
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(1,model)" class="tabItem" tabType="1">
+                    <tab-heading>
+                        分享量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn m-b-xs backHistory btn-info">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(1)">校园直播</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(2)">学科课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(3)">心理课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(4)">营养课程</button>-->
+                                        <!--日期选择开始-->
+                                        &nbsp;发布时间：
+                                        <ui-select ng-model="model.yearShow.year"
+                                                   theme="bootstrap" ng-change="yearShow($select.selected.year)">
+                                            <ui-select-match placeholder="请选择时间">{{$select.selected.year}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.year as item in model.yearShow| filter: $select.search">
+                                                <div ng-bind-html="item.year | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--日期选择结束-->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--图表部分-->
+                            <!-- 年视频量统计 -->
+                            <div id="mainYear1" style="width: 800px;height:400px;margin: 30px auto;border-bottom: 1px dotted #ccc;"></div>
+
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(2,model)" class="tabItem" tabType="2">
+                    <tab-heading>
+                        评论量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn m-b-xs backHistory btn-info">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(1)">校园直播</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(2)">学科课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(3)">心理课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(4)">营养课程</button>-->
+                                        <!--日期选择开始-->
+                                        &nbsp;发布时间：
+                                        <ui-select ng-model="model.yearShow.year"
+                                                   theme="bootstrap" ng-change="yearShow($select.selected.year)">
+                                            <ui-select-match placeholder="请选择时间">{{$select.selected.year}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.year as item in model.yearShow| filter: $select.search">
+                                                <div ng-bind-html="item.year | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--日期选择结束-->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--图表部分-->
+                            <!-- 年视频量统计 -->
+                            <div id="mainYear2" style="width: 800px;height:400px;margin: 30px auto;border-bottom: 1px dotted #ccc;"></div>
+
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(3,model)" class="tabItem" tabType="3">
+                    <tab-heading>
+                        点赞量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn m-b-xs backHistory btn-info">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(1)">校园直播</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(2)">学科课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(3)">心理课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(4)">营养课程</button>-->
+                                        <!--日期选择开始-->
+                                        &nbsp;发布时间：
+                                        <ui-select ng-model="model.yearShow.year"
+                                                   theme="bootstrap" ng-change="yearShow($select.selected.year)">
+                                            <ui-select-match placeholder="请选择时间">{{$select.selected.year}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.year as item in model.yearShow| filter: $select.search">
+                                                <div ng-bind-html="item.year | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--日期选择结束-->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--图表部分-->
+                            <!-- 年视频量统计 -->
+                            <div id="mainYear3" style="width: 800px;height:400px;margin: 30px auto;border-bottom: 1px dotted #ccc;"></div>
+
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(4,model)" class="tabItem" tabType="4">
+                    <tab-heading>
+                        收藏量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <a href="" ng-click="backHistory(model)" class="btn m-b-xs backHistory btn-info">返回上一级</a>
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(1)">校园直播</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(2)">学科课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(3)">心理课程</button>-->
+                                        <!--<button class="btn btn-default btn-sm" ng-click="sortList(4)">营养课程</button>-->
+                                        <!--日期选择开始-->
+                                        &nbsp;发布时间：
+                                        <ui-select ng-model="model.yearShow.year"
+                                                   theme="bootstrap" ng-change="yearShow($select.selected.year)">
+                                            <ui-select-match placeholder="请选择时间">{{$select.selected.year}}</ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="item.year as item in model.yearShow| filter: $select.search">
+                                                <div ng-bind-html="item.year | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--日期选择结束-->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--图表部分-->
+                            <!-- 年视频量统计 -->
+                            <div id="mainYear4" style="width: 800px;height:400px;margin: 30px auto;border-bottom: 1px dotted #ccc;"></div>
+
+                        </li>
+                    </ul>
+                </tab>
+            </tabset>
+            <!--<page-Directive options="pageIndex"  ></page-Directive>-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.AddTestPaper-primary-button{
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+}
+.AddTestPaper-dashed-button{
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.AddTestPaper-Card{
+    margin-bottom: 20px;
+}
+
+.AddTestPaper-textArea{
+    border-style: dashed;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.AddTestPaper-statistics{
+    margin: 0 7px;
+    >span{
+        padding:0 2px;
+        color: #51a9e8;
+    }
+}
+.card-title{
+  display: flex;
+  justify-content: space-between;
+}
+
+.Statistics-ul{
+    padding:10px 5px;
+    >li{
+       display: flex;
+       margin-bottom: 10px;
+    }
+}
+.Statistics-number{
+    font-size: 14px;
+    margin-right: 5px;
+   color: #51a9e8;
+}
+
+.ant-card-head-title{
+  display: block;
+  .gray{
+    color: #909090;
+  }
+}
+
+
+
+
+

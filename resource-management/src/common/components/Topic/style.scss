@@ -1,0 +1,34 @@
+.Topic{
+    border-bottom: 1px #ccc dashed;
+    margin-bottom: 10px;
+}
+
+.Topic-order{
+    color: #51a9e8;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
+.Topic-type{
+    color: #888;
+    margin-right: 5px;
+}
+
+.Topic-difficulty{
+    padding: 2px;
+    background: #ddd;
+    margin: 0 10px;
+    color: #666;
+}
+
+.Topic-visible{
+    margin-left: 50px;
+}
+
+
+.TopicTrunk{
+    padding: 5px 200px 5px 10px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    margin-bottom: 5px;
+}

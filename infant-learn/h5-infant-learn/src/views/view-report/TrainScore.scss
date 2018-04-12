@@ -1,0 +1,112 @@
+.am-picker-popup-item {
+  color: #68c94c !important;
+}
+
+.train-score {
+
+  position: relative;
+  .fiexd-box {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    .circle-score {
+      background: #ffffff;
+      .score-year {
+        display: flex;
+        div {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          &:first-child {
+            span {
+              &:first-child {
+                color: rgb(104, 201, 76);
+              }
+            }
+          }
+          &:nth-of-type(2) {
+            span {
+              &:first-child {
+                color: rgb(253, 99, 15);
+              }
+            }
+          }
+          &:nth-of-type(3) {
+            span {
+              &:first-child {
+                color: rgb(44, 167, 253);
+              }
+            }
+          }
+          &:nth-of-type(4) {
+            span {
+              &:first-child {
+                color: rgb(255, 165, 2);
+              }
+            }
+          }
+          &:nth-of-type(5) {
+            span {
+              &:first-child {
+                color: rgb(162, 41, 207);
+              }
+            }
+          }
+          span {
+            &:first-child {
+              font-size: 0.3rem;
+              font-weight: 800;
+            }
+            &:last-child {
+              font-size: 0.26rem;
+              color: #a7a7a7;
+              margin-top: 0.1rem;
+            }
+          }
+        }
+      }
+      .total-score {
+        height: 0.8rem;
+        line-height: 0.8rem;
+        text-align: center;
+        color: #a7a7a7;
+      }
+    }
+    .select-date {
+      height: 1rem;
+      background: #ffffff;
+      padding: 0.2rem 0.5rem;
+      border-top: 0.2rem solid #dddddd;
+      margin-bottom: 0.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      div {
+        display: flex;
+        justify-content: space-between;
+        .errow-down {
+          width: 1.4rem;
+          height: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        &:last-child {
+          span {
+            font-size: 0.28rem;
+          }
+        }
+        span {
+          font-size: 0.32rem;
+          color: #a7a7a7;
+        }
+      }
+    }
+  }
+.page-top{
+  margin-top: 6.1rem;
+}
+}

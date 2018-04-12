@@ -1,0 +1,126 @@
+/**
+* Created by xj on 2017/8/23.
+*/
+
+.current-block {
+  display: block;
+}
+
+.current-none {
+  display: none;
+}
+.search-loading{
+  z-index: 10000 !important;
+}
+//无内容
+.no-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  color: #999999;
+
+}
+
+//培训计划
+.training-plan {
+  .ant-row{
+    &:first-child{
+      margin-bottom: 0.58rem;
+    }
+  }
+  .btn-group {
+    .ant-btn {
+      margin-right: 8px;
+    }
+  }
+  .accessory{
+    overflow: hidden;
+  }
+}
+
+.teacher-info {
+  display: inline-block;
+  margin-right: 0.5rem;
+  width: 3rem;
+  p {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+//更改模态框样式
+.searchDetail {
+  .ant-row {
+    margin-bottom: 1.2rem;
+  }
+  .ant-modal-header, .ant-modal-footer {
+    text-align: center;
+    .ant-modal-title {
+      font-size: 1rem;
+      color: #108ee9;
+    }
+    .ant-modal-body {
+      .ant-col-2 {
+        text-align: center;
+      }
+    }
+  }
+}
+
+//选择范围模态框
+
+.content {
+  padding-top: 1rem;
+  border: 1px solid #999999;
+  margin-top: 1rem;
+  min-height: 9rem;
+  height: 30rem;
+  overflow-y: scroll;
+}
+
+.show-shoolCount {
+  border: 1px solid #999999;
+  overflow-y: scroll;
+  margin-top: 1rem;
+  padding: 1rem;
+  padding-top: 0;
+  min-height: 6rem;
+  height: 6rem;
+  .single-school {
+    position: relative;
+    float: left;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.4rem;
+    &:hover {
+      background: #dddddd;
+      a{
+        display: inline-block;
+      }
+    }
+    a{
+      position: absolute;
+      top: -0.3rem;
+      right: 0.2rem;
+      display: none;
+    }
+  }
+}
+.scope-name{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

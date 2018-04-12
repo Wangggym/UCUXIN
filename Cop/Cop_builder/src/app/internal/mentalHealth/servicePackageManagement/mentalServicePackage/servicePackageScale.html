@@ -1,0 +1,69 @@
+<div ng-controller="servicePackageScaleController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">服务包量表</h1>
+        <a ui-sref="access.app.internal.servicePackageManagement.mentalServicePackage"
+           style="color: white;float: right;position: relative;top:-30px">
+            <button type="button" class="btn m-b-md w-xs btn-info">返回</button>
+        </a>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"
+                        ng-click="openAdd()">
+                    添加量表
+                </button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only" style="width:400px;">
+                <thead>
+                <tr>
+                    <th style="width:200px;text-align: center;">量表名</th>
+                    <th style="width:200px;text-align: center;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in model.viewList track by $index">
+                    <td ng-bind="item.ServiceName" style="text-align: center;"></td>
+                    <td  class="v-middle"  style="text-align: center;">
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <!--<button type="submit" class="btn btn-info btn-sm" data-ng-click="openEdit(item)">-->
+                        <!--删除-->
+                        <!--</button>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="servicePackageScaleAddController.html">
+    <div class="panel no-border no-border">
+        <div class="panel-body no-border" style="border-bottom: none;">
+            <form class="bs-example form-horizontal ng-pristine ng-valid">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">选择量表</label>
+                    <div class="input-group col-md-6">
+                        <select class="form-control" ng-model="model.scale" ng-options="a.Name for a in webList"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer no-border" style="text-align: center;">
+        <button type="submit" class="btn btn-success" ng-click="ok()">保存</button>
+        <button type="submit" class="btn btn-default" ng-click="close()">返回</button>
+    </div>
+</script>

@@ -1,0 +1,37 @@
+.young-coin-rule {
+  font-size: 0.3rem;
+  .rule-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.45rem 0.4rem;
+    .type {
+      height: 8vh;
+      line-height: 8vh;
+      font-size: 0.3rem;
+      font-weight: bold;
+    }
+    .title {
+      display: flex;
+      justify-content: space-between;
+      height: 5vh;
+      line-height: 5vh;
+      color: #ccc;
+    }
+    .content {
+      > div {
+        display: flex;
+        justify-content: space-between;
+        height: 5vh;
+        line-height: 5vh;
+        &:first-child{
+          span{
+            &:nth-child(2){
+              margin-left: 2em;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

@@ -1,0 +1,21 @@
+.person-detail {
+  font-size: 0.28rem;
+  .content-item {
+    line-height: 0.4rem;
+    padding: 0.3rem 0.3rem;
+    margin: 0 0.2rem;
+    border-bottom: 1PX #ccc solid;
+    display: flex;
+    span {
+      color: #aaa;
+      margin-right: 0.1rem;
+      flex: 1.1;
+    }
+    p {
+      flex: 4;
+    }
+
+  }
+
+}
+

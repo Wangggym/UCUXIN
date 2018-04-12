@@ -1,0 +1,132 @@
+<div ng-controller="scaleMaintenanceController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">量表维护
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>量表：</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="量表名称" ng-model="model.name">
+                            <span class="input-group-btn">
+                                <button ng-click="model.name=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>来源机构：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.institution" theme="bootstrap">
+                                <ui-select-match placeholder="请选择来源机构">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.institutionList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.institution=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>状态：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.state" theme="bootstrap">
+                                <ui-select-match placeholder="请选择状态">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.stateList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="new()">
+                        新增
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>量表名称</th>
+                    <th>量表别名</th>
+                    <th>来源机构</th>
+                    <th>测试人群</th>
+                    <th>创建日期</th>
+                    <th>更新日期</th>
+                    <th>测试目标</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList track by $index">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Scale.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Scale.SellName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Scale.PsyOrgName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-if="item.Scale.MType==11">教师</span>
+                        <span ng-if="item.Scale.MType==12">家长</span>
+                        <span ng-if="item.Scale.MType==13">学生</span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Scale.CDateTime"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Scale.UDateTime"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PsyAttrName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-if="item.Scale.ST==0">未发布</span>
+                        <span ng-if="item.Scale.ST==1">发布</span>
+                        <span ng-if="item.Scale.ST==2">已撤消</span>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:" class="btn btn-success btn-xs"
+                           ng-click="modification(item)">修改
+                        </a>
+                        <a href="javascript:" class="btn btn-info btn-xs"
+                           ng-click="release(item)">发布
+                        </a>
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

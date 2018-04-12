@@ -1,0 +1,209 @@
+.head{
+	background-color: #fff;
+	padding: 20px 0 ;
+	text-align: center;
+	*{
+		margin:0;
+	}
+}
+body{
+	background-color: #F5F5F9 !important;
+}
+.body{
+	text-align: center;
+	margin:20% 0;
+	p{
+		color: #333;
+	}
+}
+.btn{
+	background-color: #fff;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	z-index: 999;
+	.btn_wrap{
+		height: 100px;
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+		align-items: center;
+
+		&>div{
+			width: 100%;
+			display: flex;
+			justify-content:center;
+			padding: 15px 0;
+		}
+		div:first-child{
+			border-right: 1px solid #ccc;
+		}
+		a{
+			width:100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			&>img{
+				width: 32px;
+				margin:0 10px;
+			}
+		}
+	}
+}
+.card{
+	border-radius: 5px;
+	background-color: #fff;
+	width: 90%;
+	padding: 0 15px;
+	height: 380px;
+	margin:20px auto 0 auto;
+	.title{
+		background-color: #3DA5FD;
+		width: 260px;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+		margin:0 auto;
+		color:#fff;
+		height: 48px;
+		text-align: center;
+		line-height: 48px;
+	}
+	.content{
+		display: flex;
+		justify-content: space-around;
+		// overflow: hidden;
+		align-items: center;
+		height: 100%;
+		 
+		.one_wrap{
+			width: 35%;
+			position: relative;
+			height: 65%;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+		
+		
+			justify-content: space-between;
+			top: -10%;
+		
+			.one{
+				position: absolute;
+				width: 180px;
+				height: 110px;
+				background: url('../../public/assets/ryb_1.png') no-repeat;
+				background-size: 100% auto;
+				z-index: 1;
+				top: 20px;
+			}
+			& > img{
+				position: absolute;
+				width: 120px;
+				height: 120px;
+				border-radius: 50%;
+			    // left: 12.2%;
+  			     
+			}
+			.one_name{
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				color:#999;
+			}
+		}
+		.second_wrap{
+			width: 25%;
+			position: relative;
+			height: 220px;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: space-between;
+			.second{
+				position: absolute;
+				width: 140px;
+				height: 101px;
+				background: url('../../public/assets/ryb_2.png') no-repeat;
+				background-size: 100% auto;
+				z-index: 1;
+				top: 20px;
+				// left: 5px;
+			}
+			& > img{
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				// left: 26px;
+  			     
+			}
+			.second_name{
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				color:#999;
+			}
+		}
+		.three_wrap{
+			width: 25%;
+			position: relative;
+			height: 220px;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: space-between;
+			.three{
+				position: absolute;
+				width: 140px;
+				height: 101px;
+				background: url('../../public/assets/ryb_3.png') no-repeat;
+				background-size: 100% auto;
+				z-index: 1;
+				top: 20px;
+				// left: 5px;
+			}
+			& > img{
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+			    // left: 27px;
+  			     
+			}
+			.three_name{
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				color:#999;
+			}
+		}
+	}
+	.mydata{
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		height: 180px;
+		margin-top: 70px;
+		img{
+			width: 50px;
+			height: 50px;
+		}
+		.item{
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			text-align: center;
+			p{
+				font-size: 22px;
+			}
+			h4{
+				small{
+				color:#888;
+			}
+			}
+		}
+	}
+}

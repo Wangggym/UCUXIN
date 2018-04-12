@@ -1,0 +1,125 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">绑卡详情</h1>
+</div>
+<div class="wrapper-md row" ng-controller="stuBindCardController">
+    <div class="panel panel-default">
+        <div class="panel-body"style="border-bottom: 1px solid #ddd;padding-bottom: 0">
+            <form class="query-group-form form-inline" role="form" style="padding: 0 15px;margin: 0">
+                <div class="form-group">
+                    <label>姓名：<span ng-bind="model.MName"></span></label>
+                </div>
+                <div class="form-group">
+                    <label>班级：<span ng-bind="model.ClassName"></span></label>
+                </div>
+                <div class="form-group">
+                    <label>性别：<span ng-bind="model.Gender"></span></label>
+                </div>
+                <div class="form-group">
+                    <label>走读/住读：</label>
+
+                    <div class="input-group">
+                        <select class="form-control" ng-model="model.StuType">
+                            <option value="走读">走读</option>
+                            <option value="住读">住读</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-control">家庭住址：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="model.Address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info" data-ng-click="save()">保存</button>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body" style="overflow: hidden;text-align: left;border-bottom: 1px solid #ddd;padding:50px 0;">
+            <div class="img-wrap" ng-repeat="item in model.Images">
+                <p ng-bind="item.Desc"></p>
+                <img src={{item.Pic}} ng-if="item.Pic" alt="" width="170px">
+                <img src='./public/img/p0.jpg' ng-if="!item.Pic" width="170px" alt="">
+                <div>
+                    <button class="btn btn-success btn-addon btn-sm" ngf-select name="file"
+                            ng-model="model.imgUrl"
+                            ng-change="fileChange(model.imgUrl,item)" ngf-pattern="'image/*'"
+                            ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+                            class="fa fa-plus"></i>照片上传
+                    </button>
+                    <buttn class="btn btn-danger btn-sm" ng-click="deleteImg(item)">
+                        删除
+                    </buttn>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body row" style="margin: 0;padding-top: 30px;">
+            <form class="query-group-form form-inline" role="form" style="padding: 0 15px">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" onkeyup='this.value=this.value.replace(/\D/gi,"")' placeholder="请填写完整卡号" ng-model="model.newCard">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info" data-ng-click="bind()">绑定</button>
+                </div>
+            </form>
+            <div class="col-lg-5">
+
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+                        <th >卡面卡号</th>
+                        <th >绑定时间</th>
+                        <th >操作</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="x in model.CardNoList">
+                        <td data-value="1"  >
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted" ng-bind="x.CardNo"></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-value="1"  >
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted" ng-bind="x.MDate"></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-value="1"  >
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted">
+                                        <button class="btn btn-warning" ng-click="logout(x)">丢卡注销</button>
+                                        <button class="btn btn-danger"  ng-click="unbind(x)">解绑</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<style>
+    .img-wrap{
+        float: left;
+        width: 240px;
+        text-align: center;
+    }
+    .img-wrap img{
+        padding: 10px;
+        /*border: 1px solid #ddd;*/
+        margin-bottom: 20px;
+    }
+</style>

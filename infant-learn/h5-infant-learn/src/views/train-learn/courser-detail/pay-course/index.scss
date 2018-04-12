@@ -1,0 +1,39 @@
+.pay-course{
+  .pay-course-contain{
+    padding-top: 0.2rem;
+  }
+  .pay-type-title{
+    padding: 0.3rem;
+    margin-top: 0.6rem;
+  }
+  .pay-type-contain{
+    padding: 0 0.2rem;
+    section{
+      padding: 0.3rem 0.6rem;
+      border-bottom: 1PX solid #DDDDDD;
+      img{
+        width: 0.6rem;
+        height: 0.6rem;
+      }
+      img:nth-of-type(2){
+        float: right;
+      }
+      span{
+        padding-left: 0.4rem;
+        //padding-top: 0.5rem;
+        line-height: 0.6rem;
+      }
+    }
+  }
+  .big-btn{
+    background-color: #43b622;
+    height: 0.9rem;
+    text-align: center;
+    line-height: 0.9rem;
+    color: #fff;
+    width: 5rem;
+    margin: 0 auto;
+    border-radius: 0.1rem;
+    margin-top: 2rem;
+  }
+}

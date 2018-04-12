@@ -1,0 +1,26 @@
+<div ng-controller="addTheScaleController">
+    <div class="bg-light lter b-b wrapper-md">
+        <div class="ui huge breadcrumb">
+            <a class="section" ng-if="model.stateIndex>0"
+               ui-sref="access.app.internal.inventoryManagement.addTheScale.basicInformation">基本信息</a>
+            <i class="right chevron icon divider"></i>
+            <a class="section" ng-if="model.stateIndex>1"
+               ui-sref="access.app.internal.inventoryManagement.addTheScale.userAttributes">用户属性</a>
+            <div class="active section" ng-if="model.stateIndex<2">用户属性</div>
+            <i class="right chevron icon divider"></i>
+            <a class="section" ng-if="model.stateIndex>2"
+               ui-sref="access.app.internal.inventoryManagement.addTheScale.questionBank">题库</a>
+            <div class="active section" ng-if="model.stateIndex<3">题库</div>
+            <i class="right chevron icon divider"></i>
+            <a class="section" ng-if="model.stateIndex>3"
+               ui-sref="access.app.internal.inventoryManagement.addTheScale.factorDefinition">因子定义<a
+                    ng-if="model.stateIndex>4">：定义因子内容</a></a>
+            <div class="active section" ng-if="model.stateIndex<4">因子定义</div>
+        </div>
+        <button type="submit" class="pull-right btn btn-default" ng-click="goBack()">首页</button>
+    </div>
+    <div ui-view class="fade-in-up" style="overflow: hidden"></div>
+    <!--<div class="bg-light lter b-b wrapper-md text-center">-->
+        <!--<button type="submit" class=" btn btn-default" ng-click="goBack()">首页</button>-->
+    <!--</div>-->
+</div>

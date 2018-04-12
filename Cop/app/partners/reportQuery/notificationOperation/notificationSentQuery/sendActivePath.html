@@ -1,0 +1,109 @@
+<form class="form-inline" role="form" ng-controller="partnersNotificationSentQuerySendController">
+    <div class="panel-body">
+        <div class="form-group">
+            <label><span class="spanColor">*</span>学校：</label>
+
+            <div class="input-group">
+                <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="selectModelGid()">
+                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices repeat="item.ID as item in model.schoolList | filter: $select.search">
+                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="deleteModelGid()" class="btn btn-default"
+                                type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><span class="spanColor">*</span>开始日期：</label>
+
+            <div class="input-group w-sm">
+                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                       ng-model="model.dateStart" ng-disabled="true"
+                       is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><span class="spanColor">*</span>结束日期：</label>
+
+            <div class="input-group w-sm">
+                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                       ng-model="model.dateOver" ng-disabled="true"
+                       is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="sr-only">发送人</label>
+            <input type="text" class="form-control" placeholder="发送人" ng-model="model.sendName">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" data-ng-click="searchSend()"
+                    ng-disabled="model.selectedGid&&model.dateOver&&model.dateStart?false:true">
+                查询
+            </button>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+            <th>学校</th>
+            <th>类型</th>
+            <th>发送人</th>
+            <th>发送范围</th>
+            <th>发送时间</th>
+            <th>已接收数/总数</th>
+            <th>发送短信</th>
+            <th>短信消耗</th>
+            <th>内容</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in model.sendList">
+            <td class="v-middle">
+                <span>{{item.SchName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.InfoSTypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SendName}}</span>
+            </td>
+            <td class="v-middle">
+                <span ng-show="item.SendTarget.length>10?false:true">{{item.SendTarget}}</span>
+                <span ng-show="item.SendTarget.length>10?true:false" popover="{{item.SendTarget}}"
+                      popover-trigger="mouseenter">{{item.SendTarget.substring(0,10) + '...'}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SendDate}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.RvCnt}}/{{item.RvSum}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.IsSendSmsName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SmsCnt}}</span>
+            </td>
+            <td class="v-middle">
+                <span popover="{{item.InfoContName}}" popover-trigger="mouseenter">{{item.InfoCont}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <page-Directive options="pageIndexSend"></page-Directive>
+</form>

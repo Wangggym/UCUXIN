@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.ant-layout-content {
+  background-color: #fff;
+  padding: 24px;
+}
+.ant-layout-sider {
+  background: rgb(255, 255, 255);
+}
+.ant-breadcrumb{
+  margin: 12px 0
+}
+a{
+  color: rgba(0, 0, 0, 0.65)!important;
+  text-decoration: none!important;
+}

@@ -1,0 +1,36 @@
+.current-block{
+  display: block !important;
+}
+.current-none{
+  display: none !important;
+}
+.editable-cell{
+  display: inline-block !important;
+}
+.ant-checkbox-wrapper{
+  //margin-left: 37px !important;
+}
+.ant-checkbox-disabled + span {
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-radio-disabled + span {
+  color: rgba(0, 0, 0, 0.65);
+}
+.category-management{
+  position: relative;
+  .form-search-group{
+    .ant-form-item{
+      margin-top: 0 !important;
+    }
+  }
+}
+.editable-add-btn{
+  position: absolute;
+  top:0;
+  left: 39%;
+}
+.btn-group{
+  .ant-btn{
+    margin-right: 8px;
+  }
+}

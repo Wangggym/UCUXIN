@@ -1,0 +1,99 @@
+<div ng-controller="homeMaintenanceController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">首页维护
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>标题：</label>
+                        <input type="text" class="form-control" ng-model="model.title" placeholder="请输入查询关键字">
+                    </div>
+                    <div class="form-group">
+                        <label>栏目：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.columnId" theme="bootstrap">
+                                <ui-select-match placeholder="请选择栏目">{{$select.selected.catname}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.catname as item in model.columnList | filter: $select.search">
+                                    <div ng-bind-html="item.catname | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.columnId=undefined" class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">查询</button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th width="36%">标题</th>
+                    <th>栏目</th>
+                    <th>缩略图</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index+1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Title"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Column"></span>
+                    </td>
+                    <td class="v-middle">
+                        <img ng-repeat="imgUrl in item.ImgUrl track by $index" ng-src="{{imgUrl}}" alt="无图片"
+                             style="max-width: 100px;max-height:100px;margin-right: 5px;padding:5px;">
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:;" class="btn btn-xs btn-danger" title="删除" dropdown-toggle><i
+                                    class="fa fa-trash-o"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <a href="javascript:;" style="margin-left:5px;" title="预览效果" class="btn btn-xs btn-primary"
+                           ng-click="detailedTemplate(item)">预览</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <style>
+        #qrCode img {
+            margin: auto;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="text/ng-template" id="detailedTemplate.html">
+        <div class="panel no-border">
+            <div class="modal-header">
+                <h2>
+                    扫描预览
+                    <button type="submit" class="btn btn-default pull-right" ng-click="cancel()">关闭</button>
+                </h2>
+            </div>
+            <div id="qrCode"></div>
+        </div>
+    </script>
+</div>

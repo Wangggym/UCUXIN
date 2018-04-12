@@ -1,0 +1,75 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">班级批量发卡
+        <button type="submit" class="pull-right btn btn-default" ui-sref="access.app.internal.cardManagement.strCodeBind">返回</button>
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="classBatchCodeController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" role="form">
+                <div class="form-group" style="line-height:0em;">
+                    <label>班级：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="person.selected" theme="bootstrap" ng-disabled="disabled"
+                                   ng-change="schNameChange()"
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="请选择班级">{{$select.selected.SchoolClassName}}</ui-select-match>
+                            <ui-select-choices group-by="'GradeName'"
+                                               repeat="person in classes | propsFilter: {SchoolClassName: $select.search}">
+                                <small>
+                                    {{person.SchoolClassName}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deletePerson()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">
+                        <li>班级总人数：<span ng-bind="totalNum">0</span></li>
+                        <li>已经绑卡人数：<span ng-bind="bindNum">0</span></li>
+                        <li class="text-danger-dker">未录入家长电话（无法绑卡）：<strong class="ng-binding"
+                                                                           ng-bind="noPhoneNum">0</strong></li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn m-b-xs btn-primary btn-rounded" ng-show="visible"
+                        ng-click="inputTelephone()">去录入家长电话
+                </button>
+            </form>
+            <div class="line line-dashed b-b line-lg"></div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label>起始卡号：</label>
+                    <input type="number" ng-model="startCard" class="form-control" placeholder="起始卡号"
+                           ng-blur="ngBluer(startCard)">
+                </div>
+                <div class="form-group">
+                    <ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">
+                        <li>可绑卡人数：<span ng-bind="unBindNum">0</span></li>
+                        <li class="text-danger-dker" ng-show="visibleCard">提示：<strong
+                                class="ng-binding">卡号必须是10位有效数字</strong></li>
+                    </ul>
+                </div>
+            </form>
+            <div class="line line-dashed b-b line-lg"></div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label>结束卡号：</label>
+                    <input type="number" value="{{endCard = startCard + unBindNum -1}}" class="form-control"
+                           placeholder="结束卡号" maxlength="10"
+                           disabled="disabled">
+                </div>
+            </form>
+        </div>
+        <div class="pull-right">
+            <button type="submit" class="btn btn-default" ui-sref="app.cardManagement.strCodeBind">取消</button>
+            <button type="submit" class="btn btn-primary" ng-click="preservationBatch()">确定发卡</button>
+        </div>
+    </div>
+</div>

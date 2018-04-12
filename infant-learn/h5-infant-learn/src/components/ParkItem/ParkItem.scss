@@ -1,0 +1,55 @@
+a {
+  text-decoration: none !important;
+}
+
+.park-item {
+  font-size: 0.28rem;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.1rem 0.2rem;
+  .pic {
+    width: 1.5rem;
+    height: 1.5rem;
+    img {
+      width: 100%;
+      height: 100%;
+      border: 1PX #ccc solid;
+    }
+  }
+  .content {
+    width: 60%;
+    margin-left: 0.2rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    .name {
+      font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .history {
+      color: #696969;
+    }
+  }
+  .icon {
+    width: 10%;
+    position: relative;
+    color: #696969;
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0.6rem;
+      height: 0.6rem;
+      margin-top: -0.3rem;
+      margin-left: -0.3rem;
+      .am-icon-md {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+
+  }
+}

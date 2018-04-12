@@ -1,0 +1,54 @@
+.train-course{
+    text-decoration: none !important;
+    padding-top: 0.15rem;
+    overflow: auto;
+    .header{
+        padding-bottom: 0.3rem;
+        border-bottom: 1PX #ccc solid;
+        .apply-plan{
+            line-height: 0.7rem;
+            font-size: 0.3rem;
+            color: #a7a7a7;
+        }
+    }
+    .main{
+      margin: 0.3rem 0.1rem 1.1rem;
+    }
+    .footer{
+        position: fixed;
+        height: 1rem;
+        background: #fafafb;
+        font-size: 0.26rem;
+        bottom: 0;
+        width: 100%;
+        line-height: 1rem;
+        display: flex;
+        justify-content: space-between;
+        .icon{
+            padding: 0.1rem 0;
+            width: 64PX;
+            margin-left: 0.25rem;
+            .pic{
+                height: 32PX;
+                background: #ccc;
+                width: 32PX;
+                margin-left: 16PX;
+            }
+            .text{
+                line-height: 0.45rem;
+                font-size: 0.22rem;
+                text-align: center;
+            }
+        }
+        .price{
+            padding: 0 0.4rem;
+            color: rgb(253, 99,15);
+        }
+        .button{
+            display: inline-block;
+            padding: 0 0.28rem;
+            background: rgb(104 ,201 ,76);
+            color: white
+        }
+    }
+}

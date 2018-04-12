@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>资讯内容发布平台</title>
+    <style>
+      .pace {
+        width: 100%;  height: 100%;
+        -webkit-pointer-events: none;
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        box-sizing: border-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        -ms-flex-preferred-size: 25%;
+        flex-basis: 25%;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        background-color: #54aee3;
+        position: absolute;
+        left: 0;
+        top:0;
+        z-index: 600;
+
+        opacity: 1;
+        transition: all .6s;
+      }
+      @-webkit-keyframes ball-scale-ripple-multiple {
+        0% {
+          -webkit-transform: scale(.1);
+          transform: scale(.1);
+          opacity: 1
+        }
+
+        70% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          opacity: .7
+        }
+
+        100% {
+          opacity: 0
+        }
+      }
+
+      @keyframes ball-scale-ripple-multiple {
+        0% {
+          -webkit-transform: scale(.1);
+          transform: scale(.1);
+          opacity: 1
+        }
+
+        70% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          opacity: .7
+        }
+
+        100% {
+          opacity: 0
+        }
+      }
+
+      .ball-scale-ripple-multiple {
+        position: relative;
+        /*-webkit-transform: translateY(-25px);
+        transform: translateY(-25px)*/
+        -webkit-transform: translateY(-60px);
+        transform: translateY(-60px)
+      }
+
+      .ball-scale-ripple-multiple>div:nth-child(0) {
+        -webkit-animation-delay: -.8s;
+        animation-delay: -.8s
+      }
+
+      .ball-scale-ripple-multiple>div:nth-child(1) {
+        -webkit-animation-delay: -.6s;
+        animation-delay: -.6s
+      }
+
+      .ball-scale-ripple-multiple>div:nth-child(2) {
+        -webkit-animation-delay: -.4s;
+        animation-delay: -.4s
+      }
+
+      .ball-scale-ripple-multiple>div:nth-child(3) {
+        -webkit-animation-delay: -.2s;
+        animation-delay: -.2s
+      }
+
+      .ball-scale-ripple-multiple>div {
+        position: absolute;
+        top: -2px;
+        left: -26px;
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        border: 2px solid #fff;
+        -webkit-animation: ball-scale-ripple-multiple 1.25s 0s infinite cubic-bezier(.21,.53,.56,.8);
+        animation: ball-scale-ripple-multiple 1.25s 0s infinite cubic-bezier(.21,.53,.56,.8)
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <div class="pace">
+      <div class="pace-progress"></div>
+      <div class="ball-scale-ripple-multiple"><div></div><div></div><div></div></div>
+    </div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+  <script src="//gosspublic.alicdn.com/aliyun-oss-sdk-4.10.0.min.js"></script>
+  <script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+  <script type="text/javascript" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+  <!--<script type="text/javascript" src="/ZX/ueditor/ueditor.config.js"></script>-->
+  <!--<script type="text/javascript" src="/ZX/ueditor/ueditor.all.js"></script>-->
+  <!--<script type="text/javascript" src="/ZX/ueditor/lang/zh-cn/zh-cn.js"></script>-->
+</html>
+

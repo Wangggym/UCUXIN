@@ -1,0 +1,95 @@
+body {
+  background-color: #ffffff !important;
+}
+.remind{
+  background-color: #ffffff !important;
+  height: 100%;
+  .remindText{
+    padding: 28px 38px;
+  }
+  .chooseRemind{
+    display: flex;
+    flex-direction: column;
+    .title{
+      height: 80px;
+      line-height: 80px;
+      background-color: #EEEEEE;
+      color: #333333;
+      padding: 0 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .checkAll{
+
+      }
+    }
+    .remindUser{
+      padding: 68px 20px 28px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .box{
+      //height: 720px;
+      //padding: 68px 20px 28px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      //justify-content: center;
+      .item {
+        width: 100px;
+        //height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: space-between;
+        margin: 0 16px;
+        position: relative;
+        .icon {
+          position: absolute;
+          right: 5px;
+          top:5px;
+          width: 28px;
+          height: 28px;
+        }
+        img {
+          width: 100px;
+          height: 100px;
+        }
+        span{
+          display:block;
+          width: 100px;
+          margin: 20px 0 40px 0;
+          font-size: 20px;
+          text-align: center;
+          white-space:nowrap;
+          text-overflow:ellipsis;
+          overflow:hidden;
+        }
+      }
+    }
+    .remin{
+      text-align: center;
+      line-height: 80px;
+      color: #ffffff;
+      margin: 0 auto;
+      margin-top: 60px;
+      margin-bottom: 28px;
+      width: 420px;
+      height: 74px;
+      background:url("../../public/assets/btn.png");
+      background-size: contain;
+    }
+    .btn{
+      display:block;
+      width:60%;
+      height:64px;
+      margin:0 auto;
+      margin-bottom: 25px;
+      border-radius:60px;
+      border:none;
+      color:#fff;
+      background:#40c3f9
+    }
+  }
+}

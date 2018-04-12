@@ -1,0 +1,121 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">短信推送</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading">
+                <form class="query-group form-inline clearfix">
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="queryFields.school" theme="bootstrap" reset-search-input="false">
+                                <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="school.GID as school in schoolList track by $index"
+                                                   refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                    <span ng-bind-html="school.FName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                            <button type="button" ng-click="queryFields.school = undefined"
+                                    ng-disabled="!queryFields.school" class="btn btn-default">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)">查询</button>
+                    <button type="button" class="btn w-xs btn-primary" style="margin-left: 15px"
+                            ng-click="export($event)">导出
+                    </button>
+                    <button type="button" class="btn w-xs btn-success pull-right" ng-click="addPush()">添加推送</button>
+                </form>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>学校名称</th>
+                    <th>推送时间</th>
+                    <th>状态</th>
+                    <th>产品包</th>
+                    <th>服务包</th>
+                    <th>缴费状态</th>
+                    <th>接收范围</th>
+                    <th>接收对象</th>
+                    <th>推送内容</th>
+                    <th>条数</th>
+                    <th>App安装状态</th>
+                    <th>接收对象列表</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="11" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">当前没有推送信息! &nbsp;<a href="javascript:;"
+                                                                                         class="alert-link"
+                                                                                         ng-click="addPush()">添加推送</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{item.GName}}</td>
+                    <td>{{item.PushDate}}</td>
+                    <td>{{item.ST}}</td>
+                    <td>{{item.ProductName}}</td>
+                    <td>{{item.ChargeName}}</td>
+                    <td>{{item.PayStatus}}</td>
+                    <td>{{item.ReceiveArea}}</td>
+                    <td>{{item.ReceiveObj}}</td>
+                    <td><a href="javascript:;" class="btn btn-primary btn-xs"
+                           ng-click="detailMsg(item.Msg, $event)">详情</a></td>
+                    <td>{{item.QtySms}}</td>
+                    <td>{{item.AppStatus}}</td>
+                    <td ng-if="item.ReceiveObjList.split(',').length == 1"><span
+                            class="label label-warning label-receive">{{item.ReceiveObjList}}</span></td>
+                    <td ng-if="item.ReceiveObjList.split(',').length > 1"><a href="javascript:;"
+                                                                             class="btn btn-primary btn-xs"
+                                                                             ng-click="detailReceive(item.GName, item.ReceiveObjList, $event)">详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="receiveObjList.html">
+    <div class="modal-header">
+        <h3 class="modal-title">接收对象列表</small></h3>
+    </div>
+    <div class="modal-body receive-obj">
+        <h4 ng-if="receiveList.length!=1">{{school}}</h4>
+        <div class="receive-obj-list">
+            <span class="label label-info" ng-repeat="receive in receiveList">{{receive}}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="cancel()">确认</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title">推送内容
+            <small>{{school}}</small>
+        </h3>
+    </div>
+    <div class="modal-body">{{msgDetail}}</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="cancel()">确认</button>
+    </div>
+</script>
+

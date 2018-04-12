@@ -1,0 +1,33 @@
+.visible-p{
+  .visible-content{
+    .range-item{
+      width:90%;
+      margin-left:2%;
+      .select-width{
+        width:20%;
+        margin-right:2%
+      }
+    }
+    .tagBoxList{
+      border:1px solid #d9d9d9
+    }
+    .range-item{
+      &:not(:first-child){
+        margin-top: 8px;
+        border-top:1px solid #e9e9e9;
+      }
+      >dd{
+        padding-left: 22px;
+
+        .ant-checkbox-wrapper{
+          margin-right: 8px;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+  .ant-card-body{
+    padding: 0;
+  }
+}
+

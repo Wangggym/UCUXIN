@@ -1,0 +1,52 @@
+// Created by QiHan Wang on 2017/9/19.
+.exam-detail{
+  padding: 40px;
+  .ed-info{
+    margin-bottom: 20px;
+    font-size: 36px;
+    .orange{
+      color: #f97411;
+    }
+    .green{
+      color: #43b622;
+    }
+  }
+
+  .ed-list{
+    margin: 0 -16px;
+    display: flex;
+    flex-wrap: wrap;
+    >li{
+      display: inline-block;
+      width: 72px;
+      height: 72px;
+      background-image: url("../../assets/images/yx_selected.png");
+      background-size: cover;
+      text-align: center;
+      line-height: 70px;
+      font-size: 22px;
+      text-indent: 4px;
+      margin: 16px;
+      position: relative;
+      align-items: flex-start;
+      > .ed-icon{
+        position: absolute;
+        right: 0;
+        top:0;
+      }
+    }
+  }
+}
+.ed-icon{
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  background-size: cover;
+}
+.ed-right{
+  background-image: url("../../assets/images/yx_right.png");
+}
+
+.ed-error{
+  background-image: url("../../assets/images/yx_wrong.png");
+}

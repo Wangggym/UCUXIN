@@ -1,0 +1,101 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">量表管理</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label>量表名称：</label>
+                    <input type="text" class="form-control" ng-model="queryFields.scaleName" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <label>来源：</label>
+                    <input type="text" class="form-control" ng-model="queryFields.scaleSource" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedA" ng-checked="checked"
+                                   data-ng-click="statusA()"><i></i>已发布
+                        </label>
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedB" ng-checked="checked"
+                                   data-ng-click="statusB()"><i></i>未发布
+                        </label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-info" ng-click="submitQuery()"><i class="fa fa-search"></i> 查询
+                </button>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success" ng-click="save()"><i class="fa fa-plus"></i> 新增
+                    </button>
+                </div>
+            </form>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>量表名称</th>
+                    <th>来源</th>
+                    <th>创建日期</th>
+                    <th>更新日期</th>
+                    <th>生成日期</th>
+                    <th>状态</th>
+                    <th>是否生成</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="8" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">当前没有量表信息! &nbsp;<a href="javascript:;"
+                                                                                         class="alert-link"
+                                                                                         ng-click="add()">新增量表</a></div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Origion}}</td>
+                    <td>{{(item.CDate.indexOf('0001') == -1 ) ? item.CDate : ''}}</td>
+                    <td>{{(item.UDate.indexOf('0001') == -1 ) ? item.UDate : ''}}</td>
+                    <td>{{(item.StaticDate.indexOf('0001') == -1 ) ? item.StaticDate : ''}}</td>
+                    <td>
+                        <switch id="enabled" name="enabled" ng-model="item.ST" class="green ui-switch-small"
+                                ng-change="release(item, $index)" title="{{item.ST ? '撤销' : '发布'}}"></switch>
+                    </td>
+                    <td>{{item.IsProduct ? '是' : '否'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-xs" ng-click="save(item.ID)" title="修改"><i
+                                class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="static(item.ID, $index)"
+                                title="生成量表"><i class="fa fa-send-o"></i></button>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="del(item)" title="删除"><i
+                                class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeScale.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>量表删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除量表：<strong>{{scale.Name}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

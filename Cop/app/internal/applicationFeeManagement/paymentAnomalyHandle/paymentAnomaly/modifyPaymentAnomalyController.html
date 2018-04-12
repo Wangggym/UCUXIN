@@ -1,0 +1,141 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">修改缴费异常数据处理</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h4><i class="fa fa-edit"></i> 修改</h4></div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">学校：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.GName}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原班级：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.ClassName}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原学生姓名：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.UName}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原家长电话：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.Tel}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原UMID：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.UMID}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原服务包：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.ChargeName}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">原订单：</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{modifyData.OrderID}}</p>
+          </div>
+        </div>
+          <hr>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">新班级：</label>
+          <div class="input-group col-sm-2">
+            <ui-select ng-model="queryFields.classId" theme="bootstrap" ng-disabled="!classNameList" ng-change="classNameChange(newInfo.classInfo)">
+              <ui-select-match placeholder="请选择新班级">{{$select.selected.ClassName}}</ui-select-match>
+              <ui-select-choices
+                      repeat="className.ClassID as className in classNameList | propsFilter: { ClassName:$select.search }">
+                <span ng-bind-html="className.ClassName | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                          <button type="button" ng-click="queryFields.classId = undefined" class="btn btn-default">
+                          <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                      </span>
+          </div>
+        </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">新学生姓名：</label>
+            <div class="col-sm-6">
+              <p class="form-control-static col-sm-2">{{modifyData.NewUName || '未修改'}}</p>
+              <button type="button" class="btn w-xs btn-success col-sm-2" ng-click="query()">选择学生</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">新家长电话：</label>
+            <div class="col-sm-6">
+              <p class="form-control-static">{{modifyData.NewTel || '未修改'}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">新UMID：</label>
+            <div class="col-sm-6">
+              <p class="form-control-static">{{(modifyData.NewUMID-0) ? modifyData.NewUMID : '未修改'}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">更改说明：</label>
+            <div class="col-sm-4">
+              <textarea class="form-control" rows="3" ng-model="modifyData.Desc"></textarea>
+            </div>
+          </div>
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="button" class="btn w-xs btn-info" ng-click="confirm()">确定</button>
+            <button type="button" class="btn w-xs btn-default" ng-click="cancel()">取消</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="studentList.html">
+  <div class="modal-header">
+    <h3 class="modal-title">学生列表</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline">
+      <div class="form-group">
+        <label>学生姓名/家长电话：</label>
+        <input class="form-control" type="text" ng-model="queryFields.text" placeholder="学生姓名/家长电话">
+      </div>
+      <button type="button" class="btn btn-info" ng-click="queryStudent()">查询</button>
+    </form>
+    <div style="max-height: 440px;margin-top: 15px;overflow: hidden;overflow-y: auto">
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>家长电话</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in dataList">
+        <td>{{item.ClassName}}</td>
+        <td data-umid="{{item.UMID}}">{{item.MName}}</td>
+        <td>{{item.Tel}}</td>
+        <td><button type="button" class="btn btn-info btn-xs" ng-click="comfirmSelected(item)">确认选择</button></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</script>
+

@@ -1,0 +1,177 @@
+<div ng-controller="editExpert">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">编辑专家
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-lg-8">
+            <div class="panel-heading font-bold">编辑</div>
+            <div class="panel-body">
+                <form class="bs-example form-horizontal ng-pristine ng-valid">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">心理机构：</label>
+
+                        <div class="col-lg-3">
+                            <select ng-model="model.PsyOrgID" class="form-control"
+                                    ng-options="x.ID as x.Name for x in psyList">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">地区：</label>
+
+                        <div class="col-lg-3">
+                            <select ng-model="model.PRID" class="form-control" ng-change="onChangePro()"
+                                    ng-options="x.RID as x.Name for x in provinceList">
+                            </select>
+                        </div>
+                        <div class="col-lg-3" ng-show="model.PRID">
+                            <select ng-model="model.CRID" class="form-control"
+                                    ng-options="x.RID as x.Name for x in cityList">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">专家名称：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.Name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">优信账号：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.Tel" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">头像：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-value="model.Pic" disabled class="form-control"
+                                   style="width: 50%;min-width: 120px;display:inline-block;"/>
+                            <button class="btn btn-success btn-addon" ngf-select name="file"
+                                    ng-model="model.Pic"
+                                    ng-change="fileChange(model.Pic)" ngf-pattern="'image/*'"
+                                    ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+                                    class="fa fa-plus"></i>图片上传
+                            </button>
+                            <div class="img-upload" style="padding-top:10px;">
+                                <img ng-src="{{model.Pic}}"
+                                     class="img-thumbnail"
+                                     style="min-width:200px;min-height:200px;max-width:440px;max-height: 200px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">从业资质：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.Qualification" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">擅长领域：</label>
+
+                        <div class="col-lg-10 checkbox">
+                            <label class="i-checks" ng-repeat="x in psyAreaList">
+                                <input type="checkbox" value="" ng-Click="checkArea(x)" ng-checked="isChecked(x)">
+                                <i></i>
+                                <span ng-bind="x.Name" style="margin: 0 10px 0 0px;"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">专家简介：</label>
+
+                        <div class="col-lg-10">
+                            <textarea type="text" ng-model="model.Intro" class="form-control"
+                                      style="resize:none;height:120px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">擅长疗法：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.Therapy" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">咨询风格：</label>
+
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.ConsultingStyle" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">个案咨询时长：</label>
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.ConsultingHours" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">专业成长：</label>
+                        <div class="col-lg-10">
+                            <textarea type="text" ng-model="model.ProfessionalGrowth" class="form-control"
+                                      style="resize:none;height:120px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">培训经历：</label>
+                        <div class="col-lg-10">
+                            <textarea type="text" ng-model="model.TrainingExperience" class="form-control"
+                                      style="resize:none;height:120px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">出版物：</label>
+                        <div class="col-lg-10">
+                            <textarea type="text" ng-model="model.Publication" class="form-control"
+                                      style="resize:none;height:120px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">详细介绍：</label>
+                        <div class="col-lg-10">
+                            <!--<div id="editor" ng-model="model.Cont" ng-change="change()"></div>-->
+                            <!-- 加载编辑器的容器 -->
+                            <script id="container" name="content" type="text/plain"></script>
+                            <ucu-ueditor options="context"></ucu-ueditor>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">排序值：</label>
+                        <div class="col-lg-10">
+                            <input type="text" ng-model="model.Seq" onkeyup='this.value=this.value.replace(/\D/gi,"")'  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">状态：</label>
+                        <div class="col-lg-10">
+                            <select ng-model="model.ST" class="form-control"
+                                    ng-options="x.value as x.label for x in status">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">系统角色：</label>
+                        <div class="col-lg-10 checkbox">
+                            <label class="i-checks" ng-repeat="x in role">
+                                <input type="checkbox" value="" ng-Click="checkRole(x)" ng-checked="isCheckedRole(x)">
+                                <i></i>
+                                <span ng-bind="x.Name" style="margin: 0 10px 0 0px;"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-success" ng-click="ok()">确认</button>
+                            <button class="btn btn-default" ng-click="cancel()">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

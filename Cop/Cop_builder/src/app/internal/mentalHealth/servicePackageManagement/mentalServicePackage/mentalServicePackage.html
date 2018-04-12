@@ -1,0 +1,86 @@
+<div ng-controller="mentalServicePackage">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">心理服务包
+        </h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row wrapper">
+
+                <form class=" form-inline" role="form">
+                    <div class="form-group">
+                        <label>服务包名称：</label>
+                        <input type="text" class="form-control" ng-model="searchKey" placeholder="请输入查询关键字">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" style="margin: 0 10px;" data-ng-click="search()">
+                            查询
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <a ui-sref="access.app.internal.servicePackageManagement.addPackage({id:0})" style="color: white">新增</a></button>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>服务包名称</th>
+                    <th>价格</th>
+                    <th>图片</th>
+                    <th>是否显示在推荐位</th>
+                    <th>状态</th>
+                    <th style="width:470px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in model.viewList track by $index">
+                    <td ng-bind="item.Name" class="v-middle"></td>
+                    <td ng-bind="item.Price" class="v-middle"></td>
+                    <td class="v-middle"><img ng-src={{item.Pic}} alt="" style="height: 60px;"></td>
+                    <td ng-bind="item.IsBanner ? '是' : '否'" class="v-middle"></td>
+                    <td class="v-middle">
+                        <span ng-if="item.ST==0">未发布</span>
+                        <span ng-if="item.ST==1">发布</span>
+                    </td>
+                    <td  class="v-middle">
+                        <button type="submit" class="btn btn-xs btn-danger" ng-click="setStype(item,0)">
+                            取消发布
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-success" ng-click="setStype(item,1)">
+                            发布
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-primary">
+                            <a ui-sref="access.app.internal.servicePackageManagement.addPackage({id:item.ID})" style="color:white;">修改</a>
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-danger">
+                            <div class="btn-group" dropdown>
+                                <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle>删除</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                    <li><a href>取消</a></li>
+                                </ul>
+                            </div>
+
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-default">
+                            <a ui-sref="access.app.internal.servicePackageManagement.servicePackageScale({id:item.ID})"> 设置服务包量表</a>
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-default">
+                            <a ui-sref="access.app.internal.servicePackageManagement.servicePackageCourse({id:item.ID})"> 设置服务包课程</a>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+

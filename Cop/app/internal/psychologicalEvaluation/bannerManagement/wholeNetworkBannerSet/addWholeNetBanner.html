@@ -1,0 +1,94 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3"><span ng-if="pageType==11">新增全网banner</span><span
+            ng-if="pageType==12">修改全网banner</span><a
+            ui-sref="access.app.internal.bannerManagement.wholeNetworkBannerSet"
+            style="color: white;float: right;position: relative;top:-3px;">
+        <button type="button" class="btn m-b-md w-xs btn-info">返回</button>
+    </a></h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal form-line-dashed form-validation">
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">标题：</label>
+
+                    <div class="col-sm-6">
+                        <input maxlength="15" class="form-control" ng-model="submitData.title" type="text"
+                               placeholder="标题" required>
+                    </div>
+                    <label class="col-sm-2 control-label" style="text-align: left;">最多输入15个字符</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">banner缩略图：</label>
+
+                    <div class="col-sm-6">
+                        <!--<input type="file" id="fileupload" class="form-control" ng-model="picFile" name="files[]" ngf-accept="'image/*'" required ng-change="uploadPic(picFile)" required>-->
+                        <span class="col-sm-2" href="#"
+                              style="cursor:pointer;display:block;width: 100px;height:30px;border:1px solid #cfdadd;line-height:30px;position: relative;overflow: hidden;text-align: center"><input
+                                style="background-color: white;z-index:100;cursor:pointer;opacity:0;height: 30px;position: absolute;left: -80px;top:0;"
+                                id="fileupload" type="file" name="files[]"
+                                accept="image/gif, image/jpeg, image/png, image/jpg">浏览图片</span>
+                        <span class="col-sm-8" style="line-height: 30px">{{imgName}}</span>
+                        <span class="inline bg-white wrapper-sm b-a" style="margin-top: 15px;"
+                              ng-if="picFile || submitData.imgUrl">
+                            <div class="bg-light" style="width: 440px;height: 200px">
+                                <img ng-if="picFile" ngf-src="picFile" style="width:100%;height: 100%">
+                                <img ng-if="!picFile" ng-src="{{submitData.imgUrl}}" style="width:100%;height: 100%">
+                            </div>
+                        </span>
+                    </div>
+                    <label class="col-sm-3 control-label" style="text-align: left">推荐尺寸: 长640px * 宽400px</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">链接地址：</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="submitData.goUrl" required>
+                    </div>
+                    <label class="col-sm-3 control-label" style="text-align: left;">例如：http://www.ucuxin.com</label>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label">权重值：</label>
+
+                    <div class="col-sm-6">
+                        <input class="form-control" ng-model="submitData.sort" type="number" ng-pattern="/\d*/i"
+                               placeholder="请填写数字" required>
+                    </div>
+                    <label class="col-sm-3 control-label" style="text-align: left">权重越大，排序越靠前，范围是0-1000</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">显示日期：</label>
+
+                    <div class="col-sm-9">
+                        <div class="input-group col-sm-3" style="float: left">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" datepicker-options="dateOptions"
+                                   ng-model="submitData.startTime" is-open="startOpened" max-date="eDate"
+                                   ng-required="true" clear-text="清除" current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                        <div class=" col-sm-1" style="text-align: center;line-height: 35px">至</div>
+                        <div class="input-group col-sm-3" style="float: left">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}" datepicker-options="dateOptions"
+                                   ng-model="submitData.endTime" is-open="endOpened" min-date="sDate" ng-required="true"
+                                   clear-text="清除" current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

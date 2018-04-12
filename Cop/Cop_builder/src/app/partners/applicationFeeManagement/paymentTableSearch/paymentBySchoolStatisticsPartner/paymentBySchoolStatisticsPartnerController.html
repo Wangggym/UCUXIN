@@ -1,0 +1,250 @@
+<div ng-controller="paymentBySchoolStatisticsPartnerController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">缴费按校统计
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+
+                    <div class="form-group">
+                        <label>省：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.province" theme="bootstrap"
+                                       style="min-width:130px;" ng-change="province(model.province)">
+                                <ui-select-match placeholder="请选择省">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.provinceList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                <span class="input-group-btn">
+                    <button ng-click="deleteProvince()" class="btn btn-default"
+                            type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>市：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.city" theme="bootstrap" ng-change="selectCity(model.city)"
+                                       style="min-width:130px;" ng-disabled="model.province?false:true">
+                                <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.cityList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                <span class="input-group-btn">
+                    <button ng-click="deleteCity()" class="btn btn-default"
+                            type="button" ng-disabled="model.province?false:true">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>县：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.county" theme="bootstrap"
+                                       style="min-width:130px;" ng-disabled="model.city?false:true">
+                                <ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.countyList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.county = undefined" class="btn btn-default"
+                                    type="button" ng-disabled="model.city?false:true">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                       ng-change="changeGid()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.selectedGid = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>产品：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectProductPackageID" theme="bootstrap"
+                                       ng-disabled="queryFields.selectedGid?false:true;" ng-change="productPackageChange()">
+                                <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.productPackageList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="model.selectProductPackageID=undefined" class="btn btn-default"
+                                    ng-disabled="queryFields.selectedGid?false:true;"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>服务包：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.openProductId" theme="bootstrap"
+                                       ng-disabled="model.selectProductPackageID?false:true;">
+                                <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.openProductList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.openProductId=undefined"
+                                        class="btn btn-default"
+                                        ng-disabled="model.selectProductPackageID?false:true;" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>服务包开通时间</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="model.dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>~</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="model.dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-primary" data-ng-click="export()">导出
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>县</th>
+                    <th>学校</th>
+                    <th>产品</th>
+                    <th>服务包</th>
+                    <th>服务包金额</th>
+                    <th>学生总人数</th>
+                    <th>学生APP覆盖数</th>
+                    <th>学生APP覆盖率</th>
+                    <th>开通收费人数</th>
+                    <th>已缴费人数</th>
+                    <th>赠送人数</th>
+                    <th>购买/赠送互斥服务包人数</th>
+                    <th>未缴费人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.Province"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.City"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.County"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ProductName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ChargeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ChargeAmount"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtyTotal"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtyAPP"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span>{{(item.RateAPP*100).toFixed(2)}}%</span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtyPay"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtPayed"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtyGive"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtOther"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.QtUnPay"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

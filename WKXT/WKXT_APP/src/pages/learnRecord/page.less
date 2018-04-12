@@ -1,0 +1,76 @@
+.remind {
+  height: 60px;
+  background: rgba(213, 237, 253, 1);
+  display: flex;
+  justify-content: space-between;
+  padding: 23px 10px;
+  font-size: 24px;
+  span {
+    color: rgba(48, 156, 232, 1);
+    line-height: 60px;
+    flex: 6;
+  }
+  .ball {
+    flex: 1;
+    >span{
+      width: 45px;
+      height: 45px;
+      background: #309ce8;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 45px;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+  div {
+    flex: 3;
+    width: 180px;
+    color: rgba(51, 51, 51, 1);
+    line-height: 60px;
+    border-left: 2px solid rgba(142, 208, 252, 1);
+    text-align: center;
+    .ranking {
+      width: 45px;
+      height: 45px;
+      padding-right: 25px;
+      background: #309ce8;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 60px;
+      font-weight: bold;
+      font-size: 26px;
+      background: url('../../public/assets/noPoints2.png') no-repeat center center / contain;
+    }
+  }
+}
+
+.data {
+  height: 100px;
+  border-bottom: 1px #ccc solid;
+  padding: 20px 45px;
+  display: flex;
+  justify-content: space-between;
+  .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    > div {
+      font-size: 36px;
+      color: rgba(51, 51, 51, 1);
+      font-weight: bold;
+      > span {
+        color: #bbb;
+        font-size: 24px;
+      }
+    }
+    > span {
+      font-size: 30px;
+      color: rgba(51, 51, 51, 1);
+    }
+  }
+}
+

@@ -1,0 +1,55 @@
+<div ng-controller="editOrg">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">编辑心理机构
+    </h1>
+  </div>
+  <div class="wrapper-md">
+    <div class="panel panel-default col-lg-6">
+      <div class="panel-heading font-bold">编辑</div>
+      <div class="panel-body">
+        <form action="" class="bs-example form-horizontal ng-pristine ng-valid">
+          <div class="form-group">
+            <label class="col-lg-2 control-label">地区：</label>
+
+            <div class="col-lg-3">
+              <select ng-model="province" class="form-control" ng-change="onChangePro()" ng-options="x.RID as x.Name for x in provinceList">
+              </select>
+            </div>
+            <div class="col-lg-3" ng-show="province">
+              <select ng-model="city" class="form-control" ng-options="x.RID as x.Name for x in cityList">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">机构名称：</label>
+
+            <div class="col-lg-10">
+              <input type="text" ng-model="Name" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">机构简介：</label>
+
+            <div class="col-lg-10">
+              <textarea type="text" ng-model="Desc" class="form-control" style="resize:none;height:120px;"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">状态：</label>
+
+            <div class="col-lg-10">
+              <select ng-model="ST" class="form-control" ng-options="x.value as x.label for x in status">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <button class="btn btn-success" ng-click="ok()">确认</button>
+              <button class="btn btn-default" ng-click="cancel()">取消</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

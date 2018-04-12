@@ -1,0 +1,147 @@
+.discuss {
+  background: #ffffff;
+  .stars {
+    display: flex;
+    align-items: center;
+    height: 1rem;
+    justify-content: space-between;
+    background: #f1f1f1;
+    padding: 0 0.2rem;
+    .starts-component {
+      span {
+        margin-right: 0.2rem !important;
+      }
+    }
+
+  }
+  .discuss-statistics {
+    height: 1rem;
+    line-height: 1rem;
+    color: #a7a7a7;
+    padding: 0 0.3rem;
+  }
+  .discuss-info {
+    padding: 0 0.3rem;
+    margin-top: 0.3rem;
+    &:last-child{
+      margin-bottom: 1.2rem;
+      margin-top: 0.2rem;
+    }
+    .discuss-person-info {
+      height: 0.8rem;
+      display: flex;
+      font-size: 0.28rem;
+      justify-content: space-between;
+      .logo-info {
+        display: flex;
+        align-items: center;
+        width: 20%;
+        img {
+          width: 0.8rem;
+          height: 0.8rem;
+          border-radius: 20px;
+        }
+      }
+      .name-star {
+        flex: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        span {
+          &:nth-of-type(2) {
+            font-size: 0.24rem;
+            color: #a7a7a7;
+          }
+          &:nth-of-type(1) {
+            color: #8dc5f8;
+          }
+        }
+        .stars-score{
+          display: flex;
+        }
+      }
+      .reply-time {
+        @extend .name-star;
+        flex: 30%;
+        .reply-operation {
+          text-align: right;
+          i {
+            width: 0.3rem;
+            height: 0.3rem;
+            display: inline-block;
+            margin-right: 0.1rem;
+            background: url("../../assets/images/info_icon_leavemsg.png");
+            background-size: 100% 100%;
+          }
+          a{
+            color: #319eed;
+          }
+          span {
+            color: #a7a7a7;
+          }
+        }
+        .tiem-show {
+          text-align: center;
+          color: #a7a7a7;
+          font-size: 0.24rem
+        }
+      }
+    }
+    .discuss-person-text {
+      margin-top: 0.2rem;
+      font-size: 0.3rem;
+      line-height: 0.5rem;
+    }
+    .discuss-person-everyone {
+      margin-top: 0.2rem;
+      font-size: .26rem;
+      color: #808080;
+      div {
+        line-height: 0.4rem;
+        padding: 0.1rem 0;
+        span {
+          color: #319eed;
+        }
+      }
+    }
+  }
+}
+//评论弹框
+.disscuss-window {
+  height: 3rem;
+  position: relative;
+  background: #f2f0f1;
+  font-size: 0.3rem;
+  .discuss-starts {
+    display: flex;
+    height: 1rem;
+    line-height: 1rem;
+    padding: 0 .3rem;
+    .close {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      color: #a7a7a7;
+    }
+  }
+  .discuss-input{
+    text-align: center;
+    textarea{
+      width: 90%;
+      border-color: #a7a7a7;
+      border-radius: 10px;
+    }
+  }
+  .face-send{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.1rem 0.3rem;
+    i{
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: url("../../assets/images/ic_chatting_emoji_gray.png");
+      background-size: 100% 100%;
+    }
+  }
+}

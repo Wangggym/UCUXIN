@@ -1,0 +1,13 @@
+<footer class="panel-footer" ng-show="visible">
+    <div class="row">
+        <div class="pull-right text-right text-center-xs">
+            <ul class="pagination pagination-sm m-t-none m-b-none">
+                <li ng-if="pageList"><a href ng-click="previous(pageList)"><i class="fa fa-chevron-left"></i></a></li>
+                <li data-ng-repeat="page in pageList"><a href class="{{page.class}}"
+                                                         ng-click="flip(page)">{{page.pIndex}}</a>
+                </li>
+                <li ng-if="pageList"><a href ng-click="next(pageList)"><i class="fa fa-chevron-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</footer>

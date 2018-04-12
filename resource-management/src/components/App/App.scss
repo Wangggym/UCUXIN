@@ -1,0 +1,68 @@
+.header{
+  padding: 0 24px;
+  .logo{
+    width: 180px;
+    height: 31px;
+    border-radius: 6px;
+    margin: 16px 28px 16px 0;
+    float: left;
+
+
+    font-size: 22px;
+    color: #fff;
+    line-height: 31px;
+
+    .icon-logo{
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      vertical-align: -3px;
+      background: url("../../assets/images/logo.svg") no-repeat;
+      margin-right: 8px;
+    }
+  }
+
+  .user-info{
+    .user-pic{
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 8px;
+      background-size: cover;
+    }
+
+    .anticon-caret-down{
+      transform: scale(.65);
+    }
+  }
+}
+
+
+
+.editable-row-text {
+  padding: 5px;
+}
+
+.editable-operations a {
+  margin-right: 8px;
+}
+
+.additional{
+  .ant-form-item{
+    margin-bottom: 0!important;
+  }
+}
+
+.current-block{
+  display: block !important;
+}
+.current-none{
+  display: none !important;
+}
+
+.menu-horizontal{
+  margin: 8px 0;
+  float: right;
+}

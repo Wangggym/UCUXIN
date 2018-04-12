@@ -1,0 +1,16 @@
+<form name="form" class="form-validation form-inline">
+    <div class="panel-heading bg-primary lt" style="border-radius:10px 10px 0 0;">
+        <div class="m-sm">
+            <span class="pull-right"><a ng-click="cancellation()">注销</a></span>
+            <span class="h4 text-white">请选择身份进入</span>
+        </div>
+    </div>
+    <div ui-jq="slimScroll" ui-options="{height:'400px'}" style="position: relative;">
+        <div class="panel-footer list-group-hover">
+            <div class="list-group-item" ng-repeat="identity in identityList" ui-sref="{{identity.path}}"
+                 ng-click="storageOrGid(identity)">
+                <a ng-bind="identity.OrgName"></a>
+            </div>
+        </div>
+    </div>
+</form>

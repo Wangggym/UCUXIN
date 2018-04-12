@@ -1,0 +1,208 @@
+<div ng-controller="addMenuJurisdictionController">
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">添加菜单
+    </h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form" name="form">
+                <div class="form-group">
+                    <label>父菜单名字：</label>
+                    <input type="text" class="form-control" ng-model="model.pMenuName" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <label>菜单名字：</label>
+                    <input type="text" class="form-control" ng-model="model.name" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>类型：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.orgType" theme="bootstrap">
+                            <ui-select-match placeholder="请选择栏目">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.id as item in model.orgTypeList | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.orgType=undefined" class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="i-checks">
+                            <input type="checkbox" ng-checked="model.effective"
+                                   data-ng-click="checkedOne()"><i></i>有效
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="i-checks">
+                            <input type="checkbox" ng-checked="model.invalid"
+                                   data-ng-click="checkedOne()"><i></i>无效
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                        ng-disabled="model.orgType?false:true;">查询
+                </button>
+                <button type="submit" class="form-group btn btn-info" ng-click="addMenu()">
+                    添加菜单
+                </button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>菜单名称</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>菜单路径</th>
+                <th>菜单层级</th>
+                <th>父菜单</th>
+                <th>归属角色类型</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemList">
+                <td class="v-middle">
+                    <span ng-bind="$index+1"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Name"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.stName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.CDate"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Url"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Level"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.PMenuName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.OrgTypeName"></span>
+                </td>
+                <td class="v-middle">
+                    <a href="javascript:;" class="btn btn-xs btn-primary" title="编辑" ng-click="addOrEdit(item)"><i
+                            class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <page-Directive options="pageIndex"></page-Directive>
+    </div>
+</div>
+<script type="text/ng-template" id="newAddMyModalContent.html">
+    <div class="bg-light">
+        <div class="modal-footer">
+            <span class="pull-left h4">添加菜单</span>
+        </div>
+    </div>
+    <div class="panel-body" style="margin-bottom:-30px;">
+        <form class="query-group-form form-inline">
+            <div class="form-group">
+                <label><span class="spanColor">*</span>选择菜单层级：</label>
+
+                <div class="input-group">
+                    <ui-select ng-model="newModel.Level" theme="bootstrap">
+                        <ui-select-match placeholder="请选择菜单">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="item.id as item in newModel.LevelList | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="newModel.Level=undefined" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><span class="spanColor">*</span>角色类型：</label>
+
+                <div class="input-group">
+                    <ui-select ng-model="newModel.OrgType" theme="bootstrap">
+                        <ui-select-match placeholder="请选择角色类型">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="item.id as item in newModel.OrgTypeList | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="newModel.OrgType=undefined" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>排序：</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="排序" ng-model="newModel.Seq">
+                </div>
+            </div>
+            <div class="form-group">
+                <label><span class="spanColor">*</span>菜单名称：</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="添加的菜单名称" ng-model="newModel.Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>父级菜单：</label>
+
+                <div class="input-group">
+                    <ui-select ng-model="newModel.pMenuId" theme="bootstrap"
+                               ng-disabled="newModel.Level&&newModel.OrgType&&newModel.Name?false:true;">
+                        <ui-select-match placeholder="请选择父级菜单">{{$select.selected.Name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="item.ID as item in newModel.pMenuNameList | filter: $select.search"
+                                refresh="refreshAddresses($select.search)" refresh-delay="500">
+                            <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="newModel.typeId=undefined" class="btn btn-default"
+                                ng-disabled="newModel.Level&&newModel.OrgType&&newModel.Name?false:true;"
+                                type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>URL地址：</label>
+
+                <div class="input-group">
+                    <textarea class="form-control" ng-model="newModel.Url"
+                              style="width:420px;height:55px;resize: none;"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" ng-click="save()"
+                ng-disabled="newModel.Level&&newModel.OrgType&&newModel.Name?false:true;">
+            保存
+        </button>
+        <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+    </div>
+</script>
+</div>

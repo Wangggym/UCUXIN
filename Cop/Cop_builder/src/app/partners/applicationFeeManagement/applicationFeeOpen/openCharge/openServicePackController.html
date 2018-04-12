@@ -1,0 +1,169 @@
+<div ng-controller="openServicePackController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">开通服务包
+            <button type="submit" class="pull-right btn btn-default" ng-click="historyBack()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">学校和服务包</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">学校：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.gidName"
+                                   placeholder="学校" ng-disabled="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">产品：</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.productPackageName"
+                                   placeholder="产品" ng-disabled="true"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">选择班级</h3>
+            </div>
+            <div class="panel-body">
+                <form class="query-group-form" role="form">
+                    <div class="panel panel-default student-area">
+                        <div class="panel-heading"><i class="fa fa-list"></i>请选择要开通服务的班级</div>
+                        <div class="panel-body row">
+                            <div class="col-sm-6">
+                                <h5>未选择班级</h5>
+
+                                <div class="student-list student-select">
+                                    <span class="label label-info"
+                                          ng-repeat="item in model.classList track by $index"
+                                          ng-click="addStudent(item,$index)">{{item.ClassName}} <i
+                                            class="fa fa-plus"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="student-selected-heading">
+                                    <a href="javascript:;" ng-click="clearStudentSelected()">重置</a>
+                                    <h5>已选择班级</h5>
+                                </div>
+                                <div class="student-list student-selected">
+                                    <span class="label label-info"
+                                          ng-repeat="item in model.studentSelectedList track by $index">{{item.ClassName}} <i
+                                            class="fa fa-times" ng-click="deleteSelected(item,$index)"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--<div class="panel panel-default col-sm-8">-->
+            <!--<div class="panel-heading clearfix">-->
+                <!--<h3 class="m-n font-bold h4 pull-left">服务时间范围</h3>-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+                <!--<form class="query-group-form form-inline">-->
+                    <!--<div class="form-group">-->
+                        <!--<label>服务在该时间范围到期或一直未购买的需要开通：</label>-->
+
+                        <!--<div class="input-group w-sm">-->
+                            <!--<input type="text" class="form-control" datepicker-popup="{{format}}"-->
+                                   <!--ng-model="model.dateStart" ng-disabled="true"-->
+                                   <!--is-open="openedStart" datepicker-options="dateOptions" ng-required="true"-->
+                                   <!--close-text="确定" current-text="今天" clear-text="清除" required/>-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="openStart($event)"><i-->
+                                        <!--class="glyphicon glyphicon-calendar"></i></button>-->
+                            <!--</span>-->
+                        <!--</div>-->
+                        <!--<label> 到 </label>-->
+
+                        <!--<div class="input-group w-sm">-->
+                            <!--<input type="text" class="form-control" datepicker-popup="{{format}}"-->
+                                   <!--ng-model="model.dateOver" ng-disabled="true"-->
+                                   <!--is-open="openedOver" datepicker-options="dateOptions" ng-required="true"-->
+                                   <!--close-text="确定" current-text="今天" clear-text="清除" required/>-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="openOver($event)"><i-->
+                                        <!--class="glyphicon glyphicon-calendar"></i></button>-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">请选择要开通的服务包</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th style="width: 10%;">操作</th>
+                            <th>服务包名称</th>
+                            <th>金额</th>
+                            <th>有效期</th>
+                            <th>购买期</th>
+                        </tr>
+                        </thead>
+                        <tbody name="special">
+                        <tr st-select-row="row" ng-repeat="item in model.openProductList">
+                            <td class="v-middle">
+                                <label class="i-checks">
+                                    <input type="radio" ng-click="checkedOne(model.openProductList,$index)"
+                                           name="radioName" value=""><i></i>
+                                </label>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Amount"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.SDateEDate"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.BuySDateBuyEDate"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()">确定</button>
+                <button class="btn btn-default" ng-click="historyBack()">取消</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="openServicePackModalContent.html">
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <div class="form-group">
+                <label>所选班级总学生数：{{modelModal.AllCnt}}</label>
+            </div>
+            <div class="form-group">
+                <label>符合条件学生数：{{modelModal.AccordCnt}}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()">确定</button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

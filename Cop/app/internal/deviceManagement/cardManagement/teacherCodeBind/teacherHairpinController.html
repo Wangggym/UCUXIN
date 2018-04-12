@@ -1,0 +1,104 @@
+<div ng-controller="teacherHairpinController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">个人卡号信息
+            <button type="submit" class="pull-right btn btn-default"
+                    ui-sref="access.app.internal.cardManagement.teacherCodeBind({isEearch:'{{isEearch}}'})">返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">
+                            <li>姓名：<span ng-bind="name"></span></li>
+                            <li>性别：<span ng-bind="gender"></span></li>
+                        </ul>
+                    </div>
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="i-checks">
+                            <input type="checkbox" ng-model="checked" ng-checked="checked"
+                                   data-ng-click="checkedOne()"><i></i>显示已注销卡号
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label class="sr-only">卡号</label>
+                        <!--<input type="text" class="form-control" maxlength="10"-->
+                        <!--onkeyup='this.value=this.value.replace(/\D/gi,"")'-->
+                        <!--placeholder="请输入10位数的卡号" ng-model="card" ng-blur="ngBluer(card)">-->
+                        <input type="number" class="form-control"
+                               placeholder="请输入卡号" ng-model="card" ng-blur="ngBluer(card)">
+                    </div>
+                    <button type="submit" class="btn btn-success" ng-click="addCard(card)">新增</button>
+                    <!--<div class="form-group" ng-show="visibleCard">-->
+                    <!--<ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">-->
+                    <!--<li class="text-danger-dker">提示：<strong class="ng-binding">卡号必须是10位有效数字</strong></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>卡号</th>
+                    <th>最后操作时间</th>
+                    <th>状态</th>
+                    <th style="width:25%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="card in cardList">
+                    <td data-value="1">
+                        <div class="media">
+                            <div class="media-body">
+                                <div><a href="" ng-bind="card.CardNo"></a></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1">
+                        <div class="media">
+                            <div class="media-body">
+                                <div><a href="" ng-bind="card.MDate"></a></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1">
+                        <div class="media">
+                            <div class="media-body">
+                                <div><a href="" ng-bind="card.status"></a></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="v-middle">
+                        <div class="media" ng-show="card.visibleStatus">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="card.isStatus"></p>
+                            </div>
+                        </div>
+                        <span ng-show="card.noOperation">无操作</span>
+
+                        <div class="buttons" ng-show="card.visible">
+                            <button class="btn btn-sm btn-info" ng-click="deleteCardInfo(card)">注销</button>
+                            <div class="btn-group" dropdown>
+                                <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle
+                                   ng-disabled="disabled">解除绑定</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="cancelBind(card)" href>确定</a></li>
+                                    <li><a href>取消</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

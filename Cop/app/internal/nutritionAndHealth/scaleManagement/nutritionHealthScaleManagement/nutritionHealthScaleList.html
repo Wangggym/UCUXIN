@@ -1,0 +1,116 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">营养健康测评问卷管理</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label>问卷名称：</label>
+                    <input type="text" class="form-control" ng-model="queryData.scaleName" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <label>来源：</label>
+                    <input type="text" class="form-control" ng-model="queryData.scaleSource" placeholder="请输入查询关键字">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedA" ng-checked="checked"
+                                   data-ng-click="statusA()"><i></i>已发布
+                        </label>
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedB" ng-checked="checked"
+                                   data-ng-click="statusB()"><i></i>未发布
+                        </label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-info" ng-click="getScaleList()"><i class="fa fa-search"></i> 查询
+                </button>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success" ng-click="addScale()"><i class="fa fa-plus"></i> 新增
+                    </button>
+                </div>
+            </form>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>问卷名称</th>
+                    <th style="width: 15%">来源</th>
+                    <th style="width: 15%">日期</th>
+                    <th style="width: 10%">状态</th>
+                    <th style="width: 10%">是否生成</th>
+                    <th style="width: 15%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="6" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">当前没有问卷信息!<a href="javascript:;" lass="alert-link" ng-click="addScale()">新增问卷</a></div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Origion}}</td>
+                    <td>{{item.CDate}}</td>
+                    <td>
+                        <switch id="enabled" name="enabled" ng-model="item.ST" class="green ui-switch-small"
+                                ng-change="release(item)"></switch>
+                    </td>
+                    <td>{{item.IsProduct ? '是' : '否'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-xs" ng-click="updateScale(item)" title="修改"><i
+                                class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="static(item)"
+                                title="生成问卷"><i class="fa fa-send-o"></i></button>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="del(item)" title="删除"><i
+                                class="fa fa-trash-o"></i></button>
+                        <button type="button" class="btn btn-success btn-xs" ng-click="test(item)" title="预览">预览</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="getScaleList()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="removeScale.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>问卷删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除问卷：<strong>{{scale.Name}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+
+<style>
+    #qrcode {
+        text-align: center;
+    }
+    #qrcode img{
+        margin: 0 auto;
+    }
+</style>
+<script type="text/ng-template" id="testScale.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="text-align: center;">扫描二维码进行测试</h3>
+    </div>
+    <div class="modal-body ">
+        <div id="qrcode" style="text-align: center;">
+           {{Code}}
+        </div>
+    </div>
+</script>

@@ -1,0 +1,11 @@
+{
+  "env": {
+      "production": {
+         "publicPath": "./static/",
+         "enableSourcemaps": true
+      },
+      "development": {
+        "enableSourcemaps": true
+      }
+  }
+}

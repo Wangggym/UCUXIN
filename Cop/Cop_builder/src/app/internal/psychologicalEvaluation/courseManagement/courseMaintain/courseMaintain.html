@@ -1,0 +1,102 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">课程维护</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="courseMaintainController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <div class="form-group">
+          <label> 课程名称：</label>
+          <div class="input-group">
+          <input type="text" class="form-control" placeholder="请填写课程名称" ng-model="serchData.courseName" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label> 课程分类：</label>
+          <div class="input-group">
+            <ui-select ng-model="serchData.courseClassfy" theme="bootstrap" reset-search-input="false">
+              <ui-select-match  placeholder="课程分类">{{$select.selected.Name}}</ui-select-match>
+              <ui-select-choices repeat="area.ID as area in allClassify track by $index">
+                <span ng-bind-html="area.Name" class="text-center-folded"></span>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+              <button type="button" ng-click="serchData.courseClassfy=0"  class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label> 讲师：</label>
+          <div class="input-group">
+            <ui-select ng-model="serchData.teacher" theme="bootstrap" reset-search-input="false">
+              <ui-select-match  placeholder="请选择讲师">{{$select.selected.Name}}</ui-select-match>
+              <ui-select-choices repeat="area.ID as area in teacherList track by $index">
+                <span ng-bind-html="area.Name" class="text-center-folded"></span>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+              <button type="button" ng-click="serchData.teacher=0"  class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="search()">查询</button>
+        <a   ui-sref="access.app.internal.courseManagement.addCourse({id:0})" class="btn m-b-md w-xs btn-success m-l-md" style="color: white">新增</a>
+      </form>
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+          <th>课程名称</th>
+          <th>课程分类</th>
+          <th>课程类型</th>
+          <th>机构</th>
+          <th>讲师</th>
+          <th>价格</th>
+          <th>创建时间</th>
+          <th>发布时间</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="18" class="prompt text-center" data-ng-show="!allCourse || allCourse.length==0">
+            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+            </div>
+          </td>
+        </tr>
+        <tr data-ng-repeat="item in allCourse">
+          <td>{{item.Name}}</td>
+          <td>{{item.ClassifyName}}</td>
+          <td>{{item.CourseTypeName}}</td>
+          <td>{{item.PsyOrgName}}</td>
+          <td>{{item.ExpertName}}</td>
+          <td>{{item.Price}}</td>
+          <td>{{item.CDate}}</td>
+          <td>{{item.MDate}}</td>
+          <td>{{item.state}}</td>
+          <td style="width: 210px">
+            <button type="button" class="btn btn-xs btn-primary"><a ui-sref="access.app.internal.courseManagement.addCourse({id:item.ID})" style="color:white;">修改</a></button>
+            <button type="button" class="btn btn-xs btn-success" data-ng-click="publish(item)" ng-if="item.ST == 0">发布</button>
+            <button type="button" class="btn btn-xs btn-danger" data-ng-click="delet(item)">删除</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer pagination-bar" ng-hide="!allCourse || allCourse.length==0">
+        <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+        <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                    max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                    next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                    last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div ng-controller="confirmPaymentController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">缴费确认
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.partner.LineCharge.linePaymentConfirm({id:'{{$stateParams.id}}'})"
+                    ng-click="returnLinePay()">返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel-body">
+            <form class="form-horizontal" method="get" name="registration">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">服务包：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control w-md" ng-model="model.serviceProductName"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">服务包金额：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control w-md" ng-model="model.productAmount" ng-disabled="true"/>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">已选学生人数：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control w-md" ng-model="model.Students" ng-disabled="true"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">已选学生：</label>
+
+                    <div class="col-sm-10">
+                        <button class="btn btn-primary btn-xs" style="margin-left:2px;"
+                                ng-repeat="student in model.StudentList"
+                                ng-bind="student.UName"></button>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">订单金额：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control w-md" ng-model="model.Amount" ng-disabled="true"/>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">状态：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control w-md" ng-model="model.stName" ng-disabled="true"/>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+            </form>
+        </div>
+        <div class="row" ng-show="model.payST">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-sm-7" style="float:none;margin: auto;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-default lt">
+                                <div class="m-sm">
+                                    <span class="h4">请选择支付方式：</span>
+                                </div>
+                            </div>
+                            <div class="hbox text-center b-t b-light">
+                                <a href class="col padder-v text-muted b-light payBorder" ng-click="clickPay(8)">
+                                    <img style='height:50%;width: 50%;'
+                                         src="partners/applicationFeeManagement/LineCharge/linePaymentConfirm/image/payA.jpg">
+                                </a>
+                                <a href class="col padder-v text-muted payBorder-bottom  b-light payBorder" ng-click="clickPay(3)">
+                                    <img style='height:58%;width: 58%;'
+                                         src="partners/applicationFeeManagement/LineCharge/linePaymentConfirm/image/payB.png">
+                                </a>
+                                <a href class="col padder-v text-muted payBorder-bottom" ng-click="wxPay()">
+                                    <img style='height:120px;'
+                                         src="public/img/wx.png">
+                                </a>
+                            </div>
+                            <div class="panel-heading bg-default lt">
+                                <div class="m-sm">
+                                    <span class="h5" style="color:red;">剩余支付时间：</span>
+                                    <span class="h5" ng-style="model.payTime" id="surplusPayTime"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="panel no-border">
+                <div class="modal-header" ng-if="qrcode">
+                    <h3 class="modal-title">
+                        已打开支付页面
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <h2 class="modal-title" id="qrcode">
+                        {{!qrcode ? '请微信扫码完成支付':'请在新打开的支付页面中完成支付，支付完成后请点击【支付完成】'}}
+                    </h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" ng-click="hProblem()">关闭</button>
+                    <button class="btn btn-info" ng-click="payOver()">支付完成</button>
+                </div>
+            </div>
+        </script>
+    </div>
+</div>
+<style>
+    .modal-title{
+        text-align: center;
+    }
+    .panel-body img{
+        margin: 0 auto;
+    }
+</style>

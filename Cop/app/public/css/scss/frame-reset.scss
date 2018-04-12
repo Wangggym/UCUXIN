@@ -1,0 +1,659 @@
+.modal-dialog {
+  margin-top: 10%;
+  text-align: inherit;
+}
+
+.modal-title {
+  /*color: #df9c9c;*/
+  font-weight: bold;
+}
+
+
+.i-paddingStyle {
+  padding: 5px 25px 10px 10px;
+}
+
+/*刷卡时间设置table背景设置--开始*/
+.bg-white-only tbody tr:hover,
+.bg-white-only tr:hover {
+  background-color: #d9edf7;
+}
+
+/*刷卡时间设置table背景设置--结束*/
+
+/* SideBar Style Start */
+.sidebar {
+  width: 50px;
+  float: left;
+  margin-left: -50px;
+  margin-top: 10px;
+  border-left: 1px solid #e3e3e3;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+  background: #f6f8f8 !important;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* SideBar Style End*/
+
+/* Global Loader Style */
+#loader {
+  width: -moz-calc(100% - 200px);
+  height: -moz-calc(100% - 50px);
+  width: -webkit-calc(100% - 200px);
+  height: -webkit-calc(100% - 50px);
+  width: calc(100% - 200px);
+  height: calc(100% - 50px);
+  position: absolute;
+  left: 200px;
+  z-index: 1001;
+  background-color: rgba(148, 154, 156, 0.35);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginLoader {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  z-index: 1001;
+  background-color: rgba(148, 154, 156, 0.35);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 线下缴费 自定义样式
+.panel .payBorder {
+  border-right: 2px solid #dee5e7;
+  border-bottom: 1.5px solid #dee5e7;
+  border-top: 1.5px solid #dee5e7;
+}
+
+.panel .payBorder-bottom {
+  border-bottom: 1.5px solid #dee5e7;
+  border-top: 1.5px solid #dee5e7;
+}
+
+.panel .payBorder-bottom:hover,
+.panel .payBorder:hover {
+  border: 1.5px solid #dee5e7;
+}
+
+
+// Other Style Reset And Plugs Style Reset
+
+/* ui-select form-inline style*/
+/* 可归入公共样式或扩展入ui-select插件的样式中*/
+/*
+.form-inline .form-group > .ui-select-bootstrap {
+    display: inline-table;
+    width: 180px;
+}
+.form-inline .form-group > .ui-select-bootstrap .form-control {
+  width: 100% !important;
+}
+
+.form-inline .form-group > .input-group > .ui-select-bootstrap{
+  width: 180px;
+}
+
+.form-inline .form-group > .input-group > .ui-select-bootstrap .form-control {
+  width: 100% !important;
+}
+*/
+
+.form-inline .form-group > .ui-select-bootstrap {
+  display: inline-table;
+}
+
+.form-inline .form-group > .ui-select-bootstrap,
+.form-inline .form-group > .input-group > .ui-select-bootstrap {
+  min-width: 180px;
+}
+
+.form-inline .form-group > .ui-select-bootstrap .form-control,
+.form-inline .form-group > .input-group > .ui-select-bootstrap .form-control {
+  width: 100% !important;
+}
+
+.ui-select-multiple.ui-select-bootstrap {
+  padding: 5px 5px 2px;
+}
+
+.form-inline .spanColor {
+  font-size: 18px;
+  color: #ff4335;
+}
+
+/* ==========================================================*/
+/* 以上为公共样式 */
+/* 以下为功能模块独有样式 */
+/* ==========================================================*/
+/* 缴费查询功能样式 */
+.query-group {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  padding: 0 0 15px;
+}
+
+.query-group .form-group {
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.query-group .form-group > .form-control {
+  width: 180px;
+}
+
+.query-group > .btn {
+  margin-bottom: 15px;
+}
+
+/* 查询列表分页样式 */
+.pagination-bar {
+  line-height: 30px;
+}
+
+.pagination-bar:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+.pagination-bar .pagination {
+  margin: 0;
+}
+
+/* Table  */
+.table .prompt {
+  padding: 0;
+}
+
+.table .prompt .alert {
+  border: none;
+  margin-bottom: 0;
+}
+
+.table .i-checks {
+  margin-bottom: 0;
+}
+
+.table .table-btn-fa .fa {
+  width: 12px;
+  height: 12px;
+  text-align: center;
+}
+
+.form-line-dashed {
+}
+
+.form-line-dashed > .form-group:not(:first-child) {
+  border-top: 1px dashed #dee5e7;
+  padding-top: 15px;
+}
+
+/* Sortable Student */
+.student-area {
+  margin-top: 15px;
+}
+
+.student-area .panel-heading {
+  color: #58666e;
+}
+
+.student-area .form-horizontal {
+  border-top: 1px solid #edf1f2;
+  padding-top: 15px;
+}
+
+.student-area-heading {
+  font-weight: 700;
+  border-bottom: 1px solid #edf1f2;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.student-selected-heading {
+  margin-bottom: 10px;
+}
+
+.student-selected-heading h5 {
+  margin-top: 0;
+}
+
+.student-selected-heading > a {
+  float: right;
+  font-size: 12px;
+}
+
+.student-select {
+  min-height: 42px;
+  overflow-y: auto;
+  border: 1px solid #edf1f2;
+  padding: 6px 12px 12px;
+}
+
+.student-selected {
+  min-height: 42px;
+  overflow-y: auto;
+  border: 1px solid #edf1f2;
+  padding: 6px 12px;
+}
+
+.student-list {
+  position: relative;
+}
+
+.student-list .label {
+  display: inline-block;
+  margin: 5px 5px 0 0;
+  padding: 6px 12px;
+  font-weight: normal;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.student-list .label:hover {
+  opacity: .85;
+}
+
+.student-list .label .fa {
+  margin-left: 6px;
+}
+
+/* */
+
+.receive-obj {
+
+}
+
+.receive-obj h4 {
+  border-bottom: 1px solid #edf1f2;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+.receive-obj .receive-obj-list {
+  margin: 0 -5px;
+}
+
+.receive-obj span.label, .label-receive {
+  display: inline-block;
+  margin: 0 5px 5px;
+  padding: 6px 12px;
+  text-shadow: none;
+  font-weight: normal;
+}
+
+.label-receive {
+  margin: 0;
+}
+
+.push-url {
+  display: block;
+  width: 240px;
+  height: 22px;
+  word-break: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.query-group-form {
+  margin-bottom: 15px;
+}
+
+.query-group-form .form-group {
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+/* --- ----*/
+
+@media (min-width: 768px) {
+  .form-inline .radio label, .form-inline .checkbox label {
+    padding-left: 20px;
+  }
+
+  .form-inline .radio input[type="radio"], .form-inline .checkbox input[type="checkbox"] {
+    position: absolute;
+  }
+
+}
+
+/* 心理量表 */
+.psychological-scale {
+  padding: 0;
+}
+
+.psychological-scale .progress {
+  border-radius: 0;
+}
+
+.psychological-status {
+  text-align: center;
+  background-color: #16aad8;
+  padding: 30px;
+}
+
+.psychological-status > a {
+  display: inline-block;
+  margin: 0 30px;
+  color: #fff;
+  text-align: center;
+  width: 68px;
+  opacity: .65;
+  position: relative;
+  cursor: default;
+}
+
+.psychological-status > a.active {
+  opacity: 1;
+}
+
+.psychological-status > a:not(:last-child):after,
+.psychological-status > a:not(:last-child):before {
+  display: block;
+  content: '';
+  position: absolute;
+}
+
+.psychological-status > a:not(:last-child):before {
+  width: 30px;
+  height: 14px;
+  overflow: hidden;
+  background-color: #fff;
+  right: -35px;
+  top: 18px;
+}
+
+.psychological-status > a:not(:last-child):after {
+  border-style: solid none solid solid;
+  border-color: transparent transparent transparent #fff;
+  border-width: 15px;
+  right: -50px;
+  top: 10px;
+}
+
+.psychological-status > a > span {
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 48px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  color: #3fbee6;
+}
+
+.psychological-scale .btn-operate {
+  border-top: 1px solid #eaeff0;
+  padding-top: 15px;
+}
+
+.psychological-scale .btn-operate .btn {
+  margin: 0 10px;
+}
+
+.psychological-question {
+}
+
+.psychological-question > tbody {
+}
+
+.psychological-question > tbody .btn {
+  margin-right: 2px;
+}
+
+.psychological-question > tbody .fa {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.psychological-question .answer-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  height: 22px;
+  overflow: hidden;
+}
+
+.psychological-question .answer-list.open {
+  height: auto;
+}
+
+.psychological-question .answer {
+  position: relative;
+  padding-right: 50px;
+}
+
+.psychological-question .answer-detail {
+  position: absolute;
+  right: 15px;
+  top: 11px;
+  cursor: pointer;
+}
+
+.psychological-scale .add-question {
+  margin-bottom: 15px;
+}
+
+.answer-list {
+
+}
+
+.answer-list > tbody > tr > td {
+  vertical-align: middle;
+}
+
+/* User Attribute List */
+
+.scale-user-attr {
+
+}
+
+.scale-user-attr .i-checks {
+  width: 160px;
+  margin-left: 0;
+}
+
+/*  */
+
+.factor-add-definition{}
+
+.factor-add-definition .factor-count{
+  list-style: none;
+  padding: 0;
+  margin: -5px 0 0;
+  font-size: 0;
+}
+.factor-add-definition .factor-count > li{
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 32px;
+  text-align: center;
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+
+
+  color: #58666e;
+  background-color: #fff;
+  border:1px solid #dee5e7;
+  border-bottom-color: #d8e1e3;
+  box-shadow: 0 1px 1px rgba(90, 90, 90, 0.1);
+}
+.factor-add-definition .factor-count > li:focus,
+.factor-add-definition .factor-count > li:hover,
+.factor-add-definition .factor-count > li:active{
+  color: #58666e !important;
+  background-color: #edf1f2;
+  border-color: #c7d3d6;
+}
+.factor-add-definition .factor-count > li:active{
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.factor-add-definition .factor-rule{
+  position: relative;
+  padding-left: 80px;
+}
+.factor-add-definition .factor-rule >label{
+  position: absolute;
+  margin-left: -80px;
+  margin-top: 7px;
+  text-align: right;
+  display: block;
+  width:80px;
+}
+
+.factor-question{
+  list-style: none;
+  padding: 15px;
+  margin: 0;
+  font-size: 0;
+  border-radius: 4px;
+  border:1px solid #dee5e7;
+  max-height: 240px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.factor-question > li{
+  width: 50%;
+  display: inline-block;
+  font-size: 14px;
+  padding-left: 15px;
+  margin-bottom: 10px;
+}
+.factor-question > li > label{
+  margin: 0;
+}
+.factor-question > li:nth-child(2n+1){
+  margin-left: -15px;
+}
+
+/* angular ui switch */
+.ui-switch-small {
+  border-radius: 20px;
+  height: 20px;
+  width: 33px
+}
+
+.ui-switch-small > small {
+  height: 20px;
+  width: 20px
+}
+
+.ui-switch-small.checked {
+
+}
+
+.ui-switch-small.checked > small {
+  left: 13px;
+}
+
+.ui-switch-large {
+  border-radius: 40px;
+  height: 40px;
+  width: 66px
+}
+
+.ui-switch-large > small {
+  height: 40px;
+  width: 40px
+}
+
+.psychological-result{
+  padding: 60px 50px;
+}
+.psychological-result .page-header{
+  border-bottom: 0;
+}
+.psychological-result dl{
+  border-top:1px solid #ddd;
+  padding-top: 20px;
+}
+.psychological-result dl > dt{
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.psychological-result dl > dd{
+  margin-bottom: 10px;
+  padding-top: 10px;
+}
+/*.psychological-result-question > dd {
+  border-top: 1px dashed #ddd;
+}*/
+
+.psychological-result-question > dd >label{
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.psych-answer{
+  display: table;
+  padding: 0;
+  width: 100%;
+}
+
+.psych-answer > li{
+  display: inline-table;
+  width: 10%;
+  border: 1px solid #ddd;
+  margin: -1px 0 0 -1px;
+}
+.psych-answer > li > span{
+  display: inline-table;
+  width: 50%;
+  padding: 6px;
+  text-align: center;
+}
+
+.psych-answer > li > span:first-child{
+  border-right: 1px solid #ddd;
+  background-color: #f0f0f0;
+}
+
+/* 分辨率1300*768样式 */
+/*
+.table thead > tr > th {
+    font-size: 12px;
+}
+
+.table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 5px 7px;
+}
+*/
+
+/*.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  width:500px;
+  height:350px;
+}
+form .progress {
+  line-height: 15px;
+}
+.progress {
+  display: inline-block;
+  width: 100px;
+  border: 3px groove #CCC;
+}
+.progress div {
+  font-size: smaller;
+  background: orange;
+  width: 0;
+}*/

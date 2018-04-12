@@ -1,0 +1,110 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">开通情况查询
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="serviceProductOpenPageInternalController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>产品包：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectProductPackageID" theme="bootstrap"
+                                   ng-change="changeProductGid()" ng-disabled="formPackDisabled">
+                            <ui-select-match placeholder="请选择产品包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in productPackageList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteProductPackageID()" class="btn btn-default"
+                                    ng-disabled="formPackDisabled"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>合作伙伴名称</th>
+                <th>学校名称</th>
+                <th>班级名称</th>
+                <th>开通时间</th>
+                <th>产品包名称</th>
+                <th>产品包金额</th>
+                <th>产品包类型</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in productOpenModelList">
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.PartnerName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.GName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.ClassName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.CDate}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.ProductName}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.Amount}}</span>
+                    </div>
+                </td>
+                <td data-value="1">
+                    <div class="media">
+                        <span>{{item.GroupOpenTypeName}}</span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <page-Directive options="pageIndex"></page-Directive>
+    </div>
+</div>

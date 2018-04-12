@@ -1,0 +1,85 @@
+// Created by QiHan Wang on 2017/8/30.
+
+.CourseResourceDetail {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 5px;
+  .pic {
+    margin-left: 10px;
+    flex: 1;
+  }
+  .name {
+    text-indent: 1em;
+    flex: 3;
+  }
+  .size {
+    text-indent: 2em;
+    flex: 2;
+  }
+  .type {
+    flex: 2;
+    text-align: right;
+  }
+}
+
+//  资源类型图标
+.rs-icon-course {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.rs-icon-camera {
+  background: url("../../assets/icon/icon-camera.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-camera-gray {
+  background: url("../../assets/icon/icon-camera-gray.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-xls {
+  background: url("../../assets/icon/icon-excel.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-file {
+  background: url("../../assets/icon/icon-file.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-file-text {
+  background: url("../../assets/icon/icon-file-text.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-music {
+  background: url("../../assets/icon/icon-music.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-pdf {
+  background: url("../../assets/icon/icon-pdf.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-pic {
+  background: url("../../assets/icon/icon-pic.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-ppt {
+  background: url("../../assets/icon/icon-ppt.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-video {
+  background: url("../../assets/icon/icon-video.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-doc {
+  background: url("../../assets/icon/icon-doc.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-rar {
+  background: url("../../assets/icon/icon-rar.svg") no-repeat 0 center / contain;
+}
+
+.rs-icon-teach {
+  background: url("../../assets/icon/icon-teach.svg") no-repeat 0 center / contain;
+}
+
+

@@ -1,0 +1,97 @@
+<style>
+    #edit{width:600px;height:374px;border:1px solid #ddd;position: absolute;left:50%;display:none;margin-top:100px;margin-left:-300px;background:#fff}
+</style>
+<div ng-controller="addPartnersListController" style="position:relative">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">添加合作伙伴</h1>
+    </div>
+    <div  id="edit">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">添加/修改合作伙伴</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云：</label>
+                    <div class="input-group">
+                        <span>{{model.cloudName}}</span>
+                    </div>
+                </div>
+                <div  style="margin-bottom: 10px">
+                    <label><span class="spanColor">*</span>合作伙伴名称：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="建议填写公司正式名称" style="width:200px" ng-model="model.companyName">
+                    </div>
+                </div>
+                <div>
+                    <label> 简介：</label>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="6" col="30" ng-model="model.introduce"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="savePartnter()">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="closeBox()">关闭</button>
+        </div>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>
+                            <span class="spanColor">*</span>
+                            合作伙伴：
+                        </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="model.partnterName">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="form-group btn btn-info" data-ng-click="searchPartnter()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" data-ng-click="partnterAdd()">
+                        添加合作伙伴
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>区域云</th>
+                    <th>合作伙伴</th>
+                    <th>描述</th>
+                    <th style="text-align:center ">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="21" class="prompt text-center" ng-if="!PartnterList">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请选择条件查询</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="list in PartnterList">
+                    <td class="v-middle">{{list.Cloud.Name}}</td>
+                    <td class="v-middle">{{list.Name}}</td>
+                    <td class="v-middle">{{list.Desc}}</td>
+                    <td class="v-middle" style="text-align:center">
+                        <button type="submit" class="form-group btn btn-info" data-ng-click="updatePartnter(list)">
+                        编辑
+                        </button>
+                        <button type="submit" class="form-group btn btn-info" ng-click="school(list.Name)">
+                        分配学校
+                        </button></td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

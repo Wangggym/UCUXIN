@@ -1,0 +1,82 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">关爱使管理
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="integralPondManagementController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="params.schId" theme="bootstrap">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in model.schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="params.schId = undefined" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="用户名/手机号" ng-model="params.search">
+                </div>
+                <button class="form-group btn btn-success" ng-click="search()">搜索</button>
+                <button class="form-group btn btn-primary" ng-click="create()">创建关爱使</button>
+                <button class="form-group btn btn-danger" ng-click="delete()">删除关爱使</button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>
+                    <label class="i-checks" style="margin-bottom:0;">
+                        <input type="checkbox" ng-click="checkAll()"><i></i>
+                    </label>全选
+                </th>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>积分</th>
+                <th>学校</th>
+                <th>身份</th>
+                <th>间接行为策略</th>
+                <th>直接行为策略</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemList">
+                <td style="width: 100px" class="v-middle">
+                    <label class="i-checks" style="margin-bottom:0;">
+                        <input type="checkbox" ng-click="check(item)" ng-checked="item.checked"><i></i>
+                    </label>
+                </td>
+                <td class="v-middle">{{item.UName}}</td>
+                <td class="v-middle">{{item.Tel}}</td>
+                <td class="v-middle">{{item.Score}}</td>
+                <td class="v-middle">{{item.GName}}</td>
+                <td class="v-middle">{{item.RoleName}}</td>
+                <td class="v-middle">
+                    <p ng-repeat="inDirect in item.InDirectStrategies">{{inDirect}}</p>
+                    <p ng-if="item.InDirectStrategies.length===0 || !item.InDirectStrategies" style="color:red;">
+                        未设置间接行为策略集</p>
+                </td>
+                <td class="v-middle">
+                    <p ng-repeat="direct in item.DirectStrategies">{{direct}}</p>
+                    <p ng-if="item.DirectStrategies.length===0 || !item.DirectStrategies" style="color:red;">
+                        未设置直接行为策略集</p>
+                </td>
+                <td class="v-middle">
+                    <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="configuration(item)">配置策略集</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <page-Directive options="pageIndex"></page-Directive>
+    </div>
+</div>

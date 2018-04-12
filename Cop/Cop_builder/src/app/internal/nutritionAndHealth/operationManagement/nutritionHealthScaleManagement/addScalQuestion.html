@@ -1,0 +1,143 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">新增问卷</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel psychological-scale">
+        <div id="status-buttons" class="psychological-status">
+            <a href="javascript:;" class="active"><span>1</span> 基本信息</a>
+            <a href="javascript:;" class="active"><span>2</span> 用户属性</a>
+            <a href="javascript:;" class="active"><span>3</span> 题库</a>
+            <a href="javascript:;" ng-class="{'active': steps.index >= 4}"><span>4</span> 因子定义</a>
+            <a href="javascript:;" ng-class="{'active': steps.index >= 6}"><span>5</span> 因子解释</a>
+        </div>
+        <progressbar value="60" class="progress-xs" type="success"></progressbar>
+        <div class="panel-body">
+            <div id="form-views" class="form-validation" ui-view></div>
+            <div class="add-question"><button type="button" class="btn btn-info" ng-click="addQuestion()"><i class="fa fa-plus"></i> 新增</button></div>
+            <table class="table table-hover table-bordered psychological-question">
+                <thead>
+                <tr>
+                    <th style="width: 60px;">题号</th>
+                    <th>题干</th>
+                    <th>答案</th>
+                    <th style="width: 150px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!questionList.length"><td colspan="4" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addQuestion()" class="alert-link">请添加测试题</a></td></tr>
+                <tr ng-repeat="question in questionList">
+                    <td data-id="{{question.ID}}">{{question.SeqNo}}</td>
+                    <td>{{question.Title}}</td>
+                    <td class="answer">
+                        <ul class="answer-list" ng-class="{'open':isOpen == $index}">
+                            <li ng-repeat="answer in question.Options">{{answer.Sign}}.{{answer.Cont}}<span class="pull-right">{{answer.Score}}分</span></li>
+                        </ul>
+                        <i class="fa answer-detail" ng-if="question.Options.length > 1" ng-class="{'fa-angle-right':!(isOpen == $index), 'fa-angle-down':isOpen == $index}" ng-click="open($index)" title="{{isOpen == $index?'收起':'展开'}}"></i>
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="editQuestion(question)" title="编辑"><i class="fa fa-edit"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="delQuestion(question)" title="删除"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-center btn-operate">
+                <a ng-click="prev()" class="btn btn-default btn-rounded">上一步</a>
+                <a ng-click="next()" class="btn btn-default btn-rounded">下一步</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="addQuestion.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus': !question.ID, 'fa-edit': question.ID}"></i> {{addQuestionTitle }}题库</h3>
+    </div>
+    <div class="modal-body form-validation">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b> 题干：</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="question.Title" placeholder="问题题干" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b> 选项个数：</label>
+                <div class="col-sm-10">
+                    <div class="col-sm-3" style="padding-left: 0">
+                        <input type="text" class="form-control" ng-model="question.MinAnswer" ng-pattern="/^\d+$/" placeholder="最少个数" required>
+                    </div>
+                    <div class="col-sm-1" style="padding-top: 8px">
+                        至
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="question.MaxAnswer" ng-pattern="/^\d+$/" placeholder="最多个数" required>
+                    </div>
+                    <div class="col-sm-4" style="padding-top: 8px;color: #999999">
+                        <span>( 请输入0或正整数 )</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><b class="text-danger">*</b> 题号：</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="question.SeqNo" ng-pattern="/^\d+$/" placeholder="题号排序值">
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><b class="text-danger">*</b> 问题答案</div>
+            <div class="panel-body">
+                <p class="text-center" ng-if="!question.Options.length">暂无问题答案</p>
+                <table class="table answer-list form-validation" ng-if="question.Options.length">
+                    <thead>
+                    <tr>
+                        <td class="text-center" style="width: 64px;"><b class="text-danger">*</b> 序号</td>
+                        <td><b class="text-danger">*</b> 答案内容</td>
+                        <td class="text-center" style="width: 120px;"><b class="text-danger">*</b> 分值</td>
+                        <td style="width: 120px;"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="answer in question.Options">
+                        <td class="text-center"><span editable-text="answer.Sign" e-name="Sign" e-form="rowform" e-class="input-sm" e-required e-ng-pattern="/^[A-Za-z]$/" onbeforesave="checkSign($data)">{{ answer.Sign || '无' }}</span></td>
+                        <td><span editable-text="answer.Cont" e-name="Cont" e-form="rowform" e-class="input-sm" e-required  onbeforesave="checkCont($data)">{{ answer.Cont || '无' }}</span></td>
+                        <!--<td class="text-center"><span editable-text="answer.Score" e-name="Score" e-form="rowform" e-class="input-sm" e-required e-ng-pattern="/^[+-]?\d+\.?\d*$/" onbeforesave="checkScore($data)">{{ answer.Score || '无' }}</span></td>-->
+                        <td class="text-center"><span editable-text="answer.Score" e-name="Score" e-form="rowform" e-class="input-sm" e-required e-ng-pattern="/^(\-|\+)?\d+(\.\d+)?$/" onbeforesave="checkScore($data)">{{ answer.Score || '无' }}</span></td>
+                        <td class="text-right">
+                            <!-- form -->
+                            <form editable-form name="rowform" onbeforesave="saveAnswer($data, answer.ID)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == answer" style="display: inline-block">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-xs btn-primary" title="确定"><i class="fa fa-check"></i></button>
+                                <button type="button" ng-disabled="rowform.$waiting" class="btn btn-xs btn-default" ng-click="rowform.$cancel()" title="取消"><i class="fa fa-times"></i></button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible" style="display: inline-block">
+                                <button type="button" class="btn btn-xs btn-primary" ng-click="rowform.$show()" title="编辑"><i class="fa fa-edit"></i></button>
+                            </div>
+                            <button type="button" class="btn btn-xs btn-danger" ng-click="delAnswer($index)" title="删除"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-default" ng-click="addAnswer()">新增答案</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="confirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="removeConfirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="fa fa-trash-o"></i>{{name}}删除</h3>
+    </div>
+    <div class="modal-body ">确定要删除{{name}}：<strong>{{item.Title || item.Name || (item.FactorName || '总分')}}</strong>？</div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

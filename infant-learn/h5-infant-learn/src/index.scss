@@ -1,0 +1,190 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  vertical-align: top;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+ul, dl {
+  list-style: none
+}
+
+$green: rgb(104, 201, 76);
+$orange: rgb(253, 99, 15);
+$black: #272636;
+$grey: #aaa;
+$blue: #2a9efb;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 0.28rem;
+  background-color: rgb(255, 255, 255) !important;
+}
+
+.activeClass {
+  &:active {
+    background: #ddd;
+  }
+}
+
+.app-tabs .am-tabs-ink-bar {
+  width: 50vw !important;
+}
+
+.app-tabs .am-tabs-bar {
+  margin-bottom: unset !important;
+}
+
+.am-tabs-bar .am-tabs-tab {
+  height: 10vh !important;
+}
+
+.am-list-body {
+  width: 100vw;
+}
+
+.am-popover-mask {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  opacity: 0.1;
+}
+
+.am-accordion .am-accordion-item .am-accordion-content .am-accordion-content-box:after {
+  border-bottom: none !important;
+}
+
+.anchor {
+  height: 1rem;
+  display: flex;
+  justify-content: space-around;
+  color: #aaa;
+  border-bottom: 2PX #ccc solid;
+  div {
+    line-height: 1rem;
+    font-weight: bold;
+  }
+  .active {
+    color: rgb(104, 201, 76);
+    border-bottom: 0.05rem rgb(104, 201, 76) solid;
+  }
+
+}
+
+//溢出隐藏
+.overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.border-bottom1PX {
+  // width: 96vw;
+  height: 0.2rem;
+  // margin: 0 2vw;
+  border-bottom: 1PX $grey solid;
+  margin-bottom: 0.2rem;
+}
+
+.pull-load-body {
+  min-height: 80vh;
+}
+
+.blank {
+  height: 1vh;
+  background: #ddd;
+}
+
+.blank-title {
+  height: 0.4rem;
+  background: #ddd;
+  padding-left: 0.5rem;
+  line-height: 0.4rem;
+  font-size: 0.28rem;
+}
+
+.default-button {
+  height: 0.6rem !important;
+  font-size: 0.28rem !important;
+  line-height: 0.6rem !important;
+  color: $green !important;
+  border-color: $green !important;
+}
+
+.default-separator {
+  background-color: #ccc;
+  height: 1PX;
+  width: 100%;
+}
+
+.separator-border {
+  background-color: #ffffff;
+  height: 0.05rem;
+  margin-bottom: 0.05rem;
+  border-bottom: 1PX solid #ccc;
+}
+
+.orange-font {
+  color: $orange;
+  font-weight: bold;
+}
+
+.grey-color {
+  color: $grey;
+}
+
+.green-color {
+  color: $green;
+}
+
+.orange-color {
+  color: $orange;
+}
+
+.green-background {
+  background-color: $green;
+}
+
+.orange-background {
+  background-color: $orange;
+}
+
+.black-background {
+  background-color: $black;
+}
+
+.white-background {
+  background-color: white;
+
+}
+
+.orange-background {
+  background-color: rgb(253, 99, 15);
+}
+
+.grey-background {
+  background-color: $grey !important;
+}
+
+.blue-background {
+  background-color: $blue;
+}
+
+.small-courseItem {
+  .title {
+    font-weight: unset !important;
+  }
+  .classify {
+    > span {
+      font-size: 0.26rem !important;
+    }
+  }
+}

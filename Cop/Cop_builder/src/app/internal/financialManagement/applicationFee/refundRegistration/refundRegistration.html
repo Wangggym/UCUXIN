@@ -1,0 +1,176 @@
+<style>
+    .refund .state1{
+        color: red;
+    }
+    .refund .state2{
+        color: #7266ba;
+    }
+    .refund .state3{
+        color:#9999;
+    }
+    .borderColor{
+        border: 1px solid red;
+    }
+</style>
+<div ng-controller="refundRegistrationController" class="refund">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">退款登记管理</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>学校：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="pageData.school" theme="bootstrap" reset-search-input="false"
+                                       ng-change="selectGid()">
+                                <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="school in schoolList track by $index"
+                                                   refresh="refreshSchool($select.search)" refresh-delay="500">
+                                    <span ng-bind-html="school.FName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>订单ID：</label>
+                        <input type="text" class="form-control" placeholder="请输入订单ID" ng-model="pageData.orderIdContent">
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>学生姓名：</label>
+                        <input type="text" class="form-control" placeholder="请输入学生姓名" ng-model="pageData.stuentName">
+                    </div>
+                    <div class="form-group">
+                        <label>家长电话：</label>
+                        <input type="text" class="form-control" placeholder="请输入家长电话" ng-model="pageData.parentTel">
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>订单ID</th>
+                    <th>学校</th>
+                    <th>班级</th>
+                    <th>学生</th>
+                    <th>家长电话</th>
+                    <th>下单人电话</th>
+                    <th>下单时间</th>
+                    <th>付款时间</th>
+                    <th>状态</th>
+                    <th>支付方式</th>
+                    <th>产品</th>
+                    <th>服务包</th>
+                    <th>服务包有效期</th>
+                    <th>服务包金额</th>
+                    <th>实付金额</th>
+                    <th>已退款金额</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="13" class="prompt text-center" ng-show="orderlList.length == 0">
+                            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...<span style="color: black;">请尝试改变查询条件</span></div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in orderlList">
+                        <td>{{item.OrderID}}</td>
+                        <td>{{item.GName}}</td>
+                        <td>{{item.ClassName}}</td>
+                        <td>{{item.UName}}</td>
+                        <td>{{item.Tel}}</td>
+                        <td>{{item.CTel}}</td>
+                        <td>{{item.Date}}</td>
+                        <td>{{item.PayDate}}</td>
+                        <td ng-class="{'state1': item.ST == 1, 'state2': item.ST == 2,'state3': item.ST == 3}">{{item.stName}}</td>
+                        <td>{{item.PayChannel}}</td>
+                        <td>{{item.ChargeName}}</td>
+                        <td>{{item.ProductName}}</td>
+                        <td>{{item.EDate}}</td>
+                        <td>{{item.ChargeAmount}}</td>
+                        <td>{{item.ChargePayAmount}}</td>
+                        <td>{{item.RefundAmount}}</td>
+                        <td>
+                            <button ng-if="item.ST == 2" type="submit" style="padding: 2px 6px;" class="btn btn-info" data-ng-click="reService(item)">更换服务包</button>
+                            <button ng-if="item.ST == 2" type="submit" style="padding: 2px 6px;" class="btn btn-primary" data-ng-click="reFund(item)">退款</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="search()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="refund.html">
+    <div class="modal-header">
+        <h3 class="modal-title">退款<span style="font-weight: 100;font-size: 14px;color: red;margin-left: 15px;">（使用本功能退款后，将会停用相关服务包的服务）</span></h3>
+    </div>
+    <div class="modal-body ">
+        <p>服务包名称:<span style="margin-left: 25px;">{{order.ProductName}}</span></p>
+        <p>服务包金额:<span style="margin-left: 25px;">{{order.ChargeAmount}}</span></p>
+        <p>已退款金额:<span style="margin-left: 25px;">{{order.RefundAmount}}</span></p>
+        <form class="form-inline" role="form" name="form">
+            <div class="form-group">
+                <label><span class="spanColor">*</span>本次退款金额:</label>
+                <input style="margin-left: 10px;" type="text" class="form-control" placeholder="请输入退款金额" ng-model="order.money" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+                <span style="font-size: 12px;margin-left: 5px;">（退款金额大于0并小于等于总金额,最多保留两位小数）</span>
+            </div>
+        </form>
+        <div>
+            <label><span style="color: red;">*</span>退款理由:</label>
+            <textarea class="form-control" ng-model="order.Desc" rows="5" placeholder="请填写退款理由" required></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="reservice.html">
+    <div class="modal-header">
+        <h3 class="modal-title">更换服务包<span style="font-weight: 100;font-size: 14px;color: red;margin-left: 15px;">（适用于学生购买了错误的服务包，需要更换服务包并退款的情况
+）</span></h3>
+    </div>
+    <div class="modal-body ">
+        <p>服务包名称:<span style="margin-left: 25px;">{{order.ProductName}}</span></p>
+        <p>服务包金额:<span style="margin-left: 25px;">{{order.ChargeAmount}}</span></p>
+        <p>已退款金额:<span style="margin-left: 25px;">{{order.RefundAmount}}</span></p>
+        <form style="margin-bottom: 10px;" class="form-inline" role="form" name="form">
+            <div class="form-group">
+                <label><span class="spanColor">*</span>选择服务包：</label>
+                <ui-select ng-model="order.serviceProduct" theme="bootstrap" ng-change="selectService(order.serviceProduct)">
+                    <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="funcServiceProduct in order.productInfo | propsFilter: { Name:$select.search }">
+                        <span ng-bind-html="funcServiceProduct.Name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <span style="margin-left: 5px;" ng-if="order.serviceProduct">（{{order.serviceProduct.Amount}}元，截止到{{order.serviceProduct.EDate}}）</span>
+        </form>
+        <div>
+            <label><span style="color: red;">*</span>更换理由:</label>
+            <textarea class="form-control" ng-model="order.Desc" rows="5" placeholder="请填写更换理由" required></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="comfirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

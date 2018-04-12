@@ -1,0 +1,135 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">设备维护
+    </h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group form-inline clearfix" role="form" name="form"
+                  style="border: 0; margin: 0;padding: 0">
+                <div class="form-group">
+                    <label><b class="text-danger">*</b>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="vm.queryFields.school" theme="bootstrap" ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.GID as item in vm.model.school | filter: $select.search"
+                                    refresh="vm.refreshSearchKey($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                              <button ng-click="vm.queryFields.school = undefined" class="btn btn-default"
+                                      type="button">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor"></span>搜索关键字：</label>
+                    <input type="text" class="form-control" ng-model="vm.queryFields.searchKey" placeholder="设备编码">
+                </div>
+                <button type="button" class="form-group btn btn-success" ng-click="vm.search()"
+                        ng-disabled="!vm.queryFields.school">查询
+                </button>
+
+
+                <button type="button" class="btn btn-info" ng-click="vm.download()"
+                        style="background-color: #070b81;border-color:#070b81;">
+                    下载导入模板
+                </button>
+
+                <button class="btn btn-info" ngf-select ng-model="file" name="file"
+                        ng-change="vm.upload(file)" ngf-pattern="'.xls,.xlsx'"
+                        ngf-accept="'.xls,.xlsx'" ng-disabled="!vm.queryFields.school">数据导入
+                </button>
+
+                <button type="button" class="btn btn-primary" ng-click="vm.batchSet()"
+                        ng-disabled="!vm.queryFields.school">批量设置推流时间
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="vm.del(vm.submitData.IDs)">批量删除</button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th style="width: 43px;"><input type="checkbox" ng-model="vm.allSelected"
+                                                ng-click="vm.allClickSelected()"></th>
+                <th>设备编码</th>
+                <th>设备别名</th>
+                <th>设备名称</th>
+                <th>安装位置</th>
+                <th>状态</th>
+                <th>推流状态</th>
+                <th>设备类型</th>
+                <th>mac地址</th>
+                <th>同步状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in vm.model.dataList">
+                <td><input type="checkbox" ng-model="item.selected" ng-click="vm.singleSelected(item)"></td>
+                <td>{{item.No}}</td>
+                <td>{{item.EName}}</td>
+                <td>{{item.EDevName}}</td>
+                <td>{{item.Position}}</td>
+                <td>{{item.EStatusDesc}}</td>
+                <td>{{item.EPubStatusDesc}}</td>
+                <td>{{item.EDevTypeDesc}}</td>
+                <td>{{item.EMacAddr}}</td>
+                <td>{{item.ESyncStatusDesc}}</td>
+                <td>
+                    <a href="javascript:;" class="btn btn-xs btn-info" title="编辑" ng-click="vm.save(item)"><i
+                            class="fa fa-edit"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-danger" title="删除" ng-click="vm.del([item.ID])"><i
+                            class="fa fa-trash-o"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="batchSetCopCameraPubTime.html">
+    <div class="modal-header">
+        <h3 class="modal-title">批量设置推流时间</h3>
+    </div>
+    <div class="modal-body cloud-watch-form">
+        <div class="cloud-watch-push-flow"><label><input type="checkbox" ng-model="vm.submitData.EIsPub"> 开启推流</label>
+        </div>
+        <!--<h5>推流时间</h5>-->
+        <div class="cloud-watch-push-rule" ng-if="vm.submitData.EIsPub">
+            <div class="form-group">
+                <label class="control-label"><b class="text-danger">*</b> 星期：</label>
+
+                <label class="checkbox" ng-repeat="item in vm.model.week"><input type="checkbox"
+                                                                                 ng-model="item.selected">
+                    {{item.text}}</label>
+            </div>
+
+            <div class="form-group cloud-watch-time-range">
+                <label class="control-label"><b class="text-danger">*</b> 时间段：</label>
+
+                <div class="time-range-list" ng-repeat="item in vm.model.timeSlots track by $index">
+                    <input type="text" class="form-control" ng-model="item.startHours"><b>:</b>
+                    <input type="text" class="form-control" ng-model="item.startMinutes"><b>~</b>
+                    <input type="text" class="form-control" ng-model="item.endHours"><b>:</b>
+                    <input type="text" class="form-control" ng-model="item.endMinutes">
+
+                    <a href="javascript:;" title="删除" class="btn btn-danger" ng-click="vm.delRule($index)"><i
+                            class="fa fa-trash-o"></i></a>
+                    <a href="javascript:;" title="新增" class="btn btn-info" ng-click="vm.addRule()"
+                       ng-if="$index === (vm.model.timeSlots.length-1)"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="confirm()">确认</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</script>

@@ -1,0 +1,75 @@
+
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">刷卡场景定义</h1>
+  </div>
+  <div class="wrapper-md" ng-controller="checkInsTypeController">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+          <thead>
+          <tr>
+            <th>打卡类型/打卡场景</th>
+            <th>学生进提示语</th>
+            <th>学生出提示语</th>
+            <th>老师进提示语</th>
+            <th>老师出提示语</th>
+            <th>是否作为考勤</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr st-select-row="row" ng-repeat="item in list ">
+            <td class="col-lg-2" ng-bind="item.Name">
+
+            </td>
+            <td data-value="1" class="col-lg-2">
+              <div class="media">
+                <div class="media-body">
+                  <input type="text"  ng-model="item.StuInMsg" ng-disabled="editList[$index]" class="form-control" placeholder="">
+                </div>
+              </div>
+            </td>
+            <td data-value="1" class="col-lg-2">
+              <div class="media">
+                <div class="media-body">
+                  <input type="text" ng-model="item.StuOutMsg" ng-disabled="editList[$index]"  class="form-control" placeholder="">
+                </div>
+              </div>
+            </td>
+            <td data-value="1" class="col-lg-2">
+              <div class="media">
+                <div class="media-body">
+                  <input type="text" ng-model="item.TeaInMsg" ng-disabled="editList[$index]" class="form-control" placeholder="">
+                </div>
+              </div>
+            </td>
+            <td data-value="1" class="col-lg-2">
+              <div class="media">
+                <div class="media-body">
+                  <input type="text" ng-model="item.TeaOutMsg"  ng-disabled="editList[$index]" class="form-control" placeholder="">
+                </div>
+              </div>
+            </td>
+            <td>
+              <label class="i-switch m-t-xs m-r">
+                <input type="checkbox" ng-checked="item.IsAttendance" ng-click="item.IsAttendance = !item.IsAttendance" ng-disabled="editList[$index]">
+                <i></i>
+              </label>
+            </td>
+            <td data-value="1" class="col-lg-2">
+              <div class="media">
+                <div class="media-body">
+                  <button class=" btn btn-info" ng-click="save(item,$index)" ng-disabled="editList[$index]">保存</button>
+                  <button class=" btn btn-primary" ng-click="edit($index)" ng-show="editList[$index]">编辑</button>
+                  <button class=" btn btn-warning" ng-click="cancel($index)" ng-show="!editList[$index]">取消</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

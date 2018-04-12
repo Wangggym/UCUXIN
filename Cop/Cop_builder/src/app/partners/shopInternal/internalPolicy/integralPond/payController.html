@@ -1,0 +1,86 @@
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://pay.ucuxin.com/pay/css/pay.css">
+<link rel="stylesheet" type="text/css" href="http://pay.ucuxin.com/pay/css/loaders.css">
+<script type="text/javascript" src="http://pay.ucuxin.com/pay/js/pay.js"></script>
+<script type="text/javascript" src="http://pay.ucuxin.com/pay/js/config.js"></script>
+<script type="text/javascript" src="http://pay.ucuxin.com/pay/js/api.js"></script>
+
+<style>
+    .kv-line > h6,.kv-line > .kv-k{display:block;width:5em;font-size:inherit;font-weight:400}.kv-line > .kv-v,.kv-line > p{display:block;-webkit-box-flex:1;-moz-box-flex:1;-ms-flex:1}
+    .kv-line-r{display:-webkit-box;display:-ms-flexbox;margin:.2rem 0}.kv-line-r > h6,.kv-line-r > .kv-k{-webkit-box-flex:1;-moz-box-flex:1;-ms-flex:1;font-size:inherit;font-weight:400;margin-right:.2rem;display:block}
+    .kv-line-r > .kv-v,.kv-line-r > p{display:block}ul.tab-strong{border-color:#2BB2A3;color:#2BB2A3}.tab-strong li{border-right-color:#2BB2A3}.tab-strong li.active{background:#2BB2A3}
+    .taba li{display:block;text-align:center;-webkit-box-flex:1;-ms-flex:1;position:relative}.taba.noslide li.active:after{content:''}
+    .taba li.active:after{content:"";display:block;position:absolute;bottom:-.08rem;border-bottom:.08rem solid #2BB2A3;width:100%}.taba li a.react{padding-top:.28rem;padding-bottom:.2rem}
+
+    .navbar h1.nav-header{-webkit-box-flex:1;-ms-flex:1;font-size:.36rem;font-weight:lighter;text-align:center;line-height:1rem;margin:0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+
+</style>
+<div ng-controller="payController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">支付
+        </h1>
+    </div>
+    <div class="wrapper-md ng-scope">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-body" style="margin-bottom:-30px;">
+                    <form class="query-group-form form-inline">
+                        <div class="wrapper-list">
+                            <h4>积分充值</h4>
+                            <div class="form-group"  >
+                                <label>  金额：
+                                </label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" placeholder="请输入金额" ng-model="newModel.Amount" ng-keyup="setMoney()">
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="form-group"  >
+                                <label>  积分：
+                                </label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="积分" ng-model="newModel.Point">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>描述：</label>
+
+                                <div class="input-group">
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                                </div>
+                            </div>
+                            </dl>
+                            <div id="pay-methods-panel" class="pay-methods-panel">
+                                <form id="pay_form" method="POST"  action="https://mapi.alipay.com/gateway.do">
+                                    <input type="hidden" name="sign" value="IvjVp0/XaRmVmE8Csio+TpbjuTzAzd4PrQLMUR8V82OcGhrjy+WLtaDD7KFn0tnMXfpLIJyKRjmxNulXNTMVWknKB4S77TRiBVHVOzeECKfh4BUY+Uyesw6vXjtbIq2cL6GUI1A8OHu2HCjlNJK1Ks3VQqMTY7cowe8DX8PETq0="/>
+                                    <input type="hidden" name="_input_charset" value="utf-8"/>
+                                    <input type="hidden" name="subject" value="test"/>
+                                    <input type="hidden" name="total_fee" value="0.01"/>
+                                    <input type="hidden" name="sign_type" value="RSA"/>
+                                    <input type="hidden" name="service" value="alipay.wap.create.direct.pay.by.user"/><input type="hidden" name="notify_url" value="http://www.testalipay.com/alipay.wap.create.direct.pay.by.user-JAVA-UTF-8/notify_url.jsp"/>
+                                    <input type="hidden" name="partner" value="2088501624560335"/><input type="hidden" name="seller_id" value="2088501624560335"/><input type="hidden" name="out_trade_no" value="2016330134443814"/>
+                                    <input type="hidden" name="payment_type" value="1"/>
+                                    <input type="hidden" name="return_url" value="http://www.testalipay.com/alipay.wap.create.direct.pay.by.user-JAVA-UTF-8/return_url.jsp"/>
+
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="choicePay btn btn-default btn-success" rel="1" ng-click="payMoney(1)">支付宝支付</div>
+                    <div class="choicePay choicePay2 btn btn-default btn-success" rel="7" ng-click="payMoney(7)">银联支付</div>
+                    <div class="choicePay choicePay3 btn btn-default btn-success" rel="11" ng-click="payMoney(11)">微信支付</div>
+                    <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

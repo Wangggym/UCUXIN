@@ -1,0 +1,55 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  vertical-align: top;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+ul, dl {
+  list-style: none
+}
+
+body {
+  background-color: white;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.am-list-item .am-input-label.am-input-label-5 {
+  width: 0.7rem !important;
+}
+.am-modal-transparent .am-modal-content .am-modal-body {
+  padding: 0 0 0.3rem !important;
+}
+.am-modal-transparent {
+  width: 6rem !important;
+}
+
+input[type=search]::-webkit-search-cancel-button{
+  -webkit-appearance: none;
+  position: relative;
+  height: 0.45rem;
+  width: 0.45rem;
+  border-radius: 50%;
+  background: url('./public/assets/add@2x.png') no-repeat center center / cover;
+  margin-right: 0.1rem;
+}

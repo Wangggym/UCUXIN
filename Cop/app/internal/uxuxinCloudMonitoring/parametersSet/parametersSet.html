@@ -1,0 +1,44 @@
+<div ng-controller="parametersSetController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校参数设置
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><b class="text-danger">*</b>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="changeGid()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                              <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                      type="button">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>试看时长：</label>
+                        <input type="number" class="form-control" ng-model="model.TryMinutes"
+                               ng-disabled="!model.selectedGid">
+                        <label><span class="spanColor"></span>(分钟)</label>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" ng-click="save()"
+                            ng-disabled="!model.selectedGid">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

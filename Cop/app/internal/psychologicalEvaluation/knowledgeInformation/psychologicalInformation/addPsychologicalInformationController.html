@@ -1,0 +1,90 @@
+<div class="bg-light lter b-b wrapper-md">
+    <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="cancel()"><i
+            class="fa fa-long-arrow-left"></i></a>
+
+    <h1 class="m-n font-thin h3">{{isAdd ? '新增': '修改'}}全网心理资讯维护</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal form-line-dashed form-validation">
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 标题：</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" ng-model="submitData.title" maxlength="25" type="text" placeholder="标题" required>
+                        <span class="help-block">标题字数25字以内</span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 学段：</label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks"><input type="checkbox" ng-model="allPeriod" ng-checked="checked" ng-change="changeAllPeriod(allPeriod)"><i></i>全学段</label>
+                        <label class="checkbox-inline i-checks" ng-repeat="pe in periodConfig" ng-if="!allPeriod"><input type="checkbox" ng-model="pe.IsCheck" ng-checked="checked"><i></i>{{pe.name}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">来源：</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="submitData.origin">
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 简介：</label>
+
+                    <div class="col-sm-6">
+                        <textarea class="form-control" rows="3" ng-model="submitData.introduction" placeholder="简介"
+                                  required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 缩略图：</label>
+
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control" ngf-select ng-model="picFile" name="file"
+                               ngf-accept="'image/jpg,image/jpeg,image/gif,image/png'" required ng-change="uploadPic(picFile)" required>
+                      <span class="help-block">建议缩略图尺寸大小为600px*420px</span>
+                    <span class="inline bg-white wrapper-sm b-a" style="margin-top: 15px;"
+                          ng-if="picFile || submitData.thumbnail">
+                      <div class="bg-light" style="width: 320px;min-height: 160px;">
+                          <img ng-if="picFile" ngf-src="picFile" style="width: 100%">
+                          <img ng-if="!picFile" ng-src="{{submitData.thumbnail}}" style="width: 100%">
+                      </div>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-offset-2">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 状态：</label>
+
+                    <div class="col-sm-6">
+                        <label class="radio-inline i-checks"><input type="radio" ng-model="submitData.status"
+                                                                    name="status" value="1" required><i></i>发布</label>
+                        <label class="radio-inline i-checks"><input type="radio" ng-model="submitData.status"
+                                                                    name="status" value="2" required><i></i>未发布</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b class="text-danger">*</b> 内容：</label>
+
+                    <div class="col-sm-6">
+                        <!-- 加载编辑器的容器 -->
+                        <script id="container" name="content" type="text/plain"></script>
+                        <ucu-ueditor options="context"></ucu-ueditor>
+
+                      <!--<u-ueditor ng-model="submitData.content" ucu-config="config"></u-ueditor>-->
+                      <!--<div class="ueditor" ng-model="submitData.content"></div>{{submitData.content}}-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+                        <button type="button" class="btn w-xs btn-default" ng-click="cancel()">取消</button>
+                    </div>
+                </div>
+            </form>
+          <div ng-if="2 - submitData.status"></div>
+
+        </div>
+    </div>
+</div>

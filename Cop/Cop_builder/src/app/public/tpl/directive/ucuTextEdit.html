@@ -1,0 +1,9 @@
+<div class="form-group" ng-controller="imageUploadController">
+    <div lazy-load="textAngular" name="text-angular">
+        <div text-angular ng-model="htmlVariable" class="btn-groups"></div>
+    </div>
+    <input ngf-select id='fileUploadImage' type="file" ng-model="UploadImage"
+           ng-change="fileChangeImage(UploadImage)"
+           ngf-pattern="'image/*'" ngf-accept="'image/*'" name="file"
+           class="form-control" style="display: none;">
+</div>

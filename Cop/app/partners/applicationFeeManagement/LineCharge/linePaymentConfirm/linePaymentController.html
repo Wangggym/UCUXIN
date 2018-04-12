@@ -1,0 +1,145 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">线下缴费
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="linePaymentController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>产品包：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectProductPackageID" theme="bootstrap"
+                                   ng-change="changeProductGid()"
+                                   ng-disabled="queryFields.selectedGid?false:true">
+                            <ui-select-match placeholder="请选择产品包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in productPackageList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectProduct()" class="btn btn-default"
+                                    ng-disabled="queryFields.selectedGid?false:true"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>服务包：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedService" theme="bootstrap">
+                            <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in serviceList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.selectedService = undefined" class="btn btn-default"
+                                    ng-disabled="queryFields.selectedService?false:true"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>班级：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectClass" theme="bootstrap"
+                                   ng-change="classChange()"
+                                   style="min-width: 200px;"
+                                   ng-disabled="queryFields.selectProductPackageID?false:true">
+                            <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                            <ui-select-choices group-by="'GradeName'"
+                                               repeat="item.ClassID as item in classList | propsFilter: {ClassName: $select.search}">
+                                <small>
+                                    {{item.ClassName}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectClass()" class="btn btn-default"
+                                    type="button" ng-disabled="queryFields.selectProductPackageID?false:true">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">学生</label>
+                    <input type="text" class="form-control" placeholder="姓名" ng-model="studentName"
+                           ng-disabled="queryFields.selectProductPackageID?false:true">
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                        ng-disabled="queryFields.selectedService?false:true">
+                    查询
+                </button>
+                <button type="submit" class="form-group btn btn-info"
+                        ng-disabled="queryFields.selectedService?false:true"
+                        data-ng-click="confirmOfflinePay()">确认缴费
+                </button>
+                <div class="form-group">
+                    <label>已选人数：{{queryFields.studentNumber?queryFields.studentNumber:0}}</label>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th style="width:5%;">
+                    <label class="i-checks" style="margin-bottom:0px;">
+                        <input type="checkbox" data-ng-click="checkAll()" ng-checked="queryFields.checkAll"
+                               ng-model="queryFields.checkAll"><i></i>
+                    </label>操作
+                </th>
+                <th>班级</th>
+                <th>姓名</th>
+                <th>学生/家长电话</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in studentModelList">
+                <td class="v-middle">
+                    <label class="i-checks" ng-show="item.alreadyPay">
+                        <input type="checkbox"
+                               data-ng-click="checkedOne(studentModelList,$index)" ng-checked="item.checked"><i></i>
+                    </label>
+                    <span ng-bind="item.alreadyPayName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.CompanyName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.UName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Tel"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

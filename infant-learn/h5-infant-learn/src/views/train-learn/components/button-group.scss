@@ -1,0 +1,18 @@
+.button-group{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.1rem;
+    margin-bottom: .3rem;
+    div{
+        height: 0.55rem;
+        line-height: 0.55rem;
+        width: 100;
+        font-size: 0.26rem;
+        padding: 0 0.1rem;
+        border-radius: 0.1rem;
+    }
+    .active{
+        background: #68c94c;
+        color: white;
+    }
+}

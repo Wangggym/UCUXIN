@@ -1,0 +1,306 @@
+<div ng-controller="addServicePackageController">
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">服务产品包开通
+        <button type="submit" class="pull-right btn btn-success" data-ng-click="save()">全部保存
+        </button>
+        <button type="submit" class="pull-right btn btn-default" name="return"
+                ui-sref="access.app.partner.applicationFeeOpen.productPackDefine" style="margin-right:10px;">返回
+        </button>
+    </h1>
+</div>
+<div class="wrapper-md">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="query-group-form form-inline" role="form">
+            <div class="form-group">
+                <label>服务包名称：</label>
+                <input type="text" class="form-control" placeholder="名称" ng-model="packAgeName"
+                       ng-disabled="judgeDisabled">
+            </div>
+            <div class="form-group">
+                <label>金额：</label>
+                <input type="text" class="form-control" placeholder="金额" ng-model="packAgeAmount"
+                       ng-disabled="model.disableAmount">
+            </div>
+            <div class="form-group">
+                <label>购买开始日期：</label>
+
+                <div class="input-group w-sm">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                           ng-model="dateStart" ng-disabled="judgeDisabled"
+                           is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                           close-text="确定" current-text="今天" clear-text="清除"/>
+                        <span class="input-group-btn" ng-show="judageShow">
+                            <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>购买结束日期：</label>
+
+                <div class="input-group w-sm">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                           ng-model="dateOver" ng-disabled="judgeDisabled"
+                           is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                           close-text="确定" current-text="今天" clear-text="清除"/>
+                        <span class="input-group-btn" ng-show="judageShow">
+                            <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>依赖服务包：</label>
+
+                <div class="input-group w-sm">
+                    <select name="请选择" class="ui fluid selection dropdown" id="relyServicePack"
+                            ng-model="servicePro">
+                        <option data-ng-value="{{serviceProduct.ID}}"
+                                data-ng-repeat="serviceProduct in funcServiceProductList"
+                                ng-bind="serviceProduct.Name"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>类型：</label>
+
+                <div class="input-group w">
+                    <select name="请选择" class="ui fluid selection dropdown" id="typeSelect"
+                            ng-model="typeModel">
+                        <option data-ng-value="{{type.id}}" data-ng-repeat="type in typeList"
+                                ng-bind="type.name"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>备注：</label>
+                <input type="text" class="form-control" placeholder="备注" ng-model="desc" ng-disabled="judgeDisabled">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+<div class="col-sm-6">
+    <div class="panel b-a" style="overflow: auto; zoom:1;overflow-x:hidden;">
+        <div class="bg-primary panel-heading font-bold">服务项</div>
+        <div class="col-lg-12">
+            <div class="panel" style="margin:10px 10px 10px 10px;">
+                <div ui-jq="slimScroll" ui-options="{height:'670px'}" style="position: relative;">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th style="width:25%;">服务项名称</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                            <!--<th>金额</th>-->
+                            <th style="width:25%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody name="tableService">
+                        <tr st-select-row="row" ng-repeat="service in serviceList">
+                            <td class="v-middle">
+                                <span ng-bind="service.Name"></span>
+                            </td>
+                            <td class="v-middle" id="{{service.FuncAppID}}start" name="timeStart">
+                                <div class="media">
+                                    <input type="text" style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           placeholder="选择时间" value="{{service.SDate}}"
+                                           ng-disabled="judgeDisabled">
+                                </div>
+                            </td>
+                            <td class="v-middle" id="{{service.FuncAppID}}end" name="timeEnd">
+                                <div class="media">
+                                    <input type="text" style="cursor: pointer;width: 80px;border:#ffffff;"
+                                           placeholder="选择时间" value="{{service.EDate}}"
+                                           ng-disabled="judgeDisabled">
+                                </div>
+                            </td>
+                            <!--<td class="v-middle">-->
+                            <!--<div class="media">-->
+                            <!--<input name="amount" type="number" class="form-control"-->
+                            <!--data-ng-value="{{service.Amount}}"-->
+                            <!--style="width: 100px;" ng-disabled="judgeDisabled"-->
+                            <!--placeholder="输入金额" ng-blur="loseBlur()">-->
+                            <!--</div>-->
+                            <!--</td>-->
+                            <td style="white-space: nowrap">
+                                <a class="btn btn-sm btn-primary btn-danger" ng-click="remove(service)"
+                                   ng-show="judageShow">移除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="optionalService" style="position: absolute;top:0px;width:70%;" ng-show="judageShow">
+                <div class="panel b-a" style="margin:10px 0px 10px 20px;">
+                    <div class="sidebar" ng-click="sidebarOperationService()">
+                        <div class='font-bold'>
+                            <i class="fa fa-spin icon-disc"></i>
+                            <span>添<br>加<br>服<br>务<br>项</span>
+                        </div>
+                    </div>
+                    <div class="panel-heading font-bold">
+                        <div class="panel-heading font-bold text-center">可选服务项</div>
+                    </div>
+                    <div ui-jq="slimScroll" ui-options="{height:'527px'}"
+                         style="position: relative;margin-left:8px;">
+                        <table class="table table-bordered table-hover table-condensed bg-white-only">
+                            <thead>
+                            <tr>
+                                <th>操作</th>
+                                <th>服务项名称</th>
+                                <th style="width:50%;">描述</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr st-select-row="row" ng-repeat="serviceItem in serviceItemList">
+                                <td class="v-middle">
+                                    <button class="btn btn-sm btn-info" ng-click="addItem(serviceItem)">添加
+                                    </button>
+                                </td>
+                                <td class="v-middle">
+                                    <span ng-bind="serviceItem.Name"></span>
+                                </td>
+                                <td class="v-middle">
+                                    <span ng-bind="serviceItem.Desc"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="panel b-a" style="overflow: auto; zoom:1;overflow-x:hidden;">
+        <div class="bg-info panel-heading font-bold">分配范围</div>
+        <div class="col-lg-12">
+            <div class="panel" style="margin:10px 10px 10px 10px;">
+                <div ui-jq="slimScroll" ui-options="{height:'670px'}" style="position: relative;">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>县</th>
+                            <th>学校</th>
+                            <th>班级</th>
+                            <!--<th>类型</th>-->
+                            <th style="width:25%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody name="distribution">
+                        <tr st-select-row="row" ng-repeat="distribution in distriObjList">
+                            <td class="v-middle">
+                                <span ng-bind="distribution.RName"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="distribution.FName"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="distribution.ClassName"></span>
+                            </td>
+                            <!--<td class="v-middle">-->
+                            <!--<select name="请选择" class="ui fluid search dropdown"-->
+                            <!--id="selectType{{distribution.schoolClassID}}"-->
+                            <!--style="width:80px;">-->
+                            <!--<option data-ng-value="{{type.id}}" data-ng-repeat="type in distribution.typeList"-->
+                            <!--ng-bind="type.name"></option>-->
+                            <!--</select>-->
+                            <!--</td>-->
+                            <td name="remover" style="white-space: nowrap" id="remove{{distribution.ClassID}}">
+                                <a class="btn btn-sm btn-primary btn-danger"
+                                   ng-click="removeDistribution(distribution)">移除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="optionalScope" style="position: absolute;top:0px;width:70%;">
+                <div class="panel b-a" style="margin:10px 0px 10px 20px;">
+                    <div class="sidebar" ng-click="sidebarOperation()">
+                        <div class='font-bold'>
+                            <i class="fa fa-spin icon-social-dribbble"></i>
+                            <span>添<br>加<br>学<br>校<br>及<br>班<br>级</span>
+                        </div>
+                    </div>
+                    <div class="panel-heading font-bold">
+                        <div class="panel-heading font-bold text-center">添加学校班级</div>
+                        <form class="navbar-form-sm shift ng-pristine ng-valid ng-scope"
+                              ui-shift="prependTo" target=".navbar-collapse" role="search">
+                            <div class="input-group">
+                                <input type="text" ng-model="selectSchool"
+                                       class="form-control input-sm bg-light no-border rounded padder ng-pristine ng-untouched ng-valid"
+                                       placeholder="学校">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-sm bg-light rounded" ng-click="searchSchool()">
+                                        <i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th style="width:25%;">操作</th>
+                            <th>县</th>
+                            <th>学校</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div ui-jq="slimScroll" ui-options="{height:'250px'}"
+                         style="position: relative;margin-left:8px;">
+                        <table class="table table-bordered table-hover table-condensed bg-white-only">
+                            <tbody>
+                            <tr st-select-row="row" ng-repeat="school in schoolServiceList">
+                                <td class="v-middle" style="width:20%;">
+                                    <button class="btn btn-sm btn-info" ng-click="addSchoolItemService(school)">添加
+                                    </button>
+                                </td>
+                                <td class="v-middle">
+                                    <span ng-bind="school.RName"></span>
+                                </td>
+                                <td class="v-middle">
+                                    <a class="text-info-lt" ng-bind="school.FName"
+                                       ng-click="clickSchool(school)"></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <page-Directive options="pageIndex"></page-Directive>
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>操作</th>
+                            <th>班级{{'（'+schoolName+'）'}}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div ui-jq="slimScroll" ui-options="{height:'200px'}"
+                         style="position: relative;margin-left:8px;">
+                        <table class="table table-bordered table-hover table-condensed bg-white-only">
+                            <tbody>
+                            <tr st-select-row="row" ng-repeat="classService in classServiceList">
+                                <td class="v-middle" style="width:30%;">
+                                    <button class="btn btn-sm btn-info" ng-click="addClassItemService(classService)">添加
+                                    </button>
+                                </td>
+                                <td class="v-middle">
+                                    <span ng-bind="classService.ClassName"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>

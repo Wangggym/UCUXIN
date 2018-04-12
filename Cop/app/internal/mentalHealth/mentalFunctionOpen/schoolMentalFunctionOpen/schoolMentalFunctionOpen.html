@@ -1,0 +1,150 @@
+<div ng-controller="schoolMentalFunctionOpen">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校心理功能开通
+        </h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row wrapper">
+
+                <form class=" form-inline" role="form">
+                    <div class="form-group">
+                        <label>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.school" theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                                   refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                    <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" data-ng-click="search()">
+                            查询
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"
+                                ng-click="openAdd()">
+                            开通心理应用
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>学校</th>
+                    <th>学校首字母</th>
+                    <th>心理网站域名</th>
+                    <th style="width:300px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in model.viewList track by $index">
+                    <td ng-bind="item.GName"></td>
+                    <td ng-bind="item.WebSitedir"></td>
+                    <td ng-bind="item.WebSiteUrl"></td>
+                    <td  class="v-middle">
+                        <button type="submit" class="btn btn-info btn-sm" data-ng-click="openEdit(item)">
+                            修改
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm" data-ng-click="searchAdmin(item)">
+                            <a ui-sref="access.app.internal.mentalFunctionOpen.getSchoolPsyManagers({GID:item.GID})" style="color: #fff;"> 查看心理管理员</a>
+                        </button>
+                        <button type="submit" class="btn btn-danger btn-sm" data-ng-click="updateCache(item)">
+                            更新网站缓存
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="mentalFunctionOpenEdit.html">
+    <div class="panel no-border">
+        <div class="panel-body" style="border-bottom: none;">
+            <form class="bs-example form-horizontal ng-pristine ng-valid">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="col-md-3 control-label">心理网站域名：</label>
+                    <div class="input-group col-md-6">
+                        <input type="text" class="form-control" ng-model="item.WebSiteUrl"/>
+                        <span class="help-block m-b-none" ng-show="model.WebSiteUrl">http://{{model.WebSiteUrl}}.xljy.ucuxin.com/</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="submit" class="btn btn-success" ng-click="ok()">保存</button>
+        <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+    </div>
+</script>
+<script type="text/ng-template" id="mentalFunctionOpenAdd.html">
+    <div class="panel no-border">
+        <div class="panel-body" style="border-bottom: none;">
+            <form class="bs-example form-horizontal ng-pristine ng-valid">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">学校：</label>
+
+                    <div class="input-group col-md-6">
+                        <ui-select ng-model="model.school" theme="bootstrap">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                                    <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">学校字母缩写：</label>
+                    <div class="input-group col-md-6">
+                        <input type="text" class="form-control" placeholder="不要和其他学校重复" ng-model="model.WebSitedir"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">心理网站模板：</label>
+                    <div class="input-group col-md-6">
+                        <select class="form-control" ng-model="model.WebSiteTemplate" ng-options="a.dirname as a.name for a in webList"></select>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-md-3 control-label">心理网站域名：</label>-->
+                    <!--<div class="input-group col-md-6">-->
+                        <!--<input type="text" class="form-control" ng-model="model.WebSiteUrl"/>-->
+                        <!--<span class="help-block m-b-none" ng-show="model.WebSiteUrl">http://{{model.WebSiteUrl}}.xljy.ucuxin.com/</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="submit" class="btn btn-success" ng-click="ok()">保存</button>
+        <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+    </div>
+</script>

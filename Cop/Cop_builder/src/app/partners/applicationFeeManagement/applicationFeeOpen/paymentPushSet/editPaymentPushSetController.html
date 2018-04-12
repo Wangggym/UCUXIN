@@ -1,0 +1,276 @@
+<div ng-controller="addPaymentPushSetController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">缴费入口设置
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.partner.applicationFeeOpen.paymentPushSet({gid:'{{$stateParams.gid}}'})">返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>学校：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-disabled="NochoiceSchool"
+                                           ng-change="changeGid()">
+                                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                    <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                        <div ng-bind-html="item.FName | highlight: $select.search" ng-click="choiceSchool(item)"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn" ng-show="!NochoiceSchool">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">缴费通知订阅号：</label>-->
+
+                    <!--<div class="col-sm-10">-->
+                    <!--<div class="input-group w-md">-->
+                    <!--<ui-select ng-model="model.MPAccountID" theme="bootstrap">-->
+                    <!--<ui-select-match placeholder="请选择订阅号">{{$select.selected.Name}}</ui-select-match>-->
+                    <!--<ui-select-choices-->
+                    <!--repeat="item.ID as item in model.MPAccountList | filter: $select.search"-->
+                    <!--refresh="refreshMPAccount($select.search)" refresh-delay="500">-->
+                    <!--<div ng-bind-html="item.Name | highlight: $select.search"></div>-->
+                    <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+                    <!--<span class="input-group-btn">-->
+                    <!--<button ng-click="model.MPAccountID=undefined" class="btn btn-default"-->
+                    <!--type="button">-->
+                    <!--<span class="glyphicon glyphicon-trash"></span>-->
+                    <!--</button>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="registration">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>是否显示缴费入口：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="modelIs.IsShowFixEntryId" theme="bootstrap">
+                                    <ui-select-match placeholder="是否显示缴费入口">{{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.idT as item in modelIs.IsShowFixEntryList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口小字描述：</label>
+
+                        <div class="col-sm-6">
+                    <textarea class="form-control ng-pristine ng-valid ng-touched"
+                              ng-model="model.FixEntryDesc" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口标题：</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control w-md" ng-model="model.FixEntryTitle" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口图标地址：</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="入口图标地址" disabled="disabled"
+                                   ng-model="model.FixEntryPic">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口背景颜色：</label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <!--<input type="text" class="form-control w-md" ng-model="mmodel.FixEntryBgColor"-->
+                                <!--ng-disabled="true"-->
+                                <!--required/>-->
+                                <span class="input-group-btn" style="width: 70px;">
+                            <ui-select ng-model="mmodel.FixEntryBgColor" theme="bootstrap">
+                                <ui-select-match placeholder="颜色">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in mmodel.backGroundColorList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口标题颜色：</label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <!--<input type="text" class="form-control" ng-model="mmodel.FixEntryTitleColor" ng-disabled="true"-->
+                                <!--required/>-->
+                                <span class="input-group-btn" style="width: 70px;">
+                            <ui-select ng-model="mmodel.FixEntryTitleColor" theme="bootstrap">
+                                <ui-select-match placeholder="颜色">{{$select.selected.name}}
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in mmodel.fixEntryTitleColorList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>入口链接类型：</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <label class="radio-inline i-checks ng-valid-parse">
+                                    <input type="radio" ng-model="model.FixEntryUrlType" value="1" name="MType" ng-click="choiceEnsure(model.FixEntryUrlType)"><i></i> 缴费文章
+                                </label>
+                                <label class="radio-inline i-checks">
+                                    <input type="radio" ng-model="model.FixEntryUrlType" value="2" name="MType" ng-click="choiceEnsure(model.FixEntryUrlType)"><i></i> 直接进入收费页面
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">入口链接文章：</label>-->
+                    <!--<div class="col-sm-6">-->
+                    <!--<div class="input-group">-->
+                    <!--<input ng-disabled="true" type="text" class="form-control w-md" placeholder="固定入口链接地址"-->
+                    <!--ng-model="model.FixEntryUrl">-->
+                    <!--<span class="input-group-btn">-->
+                    <!--<a href="javascript:;" class="btn btn-primary" title="编辑缴费文章"-->
+                    <!--ng-click="editHtml()">编辑缴费文章</a>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group" ng-show="model.FixEntryUrlType == 1">
+                        <label class="col-sm-2 control-label"><b class="text-danger">*</b>缴费文章设置（扫描二维码预览）：</label>
+                        <div class="col-sm-6">
+                          <span class="input-group-btn">
+                            <a href="javascript:;" class="btn btn-primary" title="编辑缴费文章"
+                               ng-click="editHtml()">编辑缴费文章</a>
+                        </span>
+                            <div id="qrcode" style="padding-top: 20px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--<div class="panel panel-default col-sm-8">-->
+        <!--<div class="panel-body">-->
+        <!--<form class="form-horizontal" method="get" name="registration">-->
+        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="col-sm-2 control-label">订阅号ID：</label>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<div class="col-sm-10">&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="text" class="form-control w-md" ng-model="model.MPAccountID" required/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">文章标题：</label>-->
+
+        <!--<div class="col-sm-6">-->
+        <!--<div class="input-group">-->
+        <!--<input type="text" class="form-control w-md" ng-model="model.SubscriptTitle" ng-disabled="true"-->
+        <!--required/>-->
+        <!--<span class="input-group-btn">-->
+        <!--<a href="javascript:;" class="btn btn-primary" title="编辑缴费文章"-->
+        <!--ng-click="editHtml()">编辑缴费文章</a>-->
+        <!--</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">文章摘要：</label>-->
+
+        <!--<div class="col-sm-6">-->
+        <!--<textarea class="form-control ng-pristine ng-valid ng-touched" style="height:100px;"-->
+        <!--ng-model="model.SubscriptMsg" ng-disabled="true"-->
+        <!--required></textarea>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">上传订阅号封面图片：</label>-->
+
+        <!--<div class="col-sm-6">-->
+        <!--<button class="btn btn-success btn-addon" ngf-select name="file"-->
+        <!--ng-model="model.ImgUrl"-->
+        <!--ng-change="fileChange(model.ImgUrl)" ngf-pattern="'image/*'"-->
+        <!--ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i-->
+        <!--class="fa fa-plus"></i>图片上传-->
+        <!--</button>-->
+        <!--<span ng-bind="model.imageName"></span>-->
+        <!--&lt;!&ndash;<input id='fileUpload' type="file" ng-model="model.ImgUrl"&ndash;&gt;-->
+        <!--&lt;!&ndash;ng-change="fileChange(model.ImgUrl)"&ndash;&gt;-->
+        <!--&lt;!&ndash;ngf-pattern="'image/*'" ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'"&ndash;&gt;
+        -->
+        <!--&lt;!&ndash;name="file" ngf-select class="form-control">&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">文章封面图片地址：</label>-->
+
+        <!--<div class="col-sm-6">-->
+        <!--<textarea class="form-control ng-pristine ng-valid ng-touched"-->
+        <!--ng-model="model.SubscriptPic" ng-disabled="true"-->
+        <!--required></textarea>-->
+
+
+        <!--<div class="img-upload" style="padding-top:10px;">-->
+        <!--<img ng-src="{{model.imageUrl}}" class="img-thumbnail" style="width:200px;"-->
+        <!--ng-show="imgIsDisabledImage">-->
+
+        <!--<div uploader="uploader" over-class="b-danger" ng-show="isDisabledImage"-->
+        <!--class="b-a b-2x b-dashed wrapper-lg lter text-center">-->
+        <!--请选择上传图片建议尺寸不大于640*320并且图片质量不大于200KB-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">缴费文章地址：</label>-->
+
+        <!--<div class="col-sm-6">-->
+        <!--<input type="text" class="form-control" placeholder="订阅号文章地址" ng-model="model.SubscriptUrl"-->
+        <!--ng-disabled="true">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</form>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-heading b-b b-light"><h3>操作</h3></div>
+            <div class="panel-body">
+                <button class="btn btn-success" ng-click="save()">保存并更新文章</button>
+                <button class="btn btn-default"
+                        ui-sref="access.app.partner.applicationFeeOpen.paymentPushSet">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

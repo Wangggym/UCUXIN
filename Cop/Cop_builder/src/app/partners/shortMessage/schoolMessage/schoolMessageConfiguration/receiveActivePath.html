@@ -1,0 +1,101 @@
+<form class="form-inline" role="form">
+    <div class="panel-body">
+        <div class="form-group">
+            <label><span class="spanColor">*</span>学校：</label>
+
+            <div class="input-group">
+                <ui-select ng-model="model.selectedReceiveGid" theme="bootstrap"
+                           ng-change="selectModelGidReceive()">
+                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices repeat="item.ID as item in model.schoolReceiveList | filter: $select.search">
+                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="deleteModelGidReceive()" class="btn btn-default"
+                                type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" data-ng-click="searchReceive()"
+                    ng-disabled="searchReceiveDisable">
+                查询
+            </button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"
+                    ui-sref="access.app.partner.schoolMessage.addOrEditReceive({type:'receive'})">
+                新增短信接收规则
+            </button>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+            <th>操作</th>
+            <th>班级</th>
+            <th>激活状态</th>
+            <th>开通状态</th>
+            <th>短信条数</th>
+            <th>短信模板</th>
+            <th>开始日期</th>
+            <th>结束日期</th>
+            <th style="width:6%;">学校</th>
+            <th>会话类型</th>
+            <th>接收对象</th>
+            <th>是否有效</th>
+            <th>操作者</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in receiveList">
+            <td class="v-middle">
+                <button class="btn btn-sm btn-info" ng-click="editSend(item)"
+                        ui-sref="access.app.partner.schoolMessage.addOrEditReceive({type:'receive',gid:'{{item.TopGID}}'})">
+                    编辑
+                </button>
+            </td>
+            <td class="v-middle">
+                <span>{{item.ClassName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.RelateStatusName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.FuncStatusName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.ContSmsCnt}}</span>
+            </td>
+            <td class="v-middle">
+                <span title="{{item.SuffCont}}">{{item.SuffCont}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.Begin}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.End}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.TopGrpName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.STypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.MTypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.STName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.CUName}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <page-Directive options="pageIndexReceive"></page-Directive>
+</form>

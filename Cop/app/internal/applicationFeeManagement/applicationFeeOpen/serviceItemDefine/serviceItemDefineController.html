@@ -1,0 +1,52 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">服务项定义</h1>
+</div>
+<div class="wrapper-md" ng-controller="serviceItemDefineController">
+    <div class="panel panel-default">
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>服务项名称</th>
+                <th>业务领域</th>
+                <th style="width:50%;">简介</th>
+                <!--<th>操作</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="service in serviceList">
+                <td data-value="1" class="col-lg-2">
+                    <div class="media">
+                        <span>{{service.FuncName}}</span>
+                    </div>
+                </td>
+                <td data-value="1" class="col-lg-2">
+                    <div class="media">
+                        <span>{{service.BusinessAreaName}}</span>
+                    </div>
+                </td>
+                <td data-value="1" class="col-lg-2">
+                    <div class="media">
+                        <span data-desc="{{service.FuncID}}">{{service.Desc}}</span>
+                    </div>
+                </td>
+                <!--<td style="white-space: nowrap">-->
+                    <!--&lt;!&ndash; form &ndash;&gt;-->
+                    <!--<form editable-form name="rowform" onbeforesave="saveUser($data, service.ID)"-->
+                          <!--ng-show="service.waiting" class="form-buttons form-inline">-->
+                        <!--<button type="submit" class="btn btn-sm btn-info" ng-click="save(service)">-->
+                            <!--保存-->
+                        <!--</button>-->
+                        <!--<button type="button" ng-click="cancel(service)"-->
+                                <!--class="btn btn-sm btn-default">-->
+                            <!--取消-->
+                        <!--</button>-->
+                    <!--</form>-->
+                    <!--<div class="buttons" ng-show="service.visible">-->
+                        <!--<button class="btn btn-sm btn-info" ng-click="editList(service)">编辑</button>-->
+                    <!--</div>-->
+                <!--</td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

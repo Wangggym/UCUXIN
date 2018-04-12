@@ -1,0 +1,72 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">心理属性库</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="psychologicalAttributeController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <!--<div class="form-group">-->
+          <!--<label> 属性名称：</label>-->
+          <!--<div class="input-group">-->
+            <!--<input type="text" class="form-control">-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="addItem({ID:0,Name:''})">查询</button>-->
+        <button type="button" class="btn m-b-md w-xs btn-primary m-l-md" data-ng-click="addItem({ID:0,Name:''})">新增</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped" style="max-width: 900px">
+        <thead>
+        <tr>
+          <th>属性名称</th>
+          <th>所属领域</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="11" class="prompt text-center" data-ng-show="allAttribute.length==0">
+            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+            </div>
+          </td>
+        </tr>
+        <tr data-ng-repeat="item in allAttribute">
+          <td>{{item.Name}}</td>
+          <td>{{item.PsyAreaName}}</td>
+          <td style="width: 210px"><button type="button" class="btn w-xs btn-primary" data-ng-click="change(item)">修改</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/ng-template" id="changeItem.html">
+  <div class="modal-body" style="text-align: center">
+    <form class="form-inline clearfix">
+      <span>属性名称:</span>
+      <input  placeholder="请输入属性名称" data-ng-model="data.Name" style="width: 300px" type="text" class="form-control m-l-md" maxlength="6">
+    </form>
+    <form class="form-inline  m-t-md m-b-md">
+      <div class="form-group">
+        <span>所属领域:</span>
+        <div class="input-group m-l-md">
+          <ui-select ng-model="data.PsyAreaID" theme="bootstrap" reset-search-input="false" style="width: 300px;">
+            <ui-select-match  placeholder="请选择领域">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="area.ID as area in areaList track by $index">
+              <span ng-bind-html="area.Name" class="text-center-folded"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+    </form>
+    <form class="form-inline clearfix m-t-md m-b-md">
+      <span class="btn w-xs btn-info" data-ng-click="sure()">确定</span>
+      <span class="btn w-xs btn-default m-l-lg" data-ng-click="cancel()">取消</span>
+    </form>
+  </div>
+  <!--<div class="modal-footer" style="text-align: center">-->
+  <!--<button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>-->
+  <!--<button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>-->
+  <!--</div>-->
+</script>

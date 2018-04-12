@@ -1,0 +1,352 @@
+<style>
+    thead tr th,.table tbody tr td{text-align: center;vertical-align: middle;}
+    tbody tr{border-bottom: 1px solid #e9f2e5;}
+    div .dateSelect{display: block!important;}
+    .dateSelectBox{display: none;border: 1px solid #ccc;padding: 15px;position: absolute;width: 500px;height: 400px;background: #fff;border-radius: 10px;left: 10%}
+    .dateSelectBox p {border-bottom: 1px solid #999;text-align: right;margin-bottom: 0;}
+    .dateSelectBox .base {text-align: left;padding: 10px 15px;}
+    .sortActive{color: #f60 !important;box-shadow: 1px 1px 1px 1px #ccc;}
+</style>
+<div ng-controller="DataShowController">
+    <!--标题-->
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 优信直播</h1>
+    </div>
+    <!--内容盒子-->
+    <div class="wrapper-md">
+        <div class="panel panel-default" style="position: relative;">
+            <!--时间选择开始-->
+            <div class="datePicker" style="position: absolute;z-index: 1;left: 50%;top:60px;left: 350px;">
+                <!--<div style="float: left;width:auto;height: 34px;line-height: 34px;">按发布时间：</div>-->
+                <div class="input-group" style="width: 150px;float: left;">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate"
+                           is-open="openedStart" max-date="" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                           current-text="今天" close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openStartDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                </div>
+                <div style="float: left;height: 34px;">__</div>
+                <div class="input-group" style="width: 150px;float: left;margin-right: 5px;">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                           is-open="endOpened" min-date="" ng-required="true" clear-text="清除" current-text="今天"
+                           close-text="关闭" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openEndDate($event)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                </div>
+                <button class="btn m-b-xs  btn-info" ng-click="dateSearch(model.activeType)">查询</button>
+            </div>
+            <!--时间选择结束-->
+            <tabset class="tab-container">
+                <tab ng-click="changeTab(0)" class="tabItem" tabType="0">
+                    <tab-heading>
+                        视频数量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm DayAvgCnt"  ng-click="sortList(1,model.DayAvgCnt)">按日均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm MonthAvgCnt"  ng-click="sortList(2,model.MonthAvgCnt)">按月均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm SumCnt"  ng-click="sortList(3,model.SumCnt)">按总数量<span>升</span>序</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--表格数据部分-->
+                            <table class="table table-striped b-t b-light">
+                                <!--表头-->
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>频道名称</th>
+                                        <th>日均量</th>
+                                        <!--<th>周均量</th>-->
+                                        <th>月均量</th>
+                                        <th>总数量</th>
+                                        <th>曲线图</th>
+                                        <th>明细表</th>
+                                    </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                    <tr st-select-row="row" ng-repeat="item in GetDataStatList.itemList">
+                                        <td>
+                                            <span ng-bind="item.LiveChannel"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.LiveChannelName"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.DayAvgCnt"></span>
+                                        </td>
+                                        <!--<td>-->
+                                            <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                        <!--</td>-->
+                                        <td>
+                                            <span ng-bind="item.MonthAvgCnt"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.SumCnt"></span>
+                                        </td>
+                                        <td><a href="" style="color: #00a2d4;"><i class="iconfont icon-graph" ng-click="toCharts(item)"></i></a></td>
+                                        <td><a href="" style="color: #00a2d4;" ng-click="toLiveRecordList(item)">明细表</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(1)" class="tabItem" tabType="1">
+                    <tab-heading>
+                        分享量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm DayAvgCnt"  ng-click="sortList(1,model.DayAvgCnt)">按日均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm MonthAvgCnt"  ng-click="sortList(2,model.MonthAvgCnt)">按月均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm SumCnt"  ng-click="sortList(3,model.SumCnt)">按总数量<span>升</span>序</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--表格数据部分-->
+                            <table class="table table-striped b-t b-light">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>频道名称</th>
+                                    <th>日均量</th>
+                                    <!--<th>周均量</th>-->
+                                    <th>月均量</th>
+                                    <th>总数量</th>
+                                    <th>曲线图</th>
+                                    <th>明细表</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in GetDataStatList.itemList">
+                                    <td>
+                                        <span ng-bind="item.LiveChannel"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.LiveChannelName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;"><i class="iconfont icon-graph" ng-click="toCharts(item)"></i></a></td>
+                                    <td><a href="" style="color: #00a2d4;" ng-click="toLiveRecordList(item)">明细表</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(2)" class="tabItem" tabType="2">
+                    <tab-heading>
+                        评论量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm DayAvgCnt"  ng-click="sortList(1,model.DayAvgCnt)">按日均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm MonthAvgCnt"  ng-click="sortList(2,model.MonthAvgCnt)">按月均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm SumCnt"  ng-click="sortList(3,model.SumCnt)">按总数量<span>升</span>序</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--表格数据部分-->
+                            <table class="table table-striped b-t b-light">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>频道名称</th>
+                                    <th>日均量</th>
+                                    <!--<th>周均量</th>-->
+                                    <th>月均量</th>
+                                    <th>总数量</th>
+                                    <th>曲线图</th>
+                                    <th>明细表</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in GetDataStatList.itemList">
+                                    <td>
+                                        <span ng-bind="item.LiveChannel"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.LiveChannelName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;"><i class="iconfont icon-graph" ng-click="toCharts(item)"></i></a></td>
+                                    <td><a href="" style="color: #00a2d4;" ng-click="toLiveRecordList(item)">明细表</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(3)" class="tabItem" tabType="3">
+                    <tab-heading>
+                        点赞量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm DayAvgCnt"  ng-click="sortList(1,model.DayAvgCnt)">按日均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm MonthAvgCnt"  ng-click="sortList(2,model.MonthAvgCnt)">按月均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm SumCnt"  ng-click="sortList(3,model.SumCnt)">按总数量<span>升</span>序</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--表格数据部分-->
+                            <table class="table table-striped b-t b-light">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>频道名称</th>
+                                    <th>日均量</th>
+                                    <!--<th>周均量</th>-->
+                                    <th>月均量</th>
+                                    <th>总数量</th>
+                                    <th>曲线图</th>
+                                    <th>明细表</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in GetDataStatList.itemList">
+                                    <td>
+                                        <span ng-bind="item.LiveChannel"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.LiveChannelName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;"><i class="iconfont icon-graph" ng-click="toCharts(item)"></i></a></td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;" ng-click="toLiveRecordList(item)">明细表</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+                <tab ng-click="changeTab(4)" class="tabItem" tabType="4">
+                    <tab-heading>
+                        收藏量<span class="badge badge-sm m-l-xs"></span>
+                    </tab-heading>
+                    <ul class="list-group no-borders pull-in m-b-none">
+                        <li class="list-group-item">
+                            <!--相同部分-->
+                            <div class="panel-body" style="padding:0;margin-top: -10px;">
+                                <form class="query-group-form form-inline" role="form" name="form" style="margin-bottom: 0">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm DayAvgCnt"  ng-click="sortList(1,model.DayAvgCnt)">按日均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm MonthAvgCnt"  ng-click="sortList(2,model.MonthAvgCnt)">按月均量<span>升</span>序</button>
+                                        <button class="btn btn-default btn-sm SumCnt"  ng-click="sortList(3,model.SumCnt)">按总数量<span>升</span>序</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <!--表格数据部分-->
+                            <table class="table table-striped b-t b-light">
+                                <!--表头-->
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>频道名称</th>
+                                    <th>日均量</th>
+                                    <!--<th>周均量</th>-->
+                                    <th>月均量</th>
+                                    <th>总数量</th>
+                                    <th>曲线图</th>
+                                    <th>明细表</th>
+                                </tr>
+                                </thead>
+                                <!--表体-->
+                                <tbody>
+                                <tr st-select-row="row" ng-repeat="item in GetDataStatList.itemList">
+                                    <td>
+                                        <span ng-bind="item.LiveChannel"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.LiveChannelName"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.DayAvgCnt"></span>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<span ng-bind="item.WeekAvgCnt"></span>-->
+                                    <!--</td>-->
+                                    <td>
+                                        <span ng-bind="item.MonthAvgCnt"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.SumCnt"></span>
+                                    </td>
+                                    <td><a href="javascript:;" style="color: #00a2d4;"><i class="iconfont icon-graph" ng-click="toCharts(item)"></i></a></td>
+                                    <td><a href="" style="color: #00a2d4;" ng-click="toLiveRecordList(item)">明细表</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

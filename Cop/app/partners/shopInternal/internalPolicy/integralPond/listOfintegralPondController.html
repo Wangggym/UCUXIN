@@ -1,0 +1,103 @@
+<div ng-controller="listOfintegralPondController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">积分池
+
+            <!--<span style="color:#ff0000;margin-left: 200px;" ng-click="pay()">充值积分>></span>-->
+
+            <button  type="button" class="btn m-b-md w-xs btn-info m-l-md pull-right  " style="width:100px;" data-ng-click="sendMessage()">通知消息设置</button>
+            <button  type="button" class="btn m-b-md w-xs btn-info m-l-md pull-right  " data-ng-click="toshop()">关爱使商城</button>
+            <button  type="button" class="btn m-b-md w-xs btn-info m-l-md pull-right  " data-ng-click="pay()">充值积分</button>
+        </h1>
+    </div>
+    <div class="wrapper-md ng-scope">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+
+                    <div class="form-group"  >
+
+                        <div class="input-group" style="position: relative;">
+                            <span style=" margin-right: 100px;   text-align: center;font-weight: bolder; font-size: 16px;"> 积分余额：{{model.point}}积分</span>
+                        </div>
+                    </div>
+                </form>
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <thead>
+                    <tr>
+                        <th>操作人</th>
+                        <th>分值</th>
+                        <th>行为</th>
+                        <th>描述</th>
+                        <th>日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList">
+
+                        <td class="v-middle">
+                            <span ng-bind="item.UName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Point"></span>
+                        </td>
+
+                        <td class="v-middle">
+                            <span ng-bind="item.ActionName"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Desc"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.CDate"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <page-Directive options="pageIndex"></page-Directive>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+
+
+
+    <script type="text/ng-template" id="newAddMessage.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">通知消息设置</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="wrapper-list">
+                    <div class="form-group"  >
+                        <label>  电话号码：
+                        </label>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" placeholder="请输入电话号码" ng-model="newModel.tel"  >
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="form-group">
+                        <label>说明：当积分池余额不足，导致关爱使下单失败、平台发货失败时，会短信通知此手机号，请务必维护有效的手机号码。</label>
+
+                        <div class="input-group">
+                          <label> </label>
+                        </div>
+                    </div>
+                    </dl>
+
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+
+            <div class="choicePay choicePay3 btn btn-default btn-success" ng-click="save()" >保存</div>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

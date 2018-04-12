@@ -1,0 +1,36 @@
+<div class="well"  style="width:720px">
+  <div class="row">
+    <div class="col-sm-6">
+      <h5>请选择要推送信息的学生名单：</h5>
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">班级：</label>
+          <div class="col-sm-9">
+            <ui-select ng-model="classNameId" theme="bootstrap" ng-disabled="!classList" ng-change="changeClass(classNameId)">
+              <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+              <ui-select-choices repeat="className.ClassID as className in classList | propsFilter: { ClassName:$select.search }">
+                <span ng-bind-html="className.ClassName | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">推送学生：</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="filterStudentName">
+          </div>
+        </div>
+      </div>
+
+      <div class="sortable-box sortable-student">
+        <span class="label label-info" ng-repeat="student in studentList | propsFilter: { MName:filterStudentName }">{{student.MName}}<i class="fa fa-plus"></i></span>
+      </div>
+
+    </div>
+    <div class="col-sm-6">
+      <div class="sortable-box sortable-content">
+
+      </div>
+    </div>
+  </div>
+</div>

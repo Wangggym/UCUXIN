@@ -1,0 +1,95 @@
+.current-block{
+  display: block;
+}
+.current-none{
+  display: none;
+}
+.am-picker-popup-item{
+  color: #43b622 !important;
+}
+//购买记录
+.purchase-record {
+  .select-data{
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 1.5rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    border: 1px solid #43b622;
+    border-radius: 10px;
+    color: #43b622;
+    padding: 0 0.1rem;
+    background: url("../../../../src/assets/images/arrow-down-green.png") no-repeat 90%;
+    background-size: 15% 70%;
+  }
+  .total-charge {
+    background: #ffffff;
+    height: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h2 {
+      font-size: 0.7rem;
+      font-weight: normal;
+    }
+    span {
+      font-size: 0.28rem;
+      margin-top: 0.2rem;
+      color: #a7a7a7;
+    }
+  }
+  .month-list {
+    .month-title {
+      border-top: 1px solid #dddddd;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.1rem 0.2rem;
+      height: 0.5rem;
+      line-height: 0.5rem;
+      .price {
+        display: flex;
+        span {
+          margin-right: 0.2rem;
+        }
+        a {
+          display: inline-block;
+          width: 0.4rem;
+          height: 0.4rem;
+          background: url("../../../../src/assets/images/arrow-down.png") no-repeat center;
+          background-size: 100% 70%;
+          margin-top: 0.08rem;
+        }
+        .arrow-up{
+          background: url("../../../../src/assets/images/arrow-up.png") no-repeat center;
+          background-size: 100% 70%;
+        }
+      }
+    }
+    .record-content {
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+      height: 1rem;
+      border-bottom: 1px solid #dddddd;
+      padding: 0.2rem;
+      .content-name-date {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        span {
+          &:last-child {
+            font-size: 0.26rem;
+            color: #a7a7a7;
+          }
+        }
+      }
+      .detail-price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

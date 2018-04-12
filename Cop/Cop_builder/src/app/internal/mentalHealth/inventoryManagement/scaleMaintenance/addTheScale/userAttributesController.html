@@ -1,0 +1,27 @@
+<div ng-controller="userAttributesController">
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-7">
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                <tr st-select-row="row" class="col-sm-10">
+                    <td class="v-middle" style="line-height: 30px;">
+                        <label class="i-checks ng-binding ng-scope"
+                               ng-repeat="item in model.itemList track by $index"
+                               style="margin-left:20px;">
+                            <input type="checkbox" name="toasts" ng-click="clickItem(item)"
+                                   ng-checked="item.check"><i></i>{{item.Name}}</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="form-horizontal">
+                <div style="width: 50%;margin: 0 auto;padding: 20px;">
+                    <button type="button" class="btn w-xs btn-info" ng-click="next()">下一步</button>
+                    <button type="button" class="btn w-xs btn-default" ng-click="goBack()" style="margin-left: 20px;">
+                        上一步
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

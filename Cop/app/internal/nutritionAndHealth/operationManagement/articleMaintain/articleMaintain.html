@@ -1,0 +1,179 @@
+<div ng-controller="nutritionArticleMaintainController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">文章维护</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-heading"></div>
+                <form class="query-group form-inline clearfix">
+                    <div class="form-group">
+                        <label>标题：</label>
+                        <input type="text" class="form-control" ng-model="serchData.title" placeholder="请输入查询关键字">
+                    </div>
+                    <div class="form-group">
+                        <label>显示日期：</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="serchData.sDate" datepicker-options="dateOptions"
+                                   is-open="startOpened" max-date="eDate" ng-required="true" clear-text="清除"
+                                   current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openStartDate($event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                        ~
+                        <div class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="serchData.eDate" datepicker-options="dateOptions"
+                                   is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除"
+                                   current-text="今天"
+                                   close-text="关闭" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openEndDate($event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)">查询</button>
+                    <a href="" class="btn btn-info w-xs" ng-click="addArticle()"><i class="fa fa-plus"></i>新增</a>
+                </form>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <!--<th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"-->
+                        <!--ng-click="checkAll()"><i></i></label></th>-->
+                        <th width="10%">标题</th>
+                        <th>栏目</th>
+                        <th width="30%">简介</th>
+                        <th width="20%">缩略图</th>
+                        <th width="10%">创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!dataList">
+                        <td colspan="11" class="prompt text-center">
+                            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...</div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in dataList track by $index">
+                        <!--<td><label class="i-checks"><input type="checkbox" ng-model="item.checked"-->
+                        <!--ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>-->
+                        <!--</td>-->
+                        <td>{{item.title}}</td>
+                        <td>{{item.catname}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <img style="width: 80px; height: 70px;margin-right: 15px;"
+                                 ng-repeat="element in item.pictureurls track by $index" ng-src={{element}} alt="无图片">
+                        </td>
+                        <td>{{item.inputtime}}</td>
+                        <td class="table-btn-fa">
+                            <a href="javascript:;" title="修改" class="btn btn-xs btn-primary"
+                               ng-click="upDateArticle(item)"><i
+                                    class="fa fa-edit"></i></a>
+                            <a href="javascript:;" title="删除" class="btn btn-xs btn-danger" ng-click="delet(item)"><i
+                                    class="fa fa-trash-o"></i></a>
+                            <!--<a href="javascript:;" title="置顶" class="btn btn-xs btn-info" ng-click="top(item.ID)"-->
+                            <!--ng-if="false"><i class="fa fa-long-arrow-up"></i></a>-->
+                            <a href="javascript:;" style="margin-left:5px;" title="预览效果"
+                               class="btn btn-xs btn-primary"
+                               ng-click="detailedTemplate(item)">预览</a>
+                            <a href="javascript:;" title="首页展示" class="btn btn-xs btn-info" ng-click="showHome(item)">
+                                <i class="fa fa-long-arrow-up"></i>首页展示</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                    <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                    <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                                max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                                class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                                num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                                next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                                last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--预览文章详情-->
+<script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+<style>
+    .modal-content {
+        width: 725px !important;
+    }
+
+    .modal-footer {
+        border-top: 0px
+    }
+
+    .panel-body-backgound {
+        background: url('public/img/device-sprite1.png');
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: 400px 700px;
+        box-shadow: 10px 10px 5px #888888;
+        border-radius: 60px;
+        width: 400px !important;
+        margin: auto;
+        height: 700px;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+
+    #panel-body {
+        height: 490px;
+        overflow-x: auto;
+        width: 335px !important;
+        margin: auto;
+        /*border: 1px solid #e5e5e5;*/
+        margin-top: 105px;
+        margin-left: 34px;
+    }
+
+    #panel-body img {
+        width: 100%;
+    }
+
+    #qrcode img {
+        margin: auto;
+        margin-top: 20px;
+    }
+</style>
+<script type="text/ng-template" id="showArticle.html">
+    <div class="panel no-border">
+        <div class="modal-header">
+            <h2>
+                扫描预览
+                <span style="font-size: 16px;">{{data.url}}</span>
+                <button type="submit" class="btn btn-default pull-right" ng-click="cancel()">关闭</button>
+            </h2>
+        </div>
+        <!--<div class="panel-body-backgound">-->
+        <!--<div id="panel-body">-->
+        <!--<div ng-bind-html="modelHtml">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div id="qrcode"></div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="deletArticle.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

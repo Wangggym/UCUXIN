@@ -1,0 +1,176 @@
+// Created by QiHan Wang on 2017/9/18.
+.examination {
+  height: 100vh;
+  background-color: #fff;
+}
+
+.ex-progress-bar {
+  display: flex;
+  background-color: #f8f8f8;
+  padding: 20px;
+
+  .ex-progress {
+    margin-right: 24px;
+    width: 100%;
+    .ex-info {
+      font-size: 28px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .am-progress-outer {
+      border-radius: 8px
+    }
+    .am-progress-bar {
+      border-width: 8px;
+      border-radius: 8px
+    }
+  }
+}
+
+.ex-counter {
+  width: 160px;
+  font-size: 24px;
+  color: #888;
+  text-align: center;
+  border-left: 1px solid #ccc;
+  padding-left: 24px;
+  > span {
+    display: block;
+    font-size: 28px;
+    color: #fe460d;
+    margin-bottom: 10px;
+  }
+}
+
+// -----------
+.ex-answer {
+  .ex-answer-topic,
+  .ex-answer-option {
+    font-size: 32px;
+    color: #333;
+  }
+  .ex-answer-topic {
+    padding: 32px 20px;
+  }
+  .ex-answer-option {
+    border-bottom: 1px solid #bfbfbf;
+    padding: 28px 20px;
+    display: flex;
+    align-items:center;
+    .ex-answer-opt-hd {
+      align-items: flex-start;
+    }
+    .ex-answer-opt-bd{
+      flex: 1;
+      word-break: break-all;
+      padding: 0 10px;
+    }
+    .ex-answer-opt-ft {
+
+    }
+  }
+}
+
+// checkbox radio
+// 基础样式
+.ex-checkbox {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+
+  & + i::before {
+    content: '\a0';
+    display: inline-block;
+    //vertical-align: .4em;
+    width: .42rem;
+    height: .42rem;
+    border-radius: .1rem;
+    background: silver;
+    //text-indent: .3em;
+    line-height: .65;
+  }
+
+  &:checked + i::before {
+    content: '\2713';
+    background: #26a0f9;
+  }
+
+  /*&:focus + i::before {
+    box-shadow: 0 0 .1em .1em #58a;
+  }*/
+
+  &:disabled + i::before {
+    background: gray;
+    box-shadow: none;
+    color: #555;
+    cursor: not-allowed;
+  }
+}
+
+// 样式优化
+.ex-checkbox + i {
+  display: block;
+  line-height: 0;
+  position: relative;
+  overflow: hidden
+}
+
+.ex-checkbox[type="radio"] + i::before {
+  border-radius: 50%;
+}
+
+.ex-checkbox + i::before {
+  content: '' !important;
+  border: .04rem solid #68c94c;
+  background: transparent;
+  vertical-align: inherit;
+}
+
+.ex-checkbox:checked + i::before {
+  border: .04rem solid #68c94c;
+  background: #68c94c;
+}
+
+.ex-checkbox:checked + i::after {
+  display: block;
+  content: '';
+  width: .24rem;
+  height: .12rem;
+  border-left: .04rem solid #fff;
+  border-bottom: .04rem solid #fff;
+  position: absolute;
+  left: .12rem;
+  top: .12rem;
+  transform: rotate(-45deg);
+}
+
+.ex-checkbox:disabled + i::before {
+  background: #f2f2f2;
+  box-shadow: none;
+  border-color: #b5b5b5;
+  cursor: not-allowed;
+}
+
+//  ---------------
+.ex-btn-group {
+  /*position: fixed;
+  left: 0;
+  bottom: 0;*/
+  text-align: center;
+  line-height: 0;
+  width: 100%;
+  padding: 60px 0;
+  .am-button {
+    width: 240px;
+    height: 96px;
+  }
+  .am-button:not(:first-child) {
+    margin-left: 60px;
+  }
+}
+
+.ex-no-paper{
+  margin-top: 300px;
+  text-align: center;
+  color: #999;
+  padding: 30px;
+}

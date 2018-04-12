@@ -1,0 +1,65 @@
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">学校测试完成情况</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="performanceController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label> 学校：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="school.choiceSchool" theme="bootstrap" ng-change="getTask()">
+                            <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.GID as item in school.allList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label> 测试名称：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="task.choiceTask" theme="bootstrap" ng-change="search()">
+                            <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="item.ID as item in task.allList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="search()">查询</button>
+                <button  type="button" class="btn m-b-md w-xs btn-success m-l-md" ng-click="export()">导出</button>
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>学校</th>
+                    <th>班级</th>
+                    <th>总人数</th>
+                    <th>已测人数</th>
+                    <th>未测人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="18" class="prompt text-center" data-ng-show="!allList || allList.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请尝试更换查询条件
+                        </div>
+                    </td>
+                </tr>
+                <tr data-ng-repeat="item in allList">
+                    <td>{{item.SchoolName}}</td>
+                    <td>{{item.ClassName}}</td>
+                    <td>{{item.TotalCount}}</td>
+                    <td>{{item.TestCount}}</td>
+                    <td>{{item.UnTestCount}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

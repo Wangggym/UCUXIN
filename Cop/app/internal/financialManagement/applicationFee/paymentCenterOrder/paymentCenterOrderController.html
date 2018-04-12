@@ -1,0 +1,147 @@
+<div ng-controller="paymentCenterOrderController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">支付中心订单查询
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>支付中心订单号：</label>
+                        <input type="text" class="form-control" placeholder="支付中心订单号" ng-model="model.chargeID"
+                               onkeyup="this.value=this.value.replace(/\D/g,'')">
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>各业务订单：</label>
+                        <input type="text" class="form-control" placeholder="各业务订单" ng-model="model.orderNo">
+                    </div>
+                    <div class="form-group">
+                        <label>支付状态：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.payStatus" theme="bootstrap" ng-change="selectPartner()">
+                                <ui-select-match placeholder="请选择组织机构">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.payStatusList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.payStatus = undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>回调状态：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.callbackStatus" theme="bootstrap" ng-change="selectPartner()">
+                                <ui-select-match placeholder="请选择组织机构">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.callbackStatusList | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.callbackStatus = undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>开始日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor"></span>结束日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>支付中心订单号</th>
+                    <th>业务系统订单号</th>
+                    <th>支付渠道</th>
+                    <th>总金额</th>
+                    <th>支付状态</th>
+                    <th>支付时间</th>
+                    <th>回调状态</th>
+                    <th>标题</th>
+                    <th>描述</th>
+                    <th>附加说明</th>
+                    <th>额外信息</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.PayCenterOrderNo"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.OrderNo"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ChannelD"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Amount"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PayStatusName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PayTime"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CallBackStatusName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Subject"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Body"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Description"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Extra"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

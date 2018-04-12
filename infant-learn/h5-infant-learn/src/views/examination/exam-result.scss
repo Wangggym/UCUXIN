@@ -1,0 +1,71 @@
+// Created by QiHan Wang on 2017/9/19.
+.exam-result{
+  padding: 142px 20px 0;
+  text-align: center;
+}
+
+.exam-result-score{
+  background-image: url("../../assets/images/yx_achievement.png");
+  background-size: cover;
+  width: 264px;
+  height: 202px;
+  font-size: 40px;
+  color: #f9530a;
+  text-align: center;
+  margin: 0 auto;
+  display: table;
+  > span {
+    display: table-cell;
+    vertical-align: middle;
+    padding-bottom: 30px;
+    >b{
+      font-size: 80px;
+      font-weight: normal;
+    }
+  }
+
+}
+
+.exam-result-desc{
+  margin: 40px 0 0;
+
+  .er-result-prompt{
+    color: #f9530a;
+    font-size: 28px;
+    margin-top: 20px;
+  }
+  .er-result-info{
+    font-size: 32px;
+  }
+  .er-cost-time{
+    color: #888;
+    font-size: 28px;
+    margin-top: 20px;
+  }
+}
+
+.exam-result-btn{
+  margin-top: 120px;
+  .am-button-inline{
+    width: 280px;
+  }
+  .am-button{
+
+    font-size: 32px;
+    &:not(:first-child){
+      margin-left: 20px;
+    }
+  }
+}
+
+.exam-re-exam{
+  display: inline-block;
+  background-color: #ef904d;
+  color: #fff;
+  width: 1.28rem;
+  height: 1.28rem;
+  border-radius: 50%;
+  line-height: 1.28rem;
+  text-align: center;
+  border: 0.08rem solid rgb(255, 237, 224);
+}

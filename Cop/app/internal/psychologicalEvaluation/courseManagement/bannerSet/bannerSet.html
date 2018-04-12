@@ -1,0 +1,108 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">课程banner设置</h1>
+</div>
+<div class="wrapper-md" ng-controller="bannerSetController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <button style="margin-top: 4px;" class="btn w-xs btn-primary m-b-md m-l-xs" ng-click="addItem()"><i class="fa fa-plus m-r-xs"></i>新增</button>
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>缩略图</th>
+                        <th>链接</th>
+                        <th>有效期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="11" class="prompt text-center" ng-show="!allData || allData.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...</div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in allData">
+                    <td>
+                        <div style="width: 75px;height: 65px;">
+                            <img ng-src={{item.Pic}} alt="" style="width: 100%;height: 100%;">
+                        </div>
+                    </td>
+                    <td>{{item.Url}}</td>
+                    <td>{{item.SDate}} 至 {{item.EDate}}</td>
+                    <td>
+                        <button type="button" class="btn w-xs btn-info" data-ng-click="change(item)">修改</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal form-line-dashed">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b class="text-danger">*</b> 有效开始日期：</label>
+                    <div class="col-sm-7">
+                        <input style="width: 60%" type="text" class="form-control pull-left" datepicker-popup="{{format}}" ng-model="sDate" datepicker-options="dateOptions"
+                               is-open="startOpened" max-date="eDate" ng-required="true" clear-text="清除"
+                               current-text="今天" close-text="关闭" readonly>
+                            <span class="input-group-btn pull-left">
+                                <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b class="text-danger">*</b>有效结束日期：</label>
+                    <div class="col-sm-7">
+                        <input type="text" style="width: 60%" class="form-control pull-left" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                               is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除"
+                               current-text="今天" close-text="关闭" readonly>
+                        <span class="input-group-btn pull-left">
+                            <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b class="text-danger"></b> 图片链接：</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" style="width: 80%;margin-left: 10px" ng-model="link" placeholder="http://www.ucuxin.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b class="text-danger">*</b> Banner图：</label>
+                    <div class="col-sm-7">
+                        <button style="margin-left: 30px" class="btn btn-success btn-addon ng-pristine ng-untouched ng-valid" ngf-select="" name="file" ng-model="model.imgUrl" ng-change="fileChange(model.imgUrl)" ngf-pattern="'image/*'" ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i class="fa fa-plus"></i>图片上传</button>
+                        <p style="color: red;margin: 5px 0;">建议上传尺寸为2:1，宽640*高320</p>
+                        <div>
+                            <img ng-src={{imgUrl}} alt="" style="width: 150px;height: 75px;margin-left: 10px;" class="m-t-md">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-4">
+                        <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+                        <button type="button" class="btn w-xs btn-default m-l-md" ng-click="cancel()">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="showImg.html">
+    <div class="modal-body" style="" ng-mouseleave="cancel()">
+        <img style="width: 100%;height: 100%;" ng-src="{{msgDetail}}" alt="">
+    </div>
+</script>

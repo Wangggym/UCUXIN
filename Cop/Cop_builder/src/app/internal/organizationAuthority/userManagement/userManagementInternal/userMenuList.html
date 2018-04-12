@@ -1,0 +1,52 @@
+<div ng-controller="userMenuListController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">用户:{{userName}} - 菜单权限
+            <button type="button" class="btn w-xs btn-default pull-right" ui-sref="access.app.internal.userManagementInternal.userManagement">返回</button>
+        </h1>
+
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>一级菜单</th>
+                    <th>二级菜单</th>
+                    <th>三级菜单</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName2"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown ng-if="!item.IsOwn">
+                            <a class="btn btn-sm btn-primary" dropdown-toggle>添加该菜单权限</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="add(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" dropdown ng-if="item.IsOwn">
+                            <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle>删除该菜单权限</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="del(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<page-Directive options="pageIndex"></page-Directive>-->
+        </div>
+    </div>
+</div>

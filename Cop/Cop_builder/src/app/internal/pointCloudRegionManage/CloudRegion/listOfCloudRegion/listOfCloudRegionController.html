@@ -1,0 +1,266 @@
+<div ng-controller="listOfCloudRegionContoller">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">区域云管理
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+
+
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="add()">
+                        添加区域云
+                    </button>
+
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th style="width: 55px;"><label class="i-checks"><input type="checkbox" ng-model="checkedAll"
+                                                                            ng-click="checkAll()"><i></i></label></th>
+                    <th>区域云代码</th>
+                    <th>区域云</th>
+                    <th>指令</th>
+                    <th>版权</th>
+                    <th>android包名</th>
+                    <th>ios包名</th>
+                    <th>web入口</th>
+                    <th>描述</th>
+                    <th>创建时间</th>
+                    <th>管理员</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                       ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Code"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.UXUri"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CopyRight"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.AndroidPackName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.iOSPackName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.WebUrl"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.WebUrl"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CreateDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-primary" title="设置管理员"   ui-sref="access.app.internal.CloudRegion.listOfCloudRegionAdminList({id:item.ID})"><i
+                                class="fa fa-users"></i>设置管理员</a>
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="btn btn-xs btn-success" title="修改" ng-click="edit(item)"><i
+                                class="fa fa-edit"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-danger" title="删除"  ng-if="item.ScopeType!=1"   ng-click="remove(item)"><i
+                                class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="newAddCloudContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{newModel.title}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云代码：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入区域云代码" ng-model="newModel.Code">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云名称：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入区域云名称" ng-model="newModel.Name">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云指令：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入区域云指令" ng-model="newModel.UXUri">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>区域云版权：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入区域云版权" ng-model="newModel.CopyRight">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>Android包名：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入Android包名" ng-model="newModel.AndroidPackName">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>Ios包名：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入Ios包名" ng-model="newModel.iOSPackName">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>web入口：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入web入口" ng-model="newModel.WebUrl">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label> 描述：</label>
+
+                    <div class="input-group">
+
+                        <textarea class="form-control"
+                                  ng-model="newModel.Desc"
+                                  style="width:420px;height:68px;resize: none;"></textarea>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()" >
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="newAddMangeUsers.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">设置管理员</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+
+            <div class="wrapper-md">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form class="query-group-form form-inline" role="form" name="form">
+                            <div class="form-group">
+                                <label> 区域云：</label>
+
+                                <div class="input-group">
+                                     <b class="bolder">标准区域云</b>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label> 管理员手机号：</label>
+
+                                <div class="input-group" >
+                                    <ui-select ng-model="adModel.uid" theme="bootstrap" ng-disabled="newModel.operType==2"   >
+                                        <ui-select-match placeholder="请输入管理员手机号">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item.id as item in adModel.telList | filter: $select.search"
+                                                refresh="refreshTelresses($select.search)" refresh-delay="500">
+                                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                                </div>
+                            </div>
+                            <button type="submit" class="form-group btn btn-success" data-ng-click="add()">
+                                添加
+                            </button>
+
+                        </form>
+                    </div>
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+
+                            <th>管理员名称</th>
+                            <th>手机号码</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr st-select-row="row" ng-repeat="item in adModel.admins">
+
+
+                            <td class="v-middle">
+                                <span ng-bind="item.AdminUser.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.AdminUser.Tel"></span>
+                            </td>
+                           <td>
+                               <a href=""  >
+                           <span href="javascript:;" class="btn btn-xs btn-danger" title="删除"     style="display: inline-block; width:22px; height: 22px; text-align: center;"  ng-click="remove(item)"><i
+                          class="fa fa-remove"></i></span>
+
+                               </a>
+                           </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()" >
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+
+     </script>
+
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">确定要删除本条记录?</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

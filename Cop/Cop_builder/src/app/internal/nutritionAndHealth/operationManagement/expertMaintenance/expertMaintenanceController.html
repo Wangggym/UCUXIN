@@ -1,0 +1,93 @@
+<div ng-controller="expertMaintenanceController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">营养专家维护
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>专家名称：</label>
+                        <input type="text" class="form-control" ng-model="model.name" placeholder="请输入专家名称">
+                    </div>
+                    <div class="form-group">
+                        <label>电话号码：</label>
+                        <input type="tel" class="form-control" ng-model="model.tel" placeholder="请输入电话号码">
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">查询</button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="addMaintenance()">新增</button>
+                    <button type="submit" class="form-group btn btn-primary" ng-click="relation()">关联优课优信</button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>专家姓名</th>
+                    <th>手机号</th>
+                    <th style="width: 30%;">简介</th>
+                    <th>标签</th>
+                    <th style="width: 12%;">地区</th>
+                    <th>评价数</th>
+                    <th>显示顺序</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index+1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Instro"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Label"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Addr"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a ng-bind="item.CntEvaluates" class="text-info-lt" ng-if="item.CntEvaluates"
+                           ui-sref="access.app.internal.nutritionHealth.getTestPeople({orderID:'{{item.ID}}',TopGID:'{{item.TopGID}}'})"></a>
+                        <span ng-bind="item.CntEvaluates" ng-if="!item.CntEvaluates"></span>
+                    </td>
+                    <td class="v-middle">
+                        <input type="text" ng-if="model.waiting" class="v-middle" value="{{item.Sort}}"
+                               ng-model="item.Sort" style="width: 60px;" maxlength="10">
+
+                        <div class="btn-group" ng-if="model.waiting">
+                            <button class="btn btn-info btn-xs" ng-click="sortSave(item)">保存</button>
+                            <button class="btn btn-danger btn-xs" style="margin-left:2px;" ng-click="sortCancel()">取消
+                            </button>
+                        </div>
+                        <span ng-bind="item.Sort" ng-if="model.waitSort" class="v-middle"></span>
+                        <a href="javascript:;" class="btn btn-info btn-xs" ng-click="settingSort(item)"
+                           ng-if="model.waiting?false:true;">设置</a>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-primary" title="编辑" ng-click="addOrEdit(item)"><i
+                                class="fa fa-edit"></i></a>
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:;" class="btn btn-xs btn-danger" title="删除" dropdown-toggle><i
+                                    class="fa fa-trash-o"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

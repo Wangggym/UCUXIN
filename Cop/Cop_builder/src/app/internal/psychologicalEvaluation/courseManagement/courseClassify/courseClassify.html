@@ -1,0 +1,78 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">课程分类</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="courseClassifyController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <!--<div class="form-group">-->
+        <!--<label> 属性名称：</label>-->
+        <!--<div class="input-group">-->
+        <!--<input type="text" class="form-control">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="addItem({ID:0,Name:''})">查询</button>-->
+        <button  type="button" class="btn m-b-md w-xs btn-info m-l-md" data-ng-click="addItem({ID:0,Name:''})">新增</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped" style="max-width: 900px">
+        <thead>
+        <tr>
+          <th>分类</th>
+          <th>图标</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="11" class="prompt text-center" data-ng-show="allClassify.length==0">
+            <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+            </div>
+          </td>
+        </tr>
+        <tr data-ng-repeat="item in allClassify">
+          <td>{{item.Name}}</td>
+          <td>
+            <img ng-src={{item.Pic}} alt="" style="height: 60px;">
+          </td>
+          <td style="width: 210px"><button type="button" class="btn w-xs btn-primary" data-ng-click="change(item)">修改</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/ng-template" id="changeItem.html">
+  <div class="modal-body" style="text-align: center">
+    <form class="form-inline clearfix">
+      <span>属性名称:</span>
+      <input  placeholder="请输入属性名称" ng-model="data.Name" style="width: 300px" type="text" class="form-control m-l-md">
+    </form>
+    <form class="form-inline  m-t-md m-b-md">
+      <div class="form-group">
+        <span>图标:</span>
+        <div class="input-group m-l-md" style="width: 300px">
+          <p>
+            <button class="btn btn-success btn-addon" data-ngf-select name="file"
+                    data-ng-model="model.Pic"
+                    data-ng-change="fileChange(model.Pic)" data-ngf-pattern="'image/*'"
+                    data-ngf-accept="'image/gif, image/jpeg, image/png, image/jpg'" type="file"><i
+              class="fa fa-plus"></i>上传图标
+            </button>
+        </div>
+        <div style="height: 150px;width: 150px;background-color: white;margin-left: 127px;" class="m-t-md">
+          <img ng-src={{data.Pic}} alt="" style="width: 100%;height: 100%">
+        </div>
+      </div>
+    </form>
+    <form class="form-inline clearfix m-t-md m-b-md">
+      <span class="btn w-xs btn-info" data-ng-click="sure()">确定</span>
+      <span class="btn w-xs btn-default m-l-lg" data-ng-click="cancel()">取消</span>
+    </form>
+  </div>
+  <!--<div class="modal-footer" style="text-align: center">-->
+  <!--<button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>-->
+  <!--<button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>-->
+  <!--</div>-->
+</script>

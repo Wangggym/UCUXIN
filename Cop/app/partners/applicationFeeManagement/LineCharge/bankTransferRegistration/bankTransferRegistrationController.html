@@ -1,0 +1,77 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">线下银行转账登记
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="bankTransferRegistrationController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                        ng-disabled="formPackDisabled">
+                    查询
+                </button>
+                <button type="submit" class="form-group btn btn-primary"
+                        ui-sref="access.app.partner.LineCharge.addBankTransferRegistration">
+                    新增银行转账
+                </button>
+                <button type="submit" class="form-group btn btn-danger"
+                        ui-sref="access.app.partner.LineCharge.FDKJFirstView">
+                    福豆科技首款账户查看
+                </button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>合作伙伴</th>
+                <th>学校</th>
+                <th>金额（元）</th>
+                <th>实际转账时间</th>
+                <th>银行转账交易流水号</th>
+                <th>转账银行及其他说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in itemList">
+                <td class="v-middle">
+                    <span ng-bind="item.PartnerName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.GName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Amount"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Date"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.PayCenterOrderNo"></span>
+                </td>
+                <td class="v-middle">
+                    <span title="{{item.Remark}}" ng-bind="item.Remark" class="push-url"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

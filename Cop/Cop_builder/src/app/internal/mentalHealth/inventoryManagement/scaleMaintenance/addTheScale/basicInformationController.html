@@ -1,0 +1,91 @@
+<div ng-controller="basicInformationController">
+    <div class="wrapper-md">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get" name="editModel">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">量表名称：</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control w-md" ng-model="model.Name" placeholder="量表名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">量表别名：</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control w-md" ng-model="model.SellName" placeholder="量表别名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">来源机构：</label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.PsyOrgID" theme="bootstrap" ng-change="changePsyOrgID($select.selected)">
+                                    <ui-select-match placeholder="来源机构">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in params.institutionList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.institution = undefined" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">测试人群：</label>
+
+                        <div class="col-sm-10">
+                            <div class="radio" ng-repeat="crowd in params.crowdList track by $index">
+                                <label class="i-checks">
+                                    <input ng-if="model.MType!=crowd.id" type="radio" name="a" value="{{$index}}"
+                                           ng-click="clickCheckList(crowd)">
+                                    <input ng-if="model.MType==crowd.id" type="radio" name="a" value="{{$index}}"
+                                           ng-click="clickCheckList(crowd)" checked>
+                                    <i></i>
+                                    {{crowd.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">量表介绍：</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control ng-pristine ng-valid ng-touched" style="height:100px;"
+                                      ng-model="model.Intro"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">测试须知：</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control ng-pristine ng-valid ng-touched" style="height:100px;"
+                                      ng-model="model.Notice"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注：</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control ng-pristine ng-valid ng-touched" style="height:100px;"
+                                      ng-model="model.Remark"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 pull-right">
+                            <button type="button" class="btn w-xs btn-info" ng-click="next()">下一步</button>
+                            <button type="button" class="btn w-xs btn-default" ng-click="goBack()">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

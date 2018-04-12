@@ -1,0 +1,117 @@
+<div ng-controller="userManagementPartnersController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">用户管理
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <!--<div class="form-group">-->
+                        <!--<label>用户名：</label>-->
+
+                        <!--<div class="input-group">-->
+                            <!--<ui-select ng-model="model.userId" theme="bootstrap">-->
+                                <!--<ui-select-match placeholder="请选择用户名">{{$select.selected.UName}}</ui-select-match>-->
+                                <!--<ui-select-choices-->
+                                        <!--repeat="item.UName as item in model.userList | filter: $select.search">-->
+                                    <!--<div ng-bind-html="item.UName | highlight: $select.search"></div>-->
+                                <!--</ui-select-choices>-->
+                            <!--</ui-select>-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button ng-click="model.userId = undefined" class="btn btn-default"-->
+                                        <!--type="button">-->
+                                    <!--<span class="glyphicon glyphicon-trash"></span>-->
+                                <!--</button>-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<button type="submit" class="form-group btn btn-success" data-ng-click="search()">-->
+                        <!--查询-->
+                    <!--</button>-->
+                    <button type="submit" class="form-group btn btn-info" ng-click="addUser()">
+                        添加用户
+                    </button>
+                    <button type="button" class="btn w-xs btn-default pull-right" onclick="window.history.go(-1)">返回</button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>合作伙伴</th>
+                    <th>用户名</th>
+                    <th>用户电话</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.userList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Org.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.AdminUser.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.AdminUser.Tel"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown>
+                            <a class="btn btn-sm btn-danger" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn btn-sm btn-info" ui-sref="access.app.cloud.userManagementPartner.userMenuPermissionsPartners({UID:item.AdminUser.UID,Name:item.Org.Name+' '+item.AdminUser.Name})">分配菜单权限</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script src="../bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script type="text/ng-template" id="userManagementModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">添加用户</span>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom:-30px;">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>手机号：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-change='serchUser(newModel.phoneNum)' placeholder="请输入手机号" ng-model="newModel.phoneNum"
+                               maxlength="11" onkeyup='this.value=this.value.replace(/\D/gi,"")'
+                               ng-keyup="myKeyUp($event)">
+                        <!--<span class="input-group-btn">-->
+                            <!--&lt;!&ndash;<button class="btn btn-default" type="button" ng-click="search()">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<span class="glyphicon glyphicon-search"></span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                        <!--</span>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>用户名：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="readonly" placeholder="用户名" ng-model="newModel.UName">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="save()"
+                    ng-disabled="newModel.phoneNum&&newModel.UName?false:true">
+                保存
+            </button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

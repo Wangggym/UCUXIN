@@ -1,0 +1,103 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">查询卡号详情</h1>
+</div>
+<div class="wrapper-md row" ng-controller="cardInquireController">
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            <form class="bs-example form-horizontal">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><span class="spanColor">*</span>业务流水卡号：</label>
+
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control w-md" ng-model="number" style="display:inline-block;" placeholder="请输入10位卡号">
+                        <button type="submit" class="btn btn-sm btn-info control-label" ng-click="search()">查询</button>
+                        <button type="submit" class="btn btn-sm btn-danger control-label" ng-disabled="!ID" ng-click="unBind()">解绑</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <form class="bs-example form-horizontal">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">合作伙伴：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.OrgName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">学校：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.GName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">班级：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.ClassName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">姓名：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.MName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">身份：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.MTypeName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">入库时间：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.CDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">绑定时间：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.BindDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">卡状态：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.ST">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">业务流水卡号：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.SerialCardNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">物理卡号：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.PhysCardNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">物理卡号转10进制：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.PhysCardNo1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">物理卡号两两交换转10进制：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.PhysCardNo2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">2.4G卡号：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control w-md" disabled ng-model="cardDetail.Rfid24GCardNo">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

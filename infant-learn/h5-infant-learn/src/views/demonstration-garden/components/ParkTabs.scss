@@ -1,0 +1,67 @@
+$green:rgb(104 ,201 ,76);
+$orange:rgb(253, 99,15);
+$black:#272636;
+$grey:#aaa;
+.park-tabs{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+    >div{
+        height: 1.2rem;
+        flex: 1;
+        text-align: center;
+        padding: 0.15rem;
+        border: 1PX #ccc solid;
+        i{
+            width: 100%;
+            height: 40%;
+            //background-size: 30% 100%;
+            display: inline-block;
+        }
+        span{
+            line-height: 0.8rem;
+            font-weight: bold;
+        }
+    }
+}
+.park-info{
+    color: $grey;
+    i{
+        background: url("../../../assets/images/yx_school.png") no-repeat center / contain;
+    }
+}
+
+.teacher-info{
+    color: $grey;
+    i{
+        background: url("../../../assets/images/yx_teacher.png") no-repeat center / contain;
+    }
+}
+
+.honor-info{
+    color: $grey;
+    i{
+        background: url("../../../assets/images/yx_honor.png") no-repeat center / contain;
+    }
+}
+
+.park-info-active{
+    color: $green;
+    i{
+        background: url("../../../assets/images/yx_school_press.png") no-repeat center / contain;
+    }
+}
+
+.teacher-info-active{
+    color: $green;
+    i{
+        background: url("../../../assets/images/yx_teacher_press.png") no-repeat center / contain;
+    }
+}
+
+.honor-info-active{
+    color: $green;
+    i{
+        background: url("../../../assets/images/yx_honor_press.png") no-repeat center / contain;
+    }
+}

@@ -1,0 +1,221 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">缴费明细查询</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+                    <ui-select ng-model="queryFields.school" theme="bootstrap" reset-search-input="false"
+                               ng-change="changeSchool()">
+                        <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                        <ui-select-choices repeat="school.GID as school in schoolList track by $index"
+                                           refresh="refreshSchool($select.search)" refresh-delay="1000">
+                            <span ng-bind-html="school.FName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>产品包：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.selectProductPackageID" theme="bootstrap"
+                                   ng-change="changeProductGid()"
+                                   ng-disabled="queryFields.school?false:true">
+                            <ui-select-match placeholder="请选择产品包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in productPackageList | filter: $select.search"
+                                               refresh="refreshProduct($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.selectProductPackageID = undefined" class="btn btn-default"
+                                    ng-disabled="queryFields.selectProductPackageID?false:true"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>服务包：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.funcServiceProduct" theme="bootstrap"
+                                   ng-disabled="!queryFields.selectProductPackageID">
+                            <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="funcServiceProduct.ID as funcServiceProduct in serviceList | propsFilter: { Name:$select.search }">
+                                <span ng-bind-html="funcServiceProduct.Name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="queryFields.funcServiceProduct = undefined" class="btn btn-default"
+                                    ng-disabled="queryFields.funcServiceProduct?false:true"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>服务包开通时间：</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate"
+                               is-open="openedStart" max-date="eDate" ng-required="true" clear-text="清除" datepicker-options="dateOptions"
+                               current-text="今天" close-text="关闭" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                    </div>
+                    ~
+                    <div class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                               is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除" current-text="今天"
+                               close-text="关闭" readonly>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>班级：</label>
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.className" theme="bootstrap" ng-disabled="!classNameList">
+                            <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                            <ui-select-choices
+                                    repeat="className.ClassID as className in classNameList | propsFilter: { ClassName:$select.search }">
+                                <span ng-bind-html="className.ClassName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                          <span class="input-group-btn">
+                              <button type="button" ng-click="queryFields.className = undefined"
+                                      ng-disabled="!queryFields.className" class="btn btn-default">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>学生：</label>
+                    <input type="text" class="form-control" ng-model="queryFields.studentName" placeholder="请输入学生名字">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="radio-inline i-checks" data-ng-click="selectUnOpen()">
+                            <input type="checkbox" ng-model="checkedUnOpen" ng-checked="checked"
+                                   ><i></i>未开通
+                        </label>
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedUnPayment" ng-checked="checked"
+                                   data-ng-click="checkedUnPay()"><i></i>未付款
+                        </label>
+                        <label class="radio-inline i-checks">
+                            <input type="checkbox" ng-model="checkedPayment" ng-checked="checked"
+                                   data-ng-click="checkedPay()"><i></i>已付款
+                        </label>
+                    </div>
+                </div>
+                <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)"
+                        ng-disabled="!queryFields.school || !queryFields.selectProductPackageID">查询
+                </button>
+                &nbsp;&nbsp;
+                <button type="button" class="btn w-xs btn-success" ng-click="exportExcel()"
+                        ng-disabled="!queryFields.school || !queryFields.selectProductPackageID">导出
+                </button>
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <!--<caption ng-if="dataList">-->
+                    <!--总人数：<b>{{dataSource.QtyTotal}}</b>人&nbsp;&nbsp;已缴费：<b>{{dataSource.QtyPay}}</b>人&nbsp;&nbsp;未缴费：<b>{{dataSource.QtyUnPay}}</b>人-->
+                <!--</caption>-->
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学校</th>
+                    <th>班级</th>
+                    <th>学生姓名</th>
+                    <th>家长电话</th>
+                    <th>产品</th>
+                    <th>服务包</th>
+                    <th>服务包开通时间</th>
+                    <th>状态</th>
+                    <th>商户订单号</th>
+                    <th>付款时间</th>
+                    <th>支付方式</th>
+                    <th>查看下单记录</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="22" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">请输入条件查询，数据实时更新</div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{(pagination.itemsPerPage * (pagination.currentPage - 1) ) + ($index + 1)}}</td>
+                    <td>{{item.GName}}</td>
+                    <td>{{item.ClassName}}</td>
+                    <td>{{item.UName}}</td>
+                    <td>{{item.Tel}}</td>
+                    <td>{{item.FuncServiceProductName}}</td>
+                    <td>{{item.ChargeName}}</td>
+                    <td><span ng-if="item.OpenChargeDate != '0001-01-01 00:00:00'">{{item.OpenChargeDate}}</span></td>
+                    <td>{{item.PayStatus}}</td>
+                    <td>{{item.PayCenterNo}}</td>
+                    <td><span ng-if="item.PayDate != '0001-01-01 00:00:00'">{{item.PayDate}}</span></td>
+                    <td>{{item.PayChannel}}</td>
+                    <td ng-if="!!item.QtyOrder"><a href="#" class="text-info">{{item.QtyOrder}}</a>
+                    </td>
+                    <td><a href="" class="btn btn-info btn-sm" ng-click="detail(item.UMID, item.ChargeID,$event)">查看明细</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="paymentDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title">下单次数明细</h3>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>下单时间</th>
+                <th>下单人电话</th>
+                <th>支付方式</th>
+                <th>支付状态</th>
+                <th>商户订单号</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="!dataDetail || dataDetail.length == 0">
+                <td colspan="16" class="prompt text-center"><div class="alert alert-warning" role="alert">抱歉，暂时未有数据...</div></td>
+            </tr>
+            <tr ng-repeat="item in dataDetail">
+                <td>{{item.Date}}</td>
+                <td>{{item.CTel}}</td>
+                <td>{{item.PayChannel}}</td>
+                <td>{{item.ST}}</td>
+                <td>{{item.PayCenterNo}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="cancel()">确认</button>
+    </div>
+</script>

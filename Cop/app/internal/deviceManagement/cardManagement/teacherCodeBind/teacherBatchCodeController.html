@@ -1,0 +1,54 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">老师批量发卡
+        <button type="submit" class="pull-right btn btn-default" ui-sref="access.app.internal.cardManagement.teacherCodeBind">返回
+        </button>
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="teacherBatchCodeController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">
+                        <li>老师总人数：<span ng-bind="totalNum">0</span></li>
+                        <li>已绑卡人数：<span ng-bind="bindNum">0</span></li>
+                        <li>未绑卡人数：<span ng-bind="unBindNum">0</span></li>
+                        <li class="text-danger-dker">未录入老师电话（无法绑卡）：<strong class="ng-binding"
+                                                                           ng-bind="noPhoneNum">0</strong></li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn m-b-xs btn-primary btn-rounded" ng-show="visible"
+                        ng-click="inputTelephone()">去录入老师电话
+                </button>
+            </form>
+            <div class="line line-dashed b-b line-lg"></div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label>起始卡号：</label>
+                    <input type="number" ng-model="startCard" class="form-control" placeholder="起始卡号"
+                           ng-blur="ngBluer(startCard)">
+                </div>
+                <div class="form-group">
+                    <ul class="breadcrumb bg-white b-a" style="margin-bottom: 0px;">
+                        <li>可绑卡人数：<span ng-bind="unBindNum">0</span></li>
+                        <li class="text-danger-dker" ng-show="visibleCard" ng-bind="reStaffBatchCardInfo">提示：<strong
+                                class="ng-binding"></strong></li>
+                    </ul>
+                </div>
+            </form>
+            <div class="line line-dashed b-b line-lg"></div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label>结束卡号：</label>
+                    <input type="number" ng-model="endCard" data-ng-value="{{endCard = startCard + unBindNum - 1}}"
+                           class="form-control" placeholder="结束卡号" maxlength="10"
+                           disabled="disabled">
+                </div>
+            </form>
+        </div>
+        <div class="pull-right">
+            <button type="submit" class="btn btn-default" ui-sref="app.cardManagement.teacherCodeBind">取消</button>
+            <button type="submit" class="btn btn-primary" ng-click="preservationBatch()">确定发卡</button>
+        </div>
+    </div>
+</div>

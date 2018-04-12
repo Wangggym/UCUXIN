@@ -1,0 +1,134 @@
+.infomation {
+  //查询input
+  .info-search {
+    position: relative;
+    .search-value {
+      width: 200px;
+      position: absolute;
+      right: 0
+    }
+  }
+  .sort {
+    font-size: 12px;
+    margin-top: 26px;
+    color: rgba(0, 0, 0, 0.85);
+    .sort-item {
+      margin-left: 22px;
+      cursor: pointer;
+      vertical-align: top;
+    }
+    .sort-btn{
+      float:right;
+      background:#67c239;
+      border:none;
+      color:#fff;
+      font-weight:bold;
+    }
+  }
+  .list {
+    margin-top: 24px;
+    .list-item{
+      //display:flex;
+      position:relative;
+      .content-text{
+        width:100%;
+        .article{
+          color:#c10d10;
+        }
+        .button-right{
+          float:right;
+          .operation-btn{
+            margin-left:4px;
+          }
+        }
+        .item-info{
+          margin-left:6px;
+          margin-top:14px;
+          img{
+            width:16px;
+          }
+          .item-one{
+            margin-right:10px
+          }
+        }
+      }
+      .item-infoOne{
+        margin-left:6px;
+        position:relative;
+        min-height:10px;
+        img{width:16px;}
+        .infoOne-btn{
+          margin-left:2px;
+        }
+        .one-left{margin-left:16px}
+        .middle-p{
+          position: relative;
+          bottom:2px;
+          display:inline-block;
+          width:60px;
+        }
+        .middle-b{
+          position: relative;
+          bottom:4px;
+        }
+      }
+      .operation-info{
+        text-align: right;
+        width:40%;
+        .operation-item{
+          margin-top:14px;
+          color:#c10d10;
+          img{
+            width:16px;
+          }
+          span{margin-left:10px}
+        }
+        .operation-two{
+          margin-top:46px;
+          position:absolute;
+          bottom:0;
+          right:0;
+        }
+      }
+    }
+    .thumb-img{
+      //width:14%;
+      height:130px;
+      .status-img{
+        position:absolute;
+      }
+      .item-img{
+        width:194px;
+        height:130px;
+      }
+    }
+  }
+  .table-total{
+    margin-top: -60px;
+    width: 60%;
+    padding: 16px 0;
+  }
+  .select-bottom{
+    display: inline-block;
+    //width:50%;
+    //position: relative;
+    //bottom:50px;
+    //margin-bottom:30px;
+  }
+  .total-info{
+    display: inline-block;
+    width: 50%;
+    text-align:right;
+    .total-span{
+      //position:relative;
+      //bottom:100px;
+    }
+  }
+  .no-bordered {
+    > td:not(:last-child) {
+      border-left: none !important;
+      border-right: none !important;
+    }
+    background: #fff;
+  }
+}

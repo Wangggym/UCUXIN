@@ -1,0 +1,69 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">设备在线率
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="equipmentOnLineRateController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                    查询
+                </button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th>学校</th>
+                <th>设备类型</th>
+                <th>设备总数量</th>
+                <th>设备在线数量</th>
+                <th>设备脱机数量</th>
+                <th>在线率</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemList" style="color:{{item.color}}">
+                <td class="v-middle">
+                    <span ng-bind="item.GFName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.EquipmentTypeName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.QtyEquipment"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.QtyOnline"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.QtyOffline"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.OnlineRate"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

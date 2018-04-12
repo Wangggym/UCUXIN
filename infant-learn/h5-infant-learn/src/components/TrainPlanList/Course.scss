@@ -1,0 +1,11 @@
+.course {
+  > div {
+    display: flex;
+    justify-content: space-between;
+    line-height: 0.5rem;
+    font-size: 0.3rem !important;
+  }
+}
+.onlyYongScorePadding{
+  padding: 0 0.3rem;
+}

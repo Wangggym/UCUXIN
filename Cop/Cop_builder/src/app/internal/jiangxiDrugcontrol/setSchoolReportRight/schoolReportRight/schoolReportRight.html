@@ -1,0 +1,56 @@
+<div ng-controller="schoolReportRightController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">学校报表权限分配</h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal form-line-dashed form-validation">
+                    <div class="form-group col-lg-offset-2">
+                        <label class="col-sm-2 control-label">学校：</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="model.schoolId" theme="bootstrap"
+                                       ng-change="selectSchool()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in schoolList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2">
+                        <label class="col-sm-2 control-label">老师：</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="model.teacherId" theme="bootstrap">
+                                <ui-select-match placeholder="请选择老师">{{$select.selected.MName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.UID as item in teacherList | filter: $select.search" refresh-delay="1000">
+                                    <div ng-bind-html="item.MName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-offset-2">
+                        <label class="col-sm-2 control-label">APP入口：</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="model.appId" theme="bootstrap">
+                                <ui-select-match placeholder="请选择APP入口">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in entrance | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="button" class="btn w-xs btn-info" ng-click="confirm(true)" style="margin-right: 50px;">分配权限</button>
+                            <button type="button" class="btn w-xs btn-primary" ng-click="confirm(false)">取消权限</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

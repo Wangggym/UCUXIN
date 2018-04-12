@@ -1,0 +1,73 @@
+.item {
+  padding: 20px 10px;
+  .title {
+    height: 60px;
+    margin-bottom: 13px;
+    display: flex;
+    justify-content: flex-start;
+    line-height: 60px;
+    font-family: PingFangSC-Regular;
+    .left {
+      background: rgba(65, 176, 253, 1);
+      border-radius: 10px 0 0 10px;
+      flex: 1;
+      text-align: center;
+      color: rgba(255, 255, 255, 1);
+    }
+    .content {
+      background: #c3e6fe;
+      font-size: 26px;
+      color: rgba(5, 150, 251, 1);
+      flex: 5;
+      text-indent: 1em;
+    }
+  }
+  .page {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 13px;
+    .title {
+      height: 50px;
+      color: rgba(51, 51, 51, 1);
+      line-height: 50px;
+      font-size: 26px;
+      margin: 0 5px;
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+      display: flex;
+      > span {
+        flex: 1;
+      }
+      > div {
+        flex: 5;
+      }
+
+    }
+    .content {
+      .item {
+        height: 30px;
+        line-height: 30px;
+        font-size: 26px;
+        font-family: PingFangSC-Regular;
+        color: #333333;
+        display: flex;
+        justify-content: space-between;
+        .tryAndSee {
+          padding-left: 80px;
+          background: url("../../../src/public/assets/watch@2x.png") no-repeat left center / contain;
+        }
+        .lately{
+          padding-right: 40px;
+          background: url("../../../src/public/assets/书签@2x.png") no-repeat right center / contain;
+        }
+        .hasSee{
+          color: rgba(136, 136, 136, 1);
+        }
+      }
+
+    }
+
+  }
+
+}

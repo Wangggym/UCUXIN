@@ -1,0 +1,293 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">心理测试任务</h1>
+</div>
+<div class="wrapper-md" data-ng-controller="psyTestTaskController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <div class="form-group">
+          <label>学校：</label>
+          <div class="input-group">
+            <ui-select ng-model="school.choiceSchool" theme="bootstrap" ng-change="choiceSchool()">
+              <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+              <ui-select-choices
+                      repeat="item.GID as item in school.allList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label> 测试名称：</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="请填写测试名称" ng-model="name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label> 状态：</label>
+          <div class="input-group">
+            <select class="form-control" ng-model="taskState">
+              <option value="3">全部</option>
+              <option value="1">已发布</option>
+              <option value="2">已结束</option>
+              <option value="0">未发布</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn m-b-md w-xs btn-info" data-ng-click="search()">查询</button>
+        <button  type="button" class="btn m-b-md w-xs btn-success m-l-md" data-ng-click="add()">新增</button>
+      </form>
+      <div style="max-width: 1900px;overflow-y: scroll;">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+          <tr>
+            <th>合作伙伴</th>
+            <th>学校</th>
+            <th>心理测试任务</th>
+            <th>量表名称</th>
+            <th>测试范围</th>
+            <th>测试身份</th>
+            <th>开始日期</th>
+            <th>结束日期</th>
+            <th>状态</th>
+            <th>是否展示简单报告</th>
+            <th>测试人数</th>
+            <th>已测试人数</th>
+            <th>未测试人数</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="18" class="prompt text-center" data-ng-show="!allTaskList || allTaskList.length==0">
+              <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+              </div>
+            </td>
+          </tr>
+          <tr data-ng-repeat="item in allTaskList">
+            <td>{{item.ScaleTestTask.PartnerOrgName}}</td>
+            <td>{{item.ScaleTestTask.SchoolName}}</td>
+            <td>{{item.ScaleTestTask.Name}}</td>
+            <td>{{item.ScaleTestTask.ScaleName}}</td>
+            <td>{{item.ScaleTestTask.sendTypeName}}</td>
+            <td>{{item.ScaleTestTask.mTypeName}}</td>
+            <td>{{item.ScaleTestTask.BDateTime}}</td>
+            <td>{{item.ScaleTestTask.EDateTime}}</td>
+            <td>{{item.ScaleTestTask.stName}}</td>
+            <td ng-bind-html="item.ScaleTestTask.IsShowSimpleReport ? '展示': '不展示'"></td>
+            <td>{{item.ScaleTestTask.TotalCount}}</td>
+            <td>
+              <span ng-if="item.ScaleTestTask.TestCount==0">{{item.ScaleTestTask.TestCount}}</span>
+              <span ng-if="item.ScaleTestTask.TestCount>0" style="color: #7a43b6;text-decoration: underline;cursor: pointer;" ng-click="goHasTest(item.ScaleTestTask)">{{item.ScaleTestTask.TestCount}}</span>
+            </td>
+            <td>
+              <span ng-if="item.ScaleTestTask.UnTestCount==0">{{item.ScaleTestTask.UnTestCount}}</span>
+              <span ng-if="item.ScaleTestTask.UnTestCount>0" style="color: #7a43b6;text-decoration: underline;cursor: pointer;" ng-click="goNotTest(item.ScaleTestTask)">{{item.ScaleTestTask.UnTestCount}}</span>
+            </td>
+            <td style="width: 210px">
+              <button type="button" class="btn btn-xs btn-info" data-ng-click="pause(item)" ng-if="item.ScaleTestTask.ST ==1">结束</button>
+              <button type="button" class="btn btn-xs btn-primary" data-ng-click="changeTask(item)">修改</button>
+              <button type="button" class="btn btn-xs btn-success" data-ng-click="publish(item)" ng-if="item.ScaleTestTask.ST==0 || item.ScaleTestTask.ST==2">发布</button>
+              <div class="btn-group dropdown" dropdown>
+                <button type="button" class="btn btn-xs btn-danger" dropdown-toggle>
+                  删除
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a data-ng-click="delet(item.ScaleTestTask)">确定</a></li>
+                  <li><a href>取消</a></li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-xs btn-info" data-ng-click="download(item.ScaleTestTask)">下载PC测试地址</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+        <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+        <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                    max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                    next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                    last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--新增和修改的弹出框-->
+<script type="text/ng-template" id="changeItem.html">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-horizontal form-line-dashed">
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试名称：</label>
+          <div class="col-sm-6">
+            <input type="text" ng-model="name" class="form-control" maxlength="25" placeholder="任务名称" required>
+          </div>
+          <span class="help-block">任务名称最多25个字符</span>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 学校：</label>
+          <div class="col-sm-6">
+            <ui-select ng-model="school.choiceSchool" theme="bootstrap" ng-change="choiceSchool()" ng-disabled="id!=0">
+              <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+              <ui-select-choices
+                      repeat="item in school.allList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 量表名称：</label>
+          <div class="col-sm-6">
+            <!--<p class="form-control-static text-danger" ng-if="!scale.allList||scale.allList.length==0">当前没有可用的量表，测试任务无法添加！</p>-->
+            <ui-select ng-model="scale.choiceScale" theme="bootstrap" ng-change="changeScale()" ng-disabled="id!=0">
+              <ui-select-match placeholder="请选择量表">{{$select.selected.Name}}</ui-select-match>
+              <ui-select-choices repeat="scale in scale.allList | propsFilter:{ Name:$select.search }">
+                <span ng-bind-html="scale.Name"></span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试时间：</label>
+
+          <div class="col-sm-6">
+            <div class="input-group pull-left" style="width: 180px">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="sDate" datepicker-options="dateOptions"
+                     is-open="startOpened" max-date="eDate" ng-required="true" clear-text="清除"
+                     current-text="今天" close-text="关闭" readonly>
+              <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+            <span class="form-control-static pull-left">&nbsp;~&nbsp;</span>
+            <div class="input-group pull-left" style="width: 180px">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="eDate" datepicker-options="dateOptions"
+                     is-open="endOpened" min-date="sDate" ng-required="true" clear-text="清除"
+                     current-text="今天" close-text="关闭" readonly>
+              <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 是否显示测试报告：</label>
+          <div class="col-sm-6">
+            <label class="radio-inline i-checks">
+              <input type="radio" name="SReport" ng-model="sReport" value="true"><i></i>
+              展示
+            </label>
+            <label class="radio-inline i-checks">
+              <input type="radio" name="SReport" ng-model="sReport" value="false"><i></i>
+              不展示
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试身份：</label>
+
+          <div class="col-sm-6">
+            <label class="radio-inline i-checks">
+              <input type="radio" name="MType" ng-model="mType" value="12" ng-click="choiceMtype()" ng-disabled="id!=0"><i></i>
+              家长
+            </label>
+            <label class="radio-inline i-checks">
+              <input type="radio" name="MType" ng-model="mType" value="11" ng-click="choiceMtype()" ng-disabled="id!=0"><i></i>
+              教师
+            </label>
+            <label class="radio-inline i-checks">
+              <input type="radio" name="MType" ng-model="mType" value="13" ng-click="choiceMtype()" ng-disabled="id!=0"><i></i>
+              学生
+            </label>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><b class="text-danger">*</b> 测试范围：</label>
+
+          <div class=" col-sm-10">
+            <label class="radio-inline i-checks"><input type="radio" name="Range"
+                                                        ng-disabled="!mType || id!=0"
+                                                        ng-model="range" value="0" ><i></i> 全校</label>
+            <label class="radio-inline i-checks"><input type="radio" name="Range"
+                                                        ng-disabled="mType==11||!mType || id!=0"
+                                                        ng-model="range" value="1"><i></i>
+              按班级</label>
+            <label class="radio-inline i-checks"><input type="radio" name="Range"
+                                                        ng-disabled="mType==13||mType==12||!mType ||id!=0"
+                                                        ng-model="range" value="10"><i></i>
+              按个人</label>
+            <label class="radio-inline i-checks"><input type="radio" name="Range"
+                                                        ng-disabled="mType==13||mType==12||!mType || id!=0"
+                                                        ng-model="range" value="3"><i></i>
+              老师群组</label>
+            <!--<span class="help-block m-b-none">示开通服务包购买的学校不在此范围内。</span>-->
+
+            <div class="panel panel-default student-area" ng-if="range == 1">
+              <div class="panel-heading"><i class="fa fa-list"></i> 选择要推送信息的班级列表(请先选择学校)</div>
+              <div class="panel-body">
+                <ui-select multiple ng-model="class.choiceClass" theme="bootstrap" ng-disabled="disabled">
+                  <ui-select-match placeholder="请选择班级">{{$item.FName}}</ui-select-match>
+                  <ui-select-choices group-by="someGroupFn" repeat="person in class.allList | propsFilter: {FName: $select.search}">
+                    <div ng-bind-html="person.FName | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+            <div class="panel panel-default student-area" ng-if="range == 10">
+              <div class="panel-heading"><i class="fa fa-list"></i> 请选择要进行心理测试的老师(请先选择学校)</div>
+              <div class="panel-body">
+                <div class="panel-body">
+                  <ui-select multiple ng-model="teacher.choiceTeacher" theme="bootstrap" ng-disabled="disabled">
+                    <ui-select-match placeholder="请选择老师">{{$item.MName}}</ui-select-match>
+                    <ui-select-choices group-by="someGroupFn" repeat="person in teacher.allList | propsFilter: {MName: $select.search}">
+                      <div ng-bind-html="person.MName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default student-area" ng-if="range == 3">
+              <div class="panel-heading"><i class="fa fa-list"></i> 选择要推送信息的老师群组(请先选择学校)</div>
+              <div class="panel-body">
+                <ui-select multiple ng-model="teacherGroup.choiceGroup" theme="bootstrap" ng-disabled="disabled">
+                  <ui-select-match placeholder="请选择老师群组">{{$item.FName}}</ui-select-match>
+                  <ui-select-choices group-by="someGroupFn" repeat="person in teacherGroup.allList | propsFilter: {FName: $select.search}">
+                    <div ng-bind-html="person.FName | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">备注：</label>
+
+          <div class="col-sm-6">
+            <textarea class="form-control" rows="3" ng-model="desc"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="button" class="btn w-xs btn-info" ng-click="confirm()">保存</button>
+            <button type="button" class="btn w-xs btn-default" ng-click="cancel()">取消</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>

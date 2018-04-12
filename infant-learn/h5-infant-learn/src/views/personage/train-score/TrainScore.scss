@@ -1,0 +1,223 @@
+.am-picker-popup-item {
+  color: #68c94c !important;
+}
+.current-block{
+  display: block;
+}
+.current-none{
+  display: none;
+}
+
+.train-score {
+  position: relative;
+  .fiexd-box {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    .circle-score {
+      background: #ffffff;
+      .score-year {
+        display: flex;
+        div {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          &:first-child {
+            span {
+              &:first-child {
+                color: rgb(104, 201, 76);
+              }
+            }
+          }
+          &:nth-of-type(2) {
+            span {
+              &:first-child {
+                color: rgb(253, 99, 15);
+              }
+            }
+          }
+          &:nth-of-type(3) {
+            span {
+              &:first-child {
+                color: rgb(44, 167, 253);
+              }
+            }
+          }
+          &:nth-of-type(4) {
+            span {
+              &:first-child {
+                color: rgb(255, 165, 2);
+              }
+            }
+          }
+          &:nth-of-type(5) {
+            span {
+              &:first-child {
+                color: rgb(162, 41, 207);
+              }
+            }
+          }
+          span {
+            &:first-child {
+              font-size: 0.3rem;
+              font-weight: 800;
+            }
+            &:last-child {
+              font-size: 0.26rem;
+              color: #a7a7a7;
+              margin-top: 0.1rem;
+            }
+          }
+        }
+      }
+      .total-score {
+        height: 0.8rem;
+        line-height: 0.8rem;
+        text-align: center;
+        color: #a7a7a7;
+      }
+    }
+    .select-date {
+      height: 1rem;
+      background: #ffffff;
+      padding: 0.2rem 0.5rem;
+      border-top: 0.2rem solid #dddddd;
+      margin-bottom: 0.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      div {
+        display: flex;
+        justify-content: space-between;
+        .errow-down {
+          width: 1.4rem;
+          height: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        &:last-child {
+          span {
+            font-size: 0.28rem;
+          }
+        }
+        span {
+          font-size: 0.32rem;
+          color: #a7a7a7;
+        }
+      }
+    }
+  }
+.page-top{
+  margin-top: 6.1rem;
+  overflow: hidden;
+}
+  .isView{
+    margin-top: 7.1rem;
+  }
+}
+
+.foo-menu {
+  position: relative;
+  z-index: 1000 !important;
+}
+.top-nav-bar {
+  position: relative;
+  z-index: 1000 !important;
+  border-bottom: 1px solid #DDDDDD;
+
+}
+.am-navbar-title {
+  color: #FFF!important;
+}
+.menu-active:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.4;
+}
+.role-title{
+  height: 0.9rem;
+  background: #ffffff;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.2rem;
+  border-bottom: 1px solid #DDDDDD;
+  div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.28rem;
+    color: #a7a7a7;
+    z-index: 10000 !important;
+  }
+}
+.menu-active:after{
+  top: 0.9rem;
+}
+//顶部角色切换菜单
+.foo-menu{
+  .am-list-body{
+    width: 100% !important;
+  }
+}
+//自定义顶部菜单
+.pannel{
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  ul{
+    flex: 1;
+    height: 7rem;
+    overflow-y: scroll;
+    z-index: 100;
+    li{
+      border-top: 1px solid #eeeeee;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      padding: 0 0.2rem;
+    }
+    .select-active{
+      background: #ffffff !important;
+    }
+    .member-active{
+      position: relative;
+    }
+    .member-active:after{
+      content: "\00a0";
+      display: inline-block;
+      border: 4px solid #68c94c;
+      border-top-width: 0;
+      border-right-width: 0;
+      width: 18px;
+      height: 10px;
+      -webkit-transform: rotate(-50deg);
+      position: absolute;
+      top:30px;
+      right:20px;
+    }
+ }
+  .pannel-left{
+    background: #eeeeee ;
+    li{
+      background: #eeeeee;
+    }
+  }
+  .pannel-right{
+    background: #ffffff;
+    li{
+      background: #ffffff;
+      &:active{
+        background: #eeeeee;
+      }
+    }
+  }
+}

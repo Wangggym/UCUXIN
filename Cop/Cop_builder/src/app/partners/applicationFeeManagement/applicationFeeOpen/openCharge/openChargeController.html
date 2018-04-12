@@ -1,0 +1,473 @@
+<div ng-controller="openChargeController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">开通收费
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap" ng-change="changeGid()">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.schoolList | filter: $select.search">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><b class="text-danger">*</b>产品：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.productPackageID" theme="bootstrap"
+                                       ng-change="productPackageChange()"
+                                       ng-disabled="model.selectedGid?false:true;">
+                                <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.productPackageList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deleteProductPackageID()" class="btn btn-default"
+                                        ng-disabled="model.selectedGid?false:true;"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>服务包：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.openProductId" theme="bootstrap"
+                                       ng-disabled="model.productPackageID?false:true;">
+                                <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.openProductList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.openProductId=undefined"
+                                        class="btn btn-default"
+                                        ng-disabled="model.productPackageID?false:true;" type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>班级：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.classId" theme="bootstrap"
+                                       ng-disabled="model.selectedGid?false:true;">
+                                <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ClassID as item in model.classList | filter: $select.search">
+                                    <div ng-bind-html="item.ClassName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.classId=undefined" class="btn btn-default"
+                                        ng-disabled="model.selectedGid?false:true;"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学生：</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="学生名称" ng-model="model.studentName">
+                            <span class="input-group-btn">
+                                <button ng-click="model.studentName=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>服务到期时间：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="model.dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <label>到</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="model.dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox m-l m-r-xs">
+                            <label class="i-checks">
+                                <input type="checkbox" ng-model="model.studentPack"
+                                       ng-checked="model.studentPack"><i></i>没有可购买服务包的学生
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success form-group" ng-click="search()"
+                            ng-disabled="model.selectedGid&&model.productPackageID?false:true">查询
+                    </button>
+                    <button type="submit" class="btn btn-primary form-group" ng-click="export()"
+                            ng-disabled="model.selectedGid&&model.productPackageID?false:true">导出
+                    </button>
+                    <button type="submit" class="btn btn-info form-group"
+                            ng-disabled="model.selectedGid&&model.productPackageID?false:true" ng-click="openTrial()">
+                        按班级批量开启试用
+                    </button>
+                    <button type="submit" class="btn btn-info form-group"
+                            style="background-color: #070b81;border-color:#070b81;"
+                            ng-disabled="model.selectedGid&&model.productPackageID?false:true" ng-click="cancelTrial()">
+                        按班级批量取消试用
+                    </button>
+                    <button type="submit" class="btn btn-danger form-group"
+                            ng-disabled="model.selectedGid&&model.productPackageID?false:true"
+                            ng-click="openServicePack()">
+                        按班级批量开启服务包
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学校</th>
+                    <th>班级</th>
+                    <th>学生</th>
+                    <th>产品</th>
+                    <th style="width: 10%;">开通的服务包（仅显示购买时间范围内）</th>
+                    <th>已购买的服务包</th>
+                    <th>服务到期时间</th>
+                    <th style="width: 10%;">可购买的服务包</th>
+                    <th>是否开启试用</th>
+                    <th>试用期</th>
+                    <th>开通服务包</th>
+                    <th>开通试用</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClassName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ProductName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.OpenCharge"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.BuyCharge"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.EDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CanBuyCharge"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.IsTryName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.TrySDateTryEDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-danger btn-xs" ng-click="cancelOpening(item)"
+                           ng-if="item.OpenCharge">取消开通</a>
+                        <a href="javascript:;" class="btn btn-success btn-xs" ng-click="opening(item)">开通</a>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-danger btn-xs" ng-click="cancelTrialModal(item)"
+                           ng-if="item.IsTry">取消试用</a>
+                        <a href="javascript:;" class="btn btn-success btn-xs" ng-click="openTrialModal(item)"
+                           ng-if="!item.IsTry">开启试用</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script type="text/ng-template" id="cancelOpeningModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">取消学生开通服务包</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.GName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>产品：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.ProductName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>学生：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.MName" ng-disabled="true">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">学生已开通未购买的服务包有：</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>操作</th>
+                            <th>服务包名称</th>
+                            <th>金额</th>
+                            <th>购买时间</th>
+                            <th>有效期</th>
+                        </tr>
+                        </thead>
+                        <tbody name="special">
+                        <tr st-select-row="row" ng-repeat="item in modal.openProductList">
+                            <td class="v-middle">
+                                <label class="i-checks">
+                                    <input type="checkbox" ng-click="checkedOne(modal.openProductList,$index)"><i></i>
+                                </label>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Amount"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.BuyDate"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Date"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="confirmCancel()">确认取消开通</button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+    <style>
+        .modal-content {
+            width: 700px;
+        }
+    </style>
+    <script type="text/ng-template" id="openingModalContent.html">
+
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">学生开通服务包</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.GName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>产品：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.ProductName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>学生：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.MName" ng-disabled="true">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">请选择要开通的服务包：</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
+                        <thead>
+                        <tr>
+                            <th>操作</th>
+                            <th>服务包名称</th>
+                            <th>金额</th>
+                            <th>购买时间</th>
+                            <th>有效期</th>
+                        </tr>
+                        </thead>
+                        <tbody name="special">
+                        <tr st-select-row="row" ng-repeat="item in modal.openProductList">
+                            <td class="v-middle">
+                                <label class="i-checks">
+                                    <input type="checkbox" ng-click="checkedOne(modal.openProductList,$index)"><i></i>
+                                </label>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Name"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.Amount"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.BuySDateEDate"></span>
+                            </td>
+                            <td class="v-middle">
+                                <span ng-bind="item.SDateDate"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="confirmCancel()">确认开通</button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="openTrialModalContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">开启试用</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="query-group-form form-inline">
+                <div class="form-group">
+                    <label>学校：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.GName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>产品：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.ProductName" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>学生：</label>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="modal.MName" ng-disabled="true">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <div class="panel-heading clearfix">
+                <h3 class="m-n font-bold h4 pull-left">服务时间范围</h3>
+            </div>
+            <div class="panel-body">
+                <form class="query-group-form form-inline">
+                    <div class="form-group">
+                        <label>试用期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="modal.dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <label> 到 </label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="modal.dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                        class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="modal.save()">开启</button>
+            <button type="submit" class="btn btn-default" ng-click="modal.close()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="cancelTrialModal.html">
+        <div class="panel-body">
+            <h2 style="text-align: center;">是否取消试用？</h2>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="confirm()">确定</button>
+            <button type="submit" class="btn btn-default" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

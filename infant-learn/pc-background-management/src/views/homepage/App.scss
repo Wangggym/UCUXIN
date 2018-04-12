@@ -1,0 +1,40 @@
+.header{
+  padding: 0 24px;
+  margin-bottom: 0!important;
+  .logo{
+    font-size: 20px;
+    color: #fff;
+    margin-right: 20px;
+    > i{
+      margin-right: 8px;
+    }
+  }
+  .icon-logo{
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -2px;
+    background: url("../../assets/images/logo.svg") no-repeat;
+  }
+
+  .user-info{
+    .user-pic{
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 8px;
+      background-size: cover;
+    }
+
+    .anticon-caret-down{
+      transform: scale(.65);
+    }
+  }
+}
+
+.menu-horizontal{
+  margin: 8px 0;
+  float: right;
+}

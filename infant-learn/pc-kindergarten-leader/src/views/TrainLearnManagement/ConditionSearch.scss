@@ -1,0 +1,53 @@
+// 表单分类
+.form-search-group {
+  > .ant-form-item {
+    margin-top: 5px;
+    padding-bottom: 5px;
+    &:first-child {
+      margin-top: 0;
+  }
+}
+  .line-block {
+    margin-right: 0;
+    display: flex;
+
+    .ant-form-item-label {
+      width: 75px;
+      text-align: right;
+  }
+    .ant-form-item-control-wrapper {
+      flex: 1;
+      .ant-form-explain{display: none}
+  }
+}
+
+  .ant-radio-wrapper, .ant-checkbox-wrapper {
+    .ant-radio, .ant-checkbox {
+      opacity: 0;
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+  }
+}
+
+  .ant-radio-wrapper-checked {
+    > span:last-child {
+      background-color: #108ee9;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      color: #fff;
+      border-radius: 3px;
+  }
+}
+
+  .ant-checkbox-checked + span {
+    background-color: #108ee9;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: #fff;
+    border-radius: 3px;
+}
+}
+
+  .create-question{
+    margin-top: 30px;
+}

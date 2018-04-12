@@ -1,0 +1,45 @@
+.cover-img{
+  position:relative;
+  .del-icon{
+    width:16px;
+    height:16px;
+    position:absolute;
+    right:2px;
+  }
+}
+.avatar-uploader,
+.avatar-uploader-trigger,
+.avatar {
+  width: 120px;
+  height: 90px;
+  position: relative;
+  overflow: hidden;
+  margin: -1px 0 0 -1px;
+  .ant-upload-list{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  &:hover{
+    border-color: #108ee9;
+
+    .anticon-plus{color: #108ee9}
+  }
+}
+.avatar-uploader {
+  display: block;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  color: #999;
+  .anticon-plus{
+    font-size: 28px;
+  }
+}

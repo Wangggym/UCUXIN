@@ -1,0 +1,160 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">新增刷卡区域
+  </h1>
+</div>
+<div class="wrapper-md" ng-controller="addArea">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="bs-example form-horizontal ng-pristine ng-valid col-lg-offset-1" role="form">
+        <div class="form-group">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>学校：</label>
+          <div class="input-group col-lg-2">
+            <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                       ng-change="changeGid()">
+              <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+              <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                 refresh="refreshAddresses($select.search)" refresh-delay="500">
+                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                        type="button">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>刷卡场景：</label>
+          <div class="input-group col-lg-2">
+            <select class="form-control" ng-model="model.clockType" ng-options="x.ID as x.Name for x in model.ClockTypeList"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>区域名称：</label>
+          <div class="input-group col-lg-2">
+            <input class="form-control m-b" ng-model="model.areaName" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>刷卡对象：</label>
+          <div class="input-group col-lg-2">
+            <div class="checkbox">
+              <label class="i-checks">
+                <input type="radio" ng-model="model.attendanceTarget" ng-click="clear()" value="1" name="type">
+                <i></i>
+                全校
+              </label>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.attendanceTarget" value="2" name="type">
+                <i></i>
+                按班级
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" ng-if="model.attendanceTarget == 2">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>刷卡范围：</label>
+          <div class="input-group col-lg-2">
+            <ui-select multiple ng-model="model.selectedClassList"  theme="bootstrap"
+                       on-remove="removed($item, $model)"
+                       close-on-select="false">
+              <ui-select-match placeholder="点击添加班级"  >{{$item.ClassName}}</ui-select-match>
+              <ui-select-choices
+                      repeat=" class in model.classList | propsFilter:{ ClassName:$select.search } ">
+                <div ng-bind-html="class.ClassName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>是否下发数据：</label>
+          <div class="input-group col-lg-2">
+            <div class="checkbox">
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isSendData"     ng-checked="true"   value="1" name="type1">
+                <i></i>
+                是
+              </label>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isSendData"       value="2" name="type1">
+                <i></i>
+                否
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="model.isSendData==1">
+          <label class="col-lg-2 control-label"><span class="spanColor">*</span>数据范围：</label>
+          <div class="input-group col-lg-2">
+            <div class="checkbox">
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isteacher"    ng-checked="true"      value="-11" name="type2">
+                <i></i>
+                全部
+              </label>
+              <span style="margin-left:35px;"></span>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isteacher"     value="13" name="type2">
+                <i></i>
+                学生
+              </label>
+              <span style="margin-left:20px;"></span>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isteacher"      value="11" name="type2">
+                <i></i>
+                教师
+              </label>
+            </div>
+
+            <div class="checkbox">
+
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isMen"    ng-checked="true"      value="-11" name="type3">
+                <i></i>
+                全部
+              </label>
+              <span style="margin-left:35px;"></span>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isMen"        value="1" name="type3">
+                <i></i>
+                男
+              </label>
+              <span style="margin-left:35px;"></span>
+              <label class="i-checks">
+                <input type="radio" ng-model="model.isMen"       value="0" name="type3">
+                <i></i>
+                女
+              </label>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-offset-2">
+            <button class="btn btn-info btn-md" ng-click="save()">
+              保存
+            </button>
+            <button class="btn btn-default" ui-sref="access.app.internal.schoolEquipment.attendanceAreaSetting">
+              返回
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .spanColor{
+    color: red;
+  }
+</style>

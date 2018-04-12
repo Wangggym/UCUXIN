@@ -1,0 +1,51 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">通用短信发送</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="panel-heading"></div>
+      <form class="query-group form-inline clearfix">
+        <div class="form-group">
+          <label>手机号码：</label>
+          <input type="text" class="form-control" ng-model="vm.queryFields.tel" placeholder="请输入查询的手机号码">
+        </div>
+
+        <button type="button" class="btn btn-info" ng-click="vm.search($event)"><i class="fa fa-search"></i> 查询</button>
+        <button type="button" class="btn btn-primary" ng-click="vm.save()"><i class="fa fa-plus"></i> 发送短信</button>
+      </form>
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+          <th>操作人</th>
+          <th>发送时间</th>
+          <th>手机号</th>
+          <th>短信内容</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="!vm.dataList">
+          <td colspan="8" class="prompt text-center">
+            <div class="alert alert-warning" role="alert">请输入条件查询，数据实时更新</div>
+          </td>
+        </tr>
+        <tr ng-repeat="item in vm.dataList">
+          <td>{{item.UName}}</td>
+          <td>{{item.CDate| date: 'yyyy-MM-dd'}}</td>
+          <td>{{item.Tel}}</td>
+          <td>{{item.Cont}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer pagination-bar" ng-hide="!vm.pagination.TotalRecords">
+        <span>页码: {{vm.pagination.PageIndex}} / {{vm.pagination.Pages}}</span>
+        <pagination total-items="vm.pagination.TotalRecords" ng-model="vm.pagination.PageIndex"
+                    max-size="vm.pagination.MaxSize" items-per-page="vm.pagination.PageSize"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="vm.pagination.Pages" previous-text="上页"
+                    next-text="下页" first-text="首页"
+                    last-text="末页" ng-change="vm.search()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

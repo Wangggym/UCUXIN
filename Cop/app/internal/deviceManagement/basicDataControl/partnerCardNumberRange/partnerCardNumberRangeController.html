@@ -1,0 +1,132 @@
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">合作伙伴卡号号段</h1>
+</div>
+<div class="wrapper-md" ng-controller="partnerCardNumberRangeController">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info" data-ng-click="open(list)">添加号段</button>
+                </div>
+            </form>
+
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>号段</th>
+                    <th>已申请额度</th>
+                    <th>当前已分配的最大卡号</th>
+                    <th>已初始化数量</th>
+                    <th>已绑定数量</th>
+                    <th>已注销数量</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in list ">
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <div><a ng-bind="item.OrgName"></a></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted"> {{item.CardNoHeader}}xxxxxx</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-1">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="item.ApplyCnt"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="item.MaxCardNo"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ><span ng-bind="item.InitCnt"></span></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ><span ng-bind="item.BindCnt"></span></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1" class="col-lg-2">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ><span ng-bind="item.CancelCnt"></span></p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <script type="text/ng-template"  id="myModalContentPCNRC.html" >
+        <div class="modal-body wrapper-lg" >
+            <div class="row">
+                <div class="col-sm-12">
+                        <h3 class="m-t-none m-b font-thin">添加号段</h3>
+                        <form role="form" class="bs-example form-horizontal ng-pristine ng-valid" >
+                            <div class="form-group" >
+                                <label class="control-label col-lg-2">合作伙伴</label>
+                                <div class="col-lg-4 input-group">
+                                    <ui-select ng-model="newModel.partner" theme="bootstrap" ng-change="changePartner()">
+                                        <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                                        <ui-select-choices repeat="item.OrgID as item in newModel.partnerList | filter: $select.search">
+                                            <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<select class="form-control" ng-model="newModel.partner"-->
+                                            <!--ng-options="x.OrgID as x.Name for x in newModel.partnerList">-->
+                                    <!--</select>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">号段头</label>
+                                <div class="col-lg-6" style="padding: 0;">
+                                    <input type="text" maxlength="3"
+                                           onkeyup='this.value=this.value.replace(/\D/gi,"")'
+                                           class="form-control" placeholder="请填入三位整数" ng-model="newModel.cardHead">
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2" >
+                                <button type="submit" class="btn btn-sm btn-success text-uc m-t-n-xs" ng-click="ok()"><strong>添加</strong></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </script>
+<style>
+    .ui-select-toggle{
+        width:200px !important;
+    }
+    .ui-select-search{
+        width: 200px !important;
+    }
+</style>

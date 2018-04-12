@@ -1,0 +1,143 @@
+<div class="add-question"><button type="button" class="btn btn-info" ng-click="addFactorDefinition()"><i class="fa fa-plus"></i> 新增</button></div>
+<table class="table table-hover table-bordered psychological-question">
+  <thead>
+  <tr>
+    <th style="width: 20%">因子名称</th>
+    <th style="width: 120px;" ng-hide="true">标准分</th>
+    <th style="width: 20%">计算公式</th>
+    <th>备注</th>
+    <th style="width: 150px;">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="!factorDefinitionList.length"><td colspan="6" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addFactorDefinition()" class="alert-link">请添加因子</a></td></tr>
+  <tr ng-repeat="factor in factorDefinitionList">
+    <td>{{factor.Name}}</td>
+    <td ng-hide="true">{{factor.StandardScore}}</td>
+    <td>{{factor.Rule}}</td>
+    <td>{{factor.Remark}}</td>
+    <td>
+      <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="editFactorDefinition(factor)" title="编辑"><i class="fa fa-edit"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="delFactorDefinition(factor)" title="删除"><i class="fa fa-trash-o"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<script type="text/ng-template" id="addFactorDefinition.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus': !factor.ID, 'fa-edit': factor.ID}"></i> {{addFactorTitle }}因子</h3>
+  </div>
+  <div class="modal-body form-validation factor-add-definition">
+    <div class="form-group factor-rule">
+      <label><b class="text-danger">*</b> 因子名称：</label>
+      <input type="text" class="form-control" ng-model="factor.Name" placeholder="因子名称" required >
+    </div>
+    <div class="form-group factor-rule" ng-show="false">
+      <label>标准分：</label>
+      <input type="text" class="form-control" ng-model="factor.StandardScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="由数字组成" required>
+    </div>
+    <div class="form-group factor-rule">
+      <label><b class="text-danger">*</b> 计算公式：</label>
+      <textarea  rows="3" class="form-control" ng-model="factor.Rule" ng-pattern="/^([\+\-\*\/\{\}\(\)\d]*|[+-]?\d+\.?\d*)$/" placeholder="公式由数字、加、减、乘、除、括号组成" required ></textarea>
+      <span class="help-block">示例：({2}+3)*4-{3}/5</span>
+    </div>
+    <div class="form-group factor-rule">
+      <label>备注：</label>
+      <textarea class="form-control" ng-model="factor.Remark" rows="3" placeholder="备注" required></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="confirm()">确认</button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</script>
+<!--[\(\)\.\+\-\*\/]-->
+
+<!--<div class="add-question"><button type="button" class="btn btn-info" ng-click="addFactorDefinition()"><i class="fa fa-plus"></i> 新增因子定义</button></div>
+<table class="table table-hover table-bordered psychological-question">
+  <thead>
+  <tr>
+    <th style="width: 60px;">序号</th>
+    <th style="width: 20%">因子名称</th>
+    <th style="width: 120px;">标准分</th>
+    <th style="width: 20%">计算公式</th>
+    <th>备注</th>
+    <th style="width: 150px;">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="!factorDefinitionList.length"><td colspan="6" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addFactorDefinition()" class="alert-link">请添加因子定义</a></td></tr>
+  <tr ng-repeat="factor in factorDefinitionList">
+    <td data-id="{{factor.id}}">{{ $index + 1}}</td>
+    <td>{{factor.name}}</td>
+    <td>{{factor.score}}</td>
+    <td>{{factor.formula}}</td>
+    <td>{{factor.remark}}</td>
+    <td>
+      <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="editFactorDefinition(factor)"><i class="fa fa-edit"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="delFactorDefinition(factor)"><i class="fa fa-trash-o"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<script type="text/ng-template" id="addFactorDefinition.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus': !factor.id, 'fa-edit': factor.id}"></i> {{addFactorTitle }}因子定义</h3>
+  </div>
+  <div class="modal-body form-validation factor-add-definition">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group factor-rule">
+          <label>因子名称：</label>
+          <input type="text" class="form-control" ng-model="factor.name" placeholder="因子名称" required >
+        </div>
+        <div class="form-group factor-rule">
+          <label>标准分：</label>
+          <input type="text" class="form-control" ng-model="factor.score" ng-pattern="/^\d{0,2}$/" placeholder="由数字组成" required >
+        </div>
+        <div class="form-group factor-rule">
+          <label>备注：</label>
+          <textarea class="form-control" ng-model="factor.remark" rows="3" placeholder="备注" required></textarea>
+        </div>
+        <div class="alert alert-info">提示： 计算公式由题号加上运算符组成，在编辑计算公式时请注意公式的准备确性</div>
+      </div>
+      <div class="col-sm-8">
+
+        <div class="form-group factor-rule">
+          <label>计算公式：</label>
+          <input type="text" class="form-control" ng-model="factor.formula" ng-pattern="/^[0-9\(\)\.\+\-\*\/]*$/" placeholder="公式由数字、加、减、乘、除、括号组成" required >
+        </div>
+        <div class="form-group factor-rule">
+          <label>运算规则：</label>
+          <ul  class="factor-count">
+            <li data-id="0">(</li>
+            <li data-id="0">)</li>
+            <li data-id="0">＋</li>
+            <li data-id="0">－</li>
+            <li data-id="0">×</li>
+            <li data-id="0">÷</li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <label>题库列表：</label>
+          <ul class="factor-question">
+            <li data-id="1"><label class="i-checks checkbox"><input type="checkbox" name="question"><i></i>1Test
+              Question</label></li>
+
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="confirm()">确认</button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+  </div>
+</script>-->
+

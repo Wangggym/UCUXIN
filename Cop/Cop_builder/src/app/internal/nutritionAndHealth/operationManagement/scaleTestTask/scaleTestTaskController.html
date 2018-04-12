@@ -1,0 +1,139 @@
+<div ng-controller="scaleTestTaskController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">测试任务
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>学校：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.selectedGid" theme="bootstrap">
+                                <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.selectedGid=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>问卷名称：</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="问卷名称" ng-model="model.name">
+                            <span class="input-group-btn">
+                                <button ng-click="model.name=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>状态：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.status" theme="bootstrap" ng-change="selectStatus()">
+                                <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.statusList">
+                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.status=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info"
+                            ui-sref="access.app.internal.nutritionHealth.addScaleTestTask">
+                        新增
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>问卷名称</th>
+                    <th>学校</th>
+                    <th>开始日期</th>
+                    <th>结束日期</th>
+                    <th>测试人数</th>
+                    <th>测试总人数</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ScaName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.TopGName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.BDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.EDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a ng-bind="item.TestCount" class="text-info-lt" ng-if="item.TestCount"
+                           ui-sref="access.app.internal.nutritionHealth.getTestPeople({orderID:'{{item.ID}}',TopGID:'{{item.TopGID}}'})"></a>
+                        <span ng-bind="item.TestCount" ng-if="!item.TestCount"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.TotalCount"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Desc"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-success btn-xs" ng-disabled="item.IsOwn"
+                           ng-click="sendNotifications(item)" ng-bind="item.IsOwn?item.IsOwnName:'发送提醒'"></a>
+                        <a href="javascript:;" class="btn btn-primary btn-xs"
+                           ui-sref="access.app.internal.nutritionHealth.addScaleTestTask({Name:'{{item.Name}}',TopGName:'{{item.TopGName}}',TopGID:'{{item.TopGID}}',ScaID:'{{item.ScaID}}',BDate:'{{item.BDate}}',EDate:'{{item.EDate}}',Desc:'{{item.Desc}}'})">查看详情</a>
+
+                        <div class="btn-group" dropdown>
+                            <a href="javascript:;" class="btn btn-danger btn-xs" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                        <a href="javascript:;" class="btn btn-info btn-xs" ng-if="item.TestCount"
+                           ng-click="exportData(item)">导出数据</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

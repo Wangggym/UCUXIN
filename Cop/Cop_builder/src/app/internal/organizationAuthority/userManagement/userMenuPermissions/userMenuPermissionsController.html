@@ -1,0 +1,94 @@
+<div ng-controller="userMenuPermissionsController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">用户菜单权限
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>组织机构：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.partners" theme="bootstrap" ng-change="selectPartner()">
+                                <ui-select-match placeholder="请选择组织机构">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.OrgID as item in model.partnersList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deletePartners()" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">用户名</label>
+                        <input type="text" class="form-control" placeholder="用户名" ng-model="model.name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="三级菜单名称" ng-model="model.threeMenuName">
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info"
+                            ui-sref="access.app.internal.userManagementInternal.addUserMenuPermissions">
+                        添加权限
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>组织机构</th>
+                    <th>组织类型</th>
+                    <th>用户名</th>
+                    <th>一级菜单</th>
+                    <th>二级菜单</th>
+                    <th>三级菜单</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="item.OrgName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.OrgTypeName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a ng-bind="item.UName" class="text-info-lt"
+                           ui-sref="access.app.internal.userManagementInternal.addUserMenuPermissions({OrgID:'{{item.OrgID}}',UID:'{{item.UID}}'})"></a>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName2"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.MenuName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <div class="btn-group" dropdown>
+                            <a class="btn btn-sm btn-primary btn-danger" dropdown-toggle>删除</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="confirm(item)" href>确定</a></li>
+                                <li><a href>取消</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

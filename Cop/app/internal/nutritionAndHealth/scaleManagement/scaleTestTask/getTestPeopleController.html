@@ -1,0 +1,129 @@
+<div ng-controller="getTestPeopleController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">已测试人员清单
+            <button type="submit" class="pull-right btn btn-default" name="return"
+                    ui-sref="access.app.internal.nutritionScalMannage.scaleTestTask">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>班级：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.classID" theme="bootstrap" ng-change="selectClassId()">
+                                <ui-select-match placeholder="请选择班级">{{$select.selected.SchoolClassName}}
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.SchoolClassID as item in model.classList | filter: $select.search">
+                                    <div ng-bind-html="item.SchoolClassName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.classID=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学生：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.umid" theme="bootstrap">
+                                <ui-select-match placeholder="请选择学生">{{$select.selected.MName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.UMID as item in model.studentList | filter: $select.search">
+                                    <span ng-bind-html="item.MName | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.umid=undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>开始日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>结束日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                        查询
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>学校名称</th>
+                    <th>班级名称</th>
+                    <th>姓名</th>
+                    <th>测试时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">
+                        <span ng-bind="$index + 1"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.OrderName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.TopGName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClassName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.UName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.EDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <button class="btn btn-sm btn-info" ng-click="viewResults(item)">
+                            查看结果
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

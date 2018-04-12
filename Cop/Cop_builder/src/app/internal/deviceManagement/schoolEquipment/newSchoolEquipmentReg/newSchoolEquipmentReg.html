@@ -1,0 +1,163 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">新学校设备登记
+  </h1>
+</div>
+<div class="wrapper-md" ng-controller="newSchoolEquipmentRegController">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="query-group-form form-inline" role="form">
+        <div class="form-group">
+          <label><span class="spanColor">*</span>学校：</label>
+
+          <div class="input-group">
+            <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                       ng-change="changeGid()">
+              <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+              <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                 refresh="refreshAddresses($select.search)" refresh-delay="500">
+                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+          </div>
+        </div>
+        <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+          查询
+        </button>
+        <button type="submit" class="form-group btn btn-primary"
+                ui-sref="access.app.internal.schoolEquipment.addEq">
+          新增设备
+        </button>
+        <button type="submit" class="form-group btn btn-info" ng-click="appAddress()">
+          发起升级App
+        </button>
+        <button type="submit" class="form-group btn btn-info" ng-click="export()">
+          导出所有设备
+        </button>
+      </form>
+    </div>
+    <table class="table table-bordered table-hover table-condensed bg-white-only">
+      <thead>
+      <tr>
+        <th style="width:20px;">
+          <label class="i-checks m-b-none" ng-click="selectAll()">
+            <input type="checkbox" ng-model="model.isAll"><i></i>
+          </label>
+        </th>
+        <th>设备编号</th>
+        <th>设备安装位置</th>
+        <th>考勤区域/车辆</th>
+        <th>考勤类型</th>
+        <th>设备供应商</th>
+        <th>设备名称</th>
+        <th>设备类型</th>
+        <th>最后联机时间</th>
+        <th>进出区分模式</th>
+        <th>进出</th>
+        <th>状态</th>
+        <th style="width: 150px">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr st-select-row="row" ng-repeat="item in model.list">
+        <td>
+          <label class="i-checks m-b-none">
+            <input type="checkbox" ng-model="item.selected"><i></i>
+          </label>
+        </td>
+
+        <td class="v-middle">
+          <span ng-bind="item.ENO"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.Desc"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.ClockAreaName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.ClockTypeName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.SupplierName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.SupplierEqName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.EqTypeName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.AccessDate"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.InOutModelName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.InOutName"></span>
+        </td>
+        <td class="v-middle">
+          <span ng-bind="item.STName"></span>
+        </td>
+        <td class="v-middle" style="width: 150px">
+          <button class="btn btn-info btn-sm" ng-click="goToEdit(item.ID)">编辑</button>
+          <button class="btn btn-danger  btn-sm" ng-click="openDelModal(item)">删除</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <script type="text/ng-template" id="newDelEq.html">
+    <div class="panel no-border">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          删除
+        </h3>
+      </div>
+      <div class="panel-body">
+        即将删除的设备编号为：<span ng-bind="item.ENO"></span>？
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-info" ng-click="confirm()">确定</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+      </div>
+    </div>
+  </script>
+  <script type="text/ng-template" id="newUpdateApp.html">
+    <div class="panel no-border">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          发起App升级
+        </h3>
+      </div>
+      <div class="panel-body">
+        <form class="query-group-form form-inline" style="text-align: center" role="form">
+          <div class="form-group">
+            <label><span class="spanColor">*</span>app升级地址：</label>
+            <div class="input-group">
+              <input type="text" style="width:240px;" ng-model="appAddress" class="form-control">
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="submit" class="btn btn-info" ng-click="confirm()">确定</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+      </div>
+    </div>
+  </script>
+</div>
+<style>
+  .ui-select-toggle{
+    width:200px !important;
+  }
+  .ui-select-search{
+    width: 200px !important;
+  }
+</style>

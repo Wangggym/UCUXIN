@@ -1,0 +1,272 @@
+<div ng-controller="watchUserListController">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"> 用户管理--受众用户
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default" style="position:relative;">
+
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group" style="width: 100%;">
+                        <div class="input-group" style="width: 20%;float: right;">
+                            <input type="text" class="input-sm form-control" ng-model="modelAudience.keyword" placeholder="请输入用户名/账号">
+                            <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-default" type="button" style="width: 100%" ng-click="BtnSearch()">Go!</button>
+                                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group"  style="margin: -60px 0 0 0;width:25%;"  ng-show="model.OrgLevel==1" >
+                        <label style="width: 70px;text-align-last: justify;">合作伙伴：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="model.ptnID" theme="bootstrap"  >
+                                <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.ID as item in model.ptnList     | filter: $select.search"
+                                        refresh="refreshPntList($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                            <button ng-click="model.ptnID=undefined" class="btn btn-default"
+                                    type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group" style="margin: -75px 0 0 0; width:25%;">-->
+                        <!--<label> 市：</label>-->
+                        <!--<div class="input-group">-->
+                            <!--<ui-select ng-model="modelAudience.s_city" theme="bootstrap" ng-change="selectCity(modelAudience.s_city)"-->
+                                       <!--style="min-width:130px;" ng-disabled="modelAudience.s_province?false:true">-->
+                                <!--<ui-select-match placeholder="请选择市">{{$select.selected.name}}</ui-select-match>-->
+                                <!--<ui-select-choices-->
+                                        <!--repeat="item.id as item in modelAudience.cityList | filter: $select.search">-->
+                                    <!--<div ng-bind-html="item.name | highlight: $select.search"></div>-->
+                                <!--</ui-select-choices>-->
+                            <!--</ui-select>-->
+                            <!--<span class="input-group-btn">-->
+                                                <!--<button ng-click="deleteCity()" class="btn btn-default"-->
+                                                        <!--type="button" ng-disabled="modelAudience.s_province?false:true">-->
+                                                    <!--<span class="glyphicon glyphicon-trash"></span>-->
+                                                <!--</button>-->
+                                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group" style="margin: -75px 0 0 0; width:25%;">-->
+                        <!--<label> 县：</label>-->
+                        <!--<div class="input-group">-->
+                            <!--<ui-select ng-model="modelAudience.s_county" theme="bootstrap"-->
+                                       <!--style="min-width:130px;" ng-disabled="modelAudience.s_city?false:true">-->
+                                <!--<ui-select-match placeholder="请选择县">{{$select.selected.name}}</ui-select-match>-->
+                                <!--<ui-select-choices-->
+                                        <!--repeat="item.id as item in modelAudience.countyList | filter: $select.search">-->
+                                    <!--<div ng-bind-html="item.name | highlight: $select.search"></div>-->
+                                <!--</ui-select-choices>-->
+                            <!--</ui-select>-->
+                            <!--<span class="input-group-btn">-->
+                                                <!--<button ng-click="modelAudience.s_county = undefined" class="btn btn-default"-->
+                                                        <!--type="button" ng-disabled="modelAudience.s_city?false:true">-->
+                                                    <!--<span class="glyphicon glyphicon-trash"></span>-->
+                                                <!--</button>-->
+                                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="form-group" style="margin: -60px 0 0 0;width:25%;" >
+                        <label style="width: 80px;text-align-last: justify;"> 学校/组织：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="modelAudience.s_school" theme="bootstrap" ng-change="choiceSchool()">
+                                <ui-select-match  placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in modelAudience.schoolList | filter: $select.search" refresh="refreshSchool($select.search)" refresh-delay="1000">
+                                    <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                                <button ng-click="modelAudience.s_school = undefined" class="btn btn-default"
+                                                        type="button"  >
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group" style="margin: 0px 0 0 0; width:25%;">
+                        <label style="width: 70px;text-align-last: justify;">班级：</label>
+                        <div class="input-group">
+                            <ui-select ng-model="modelAudience.s_class" theme="bootstrap" ng-change="changeClass()"
+                                       style="min-width:130px;width: 180px;" ng-disabled="modelAudience.s_school?false:true">
+                                <ui-select-match placeholder="请选择班级">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.GID as item in modelAudience.classList | filter: $select.search">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                                <button ng-click="modelAudience.s_class = undefined" class="btn btn-default"
+                                                        type="button" ng-disabled="modelAudience.s_school?false:true">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group"  style="margin: 0px 0 0 0;width:25%;" >
+                        <!--状态选择-->
+                        <label style="width: 80px;text-align-last: justify;">状态：</label>
+                        <div class="input-group" style="width: 220px;">
+                            <ui-select ng-model="modelAudience.s_state"
+                                       theme="bootstrap"  >
+                                <ui-select-match placeholder="请选择状态">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in modelAudience.stateList| filter: $select.search"  >
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <!--排序按钮-->
+                    <div style="float: right;">
+                        <button class="btn btn-default btn-sm" id="isCmtCnt" ng-click="pre_sort(1)">按评论量<span ng-show="modelAudience.isCmtCnt">升序</span><span ng-show="!modelAudience.isCmtCnt">降序</span></button>
+                        <button class="btn btn-default btn-sm" id="isShareCnt"  ng-click="pre_sort(2)">按点分享量<span ng-show="modelAudience.isShareCnt">升序</span><span ng-show="!modelAudience.isShareCnt">降序</span> </button>
+                        <button class="btn btn-default btn-sm" id="isFavCnt"  ng-click="pre_sort(3)">按收藏量<span ng-show="modelAudience.isFavCnt">升序</span><span ng-show="!modelAudience.isFavCnt">降序</span></button>
+                        <button class="btn btn-default btn-sm" id="isPlayHours"  ng-click="pre_sort(4)">按时长<span ng-show="modelAudience.isPlayHours">升序</span><span ng-show="!modelAudience.isPlayHours">降序</span></button>
+                        <style>
+                            .sortActive{color: #f60 !important;box-shadow: 1px 1px 1px 1px #ccc;}
+                        </style>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th style="width: 55px;"> </th>
+                    <th>用户名</th>
+                    <th>合作伙伴</th>
+                    <th>性别</th>
+                    <th>帐号</th>
+                    <!--<th>所在市</th>-->
+                    <!--<th>所在县/区</th>-->
+                    <th>所在机构</th>
+                    <th>所在班级</th>
+                    <th>注册时间</th>
+                    <th>观看总时长</th>
+                    <th>评论量</th>
+                    <th>分享量</th>
+                    <th>收藏量</th>
+                    <th>点赞量</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody class="liveListBox">
+                <tr>
+                    <td colspan="17" class="prompt text-center" data-ng-show="modelAudience.itemList.length==0">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...
+                        </div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in modelAudience.itemList">
+                    <td><label class="i-checks"><input type="checkbox" ng-model="item.checked"
+                                                       ng-click="checkedSingle(item.checked, item.ID)"><i></i></label>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.UserName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PtnName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Gender"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Tel"></span>
+                    </td>
+
+
+                    <!--<td class="v-middle">-->
+                        <!--<span ng-bind="item.City"></span>-->
+                    <!--</td>-->
+                    <!--<td class="v-middle">-->
+                        <!--<span ng-bind="item.County"></span>-->
+                    <!--</td>-->
+
+                    <td class="v-middle">
+                        <span ng-bind="item.GrpName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ClassName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.RegisterDate"></span>
+                    </td>
+                    <td class="v-middle">
+                        <a class="btn btn-xs btn-primary" ng-click="toWacthRecordList(item)">
+                            <span ng-bind="item.PlayHours"></span>H
+                        </a>
+                    </td>
+
+                    <td class="v-middle">
+                        <span ng-bind="item.CmtCnt"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ShareCnt"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.FavCnt"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PraiseCnt"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.StatusName"></span>
+                    </td>
+                    <td>
+                        <a href="javascript:;" ng-show="item.Status==0 || item.Status==-1" class="btn btn-xs btn-danger" title="封号" ng-click="Disable(item)">封号</a>
+                        <a href="javascript:;" ng-show="item.Status==0" class="btn btn-xs btn-primary" title="禁言" ng-click="Shutup(item)">禁言</a>
+                        <a href="javascript:;" ng-show="item.Status==-2 || item.Status==-1" class="btn btn-xs btn-success" title="开启" ng-click="Start(item)">开启</a>
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="17" class="prompt text-center"  >
+                        <div style="text-align: left; padding: 10px 10px;">
+                            <label class="i-checks"><input type="checkbox" ng-model="checkedAllC" id="chekcallC"
+                                                           ng-click="checkAll(checkedAllC)"><i></i>全选</label>
+                            <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="DisableAll(true)">封号</a>
+                            <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="ShutupAll(true)">禁言</a>
+                            <a href="" style="margin-left: 10px;color: #00a0e9;"ng-click="DisableAll(false)">开启</a>
+                        </div>
+
+                    </td>
+
+                </tr>
+                </tbody>
+
+
+
+
+            </table>
+            <page-Directive options="pageIndex"  ></page-Directive>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/ng-template" id="pushMsgDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title" style="font-weight: 100">{{msgTitle}}</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">{{msgDetail}}</div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-info m-r-lg" ng-click="cancel()">取消</button>
+        <button class="btn btn-info  btn-danger m-l-lg" ng-click="cancelDelet()">确认</button>
+    </div>
+</script>

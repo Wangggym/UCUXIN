@@ -1,0 +1,91 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">缴费异常数据处理</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="query-group form-inline clearfix">
+        <div class="form-group">
+          <label>学校：</label>
+          <div class="input-group">
+          <ui-select ng-model="queryFields.school" theme="bootstrap" reset-search-input="false">
+            <ui-select-match placeholder="请输入关键字查询">{{$select.selected.FName}}</ui-select-match>
+            <ui-select-choices repeat="school.ID as school in schoolList | filter: $select.search">
+              <span ng-bind-html="school.FName"></span>
+            </ui-select-choices>
+          </ui-select>
+          <span class="input-group-btn">
+                          <button type="button" ng-click="queryFields.school = undefined"
+                                  ng-disabled="!queryFields.school" class="btn btn-default">
+                          <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                      </span>
+        </div>
+        </div>
+        <div class="form-group">
+          <div class="radio">
+            <label class="radio-inline i-checks">
+              <input type="radio" ng-model="queryFields.st" name="handle" value="0"><i></i> 未处理
+            </label>
+            <label class="radio-inline i-checks">
+              <input type="radio" ng-model="queryFields.st" name="handle" value="1"><i></i> 已处理
+            </label>
+          </div>
+        </div>
+        <button type="button" class="btn w-xs btn-info" ng-click="submitQuery()">查询</button>
+      </form>
+      <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+          <th>原学校</th>
+          <th>原班级</th>
+          <th>原学生姓名</th>
+          <th>原家长电话</th>
+          <th>原UMID</th>
+          <th>原服务包</th>
+          <th>原订单ID</th>
+          <th>新学校</th>
+          <th>新班级</th>
+          <th>新学生姓名</th>
+          <th>新家长电话</th>
+          <th>新UMID</th>
+          <th>状态</th>
+          <th>说明</th>
+          <th ng-if="!dataList[0].ST">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="!dataList"><td colspan="22" class="prompt text-center"><div class="alert alert-warning" role="alert">请输入条件查询，数据实时更新</div></td></tr>
+        <tr ng-repeat="item in dataList">
+          <td>{{item.GName}}</td>
+          <td>{{item.ClassName}}</td>
+          <td>{{item.UName}}</td>
+          <td>{{item.Tel}}</td>
+          <td>{{item.UMID}}</td>
+          <th>{{item.ChargeName}}</th>
+          <th>{{item.OrderID}}</th>
+          <th>{{item.NewGName}}</th>
+          <td>{{item.NewClassName}}</td>
+          <td>{{item.NewUName}}</td>
+          <td>{{item.NewTel}}</td>
+          <td>{{item.NewUMID}}</td>
+          <td>{{item.ST ? '已':'未'}}处理</td>
+          <td>{{item.Desc}}</td>
+          <td ng-if="!item.ST">
+            <button type="button" class="btn btn-success btn-xs" ng-click="modify(item)">修改</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+        <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+        <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                    max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                    class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                    num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                    next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                    last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

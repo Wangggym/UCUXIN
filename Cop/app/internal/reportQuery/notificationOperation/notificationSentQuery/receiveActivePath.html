@@ -1,0 +1,121 @@
+<form class="form-inline" role="form" ng-controller="notificationSentQueryReceiveController">
+    <div class="panel-body">
+        <div class="form-group form-inline">
+            <label><span class="spanColor">*</span>学校：</label>
+
+            <div class="input-group">
+                <ui-select ng-model="model.selectedReceiveGid" theme="bootstrap"
+                           ng-change="selectModelGidReceive()">
+                    <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="item.GID as item in model.schoolReceiveList | filter: $select.search"
+                            refresh="refreshAddressesReceive($select.search)" refresh-delay="500">
+                        <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                    <span class="input-group-btn">
+                        <button ng-click="deleteModelGidReceive()"
+                                class="btn btn-default"
+                                type="button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><span class="spanColor">*</span>开始日期：</label>
+
+            <div class="input-group w-sm">
+                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                       ng-model="model.dateStart" ng-disabled="true"
+                       is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><span class="spanColor">*</span>结束日期：</label>
+
+            <div class="input-group w-sm">
+                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                       ng-model="model.dateOver" ng-disabled="true"
+                       is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                       close-text="确定" current-text="今天" clear-text="清除" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="sr-only">发送人</label>
+            <input type="text" class="form-control" placeholder="发送人" ng-model="model.sendName">
+        </div>
+        <div class="form-group">
+            <label class="sr-only">接收人</label>
+            <input type="text" class="form-control" placeholder="接收人" ng-model="model.receiveName">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" data-ng-click="searchReceive()"
+                    ng-disabled="model.selectedReceiveGid&&model.dateOver&&model.dateStart?false:true">
+                查询
+            </button>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover table-condensed bg-white-only">
+        <thead>
+        <tr>
+            <th>学校</th>
+            <th>类型</th>
+            <th>发送人</th>
+            <th>接收人</th>
+            <th>发送范围</th>
+            <th>发送时间</th>
+            <th>状态</th>
+            <th>接收时间</th>
+            <th>接收短信</th>
+            <th>信息内容</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" ng-repeat="item in model.receiveList">
+            <td class="v-middle">
+                <span>{{item.SchName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.InfoSTypeName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SendName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.RvName}}</span>
+            </td>
+            <td class="v-middle">
+                <span ng-show="item.SendTarget.length>10?false:true">{{item.SendTarget}}</span>
+                <span ng-show="item.SendTarget.length>10?true:false" popover="{{item.SendTarget}}"
+                      popover-trigger="mouseenter">{{item.SendTarget.substring(0,10) + '...'}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.SendDate}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.IsRvName}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.RvDate}}</span>
+            </td>
+            <td class="v-middle">
+                <span>{{item.IsRvSmsName}}</span>
+            </td>
+            <td class="v-middle">
+                <span popover="{{item.InfoContName}}" popover-trigger="mouseenter">{{item.InfoCont}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <page-Directive options="pageIndexReceive"></page-Directive>
+</form>

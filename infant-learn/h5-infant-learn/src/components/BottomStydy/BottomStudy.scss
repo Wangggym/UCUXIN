@@ -1,0 +1,71 @@
+.fiexd-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  .bottom-operation {
+
+    height: 1.1rem;
+    background: #fafafb;
+    display: flex;
+
+    justify-content: space-between;
+    .left-btn, .right-btn {
+      display: flex;
+      font-size: 0.3rem;
+      color: #888;
+    }
+    .left-btn {
+      div {
+        width: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        padding: 0.1rem;
+        font-size: 0.26rem;
+        i {
+          flex: 1;
+
+        }
+        .icon-collect {
+          background: url("../../assets/images/ic_collection.png") no-repeat center;
+          background-size: 39% 80%;
+        }
+        .icon-collect-action {
+          background: url("../../assets/images/ic_collection_focus.png") no-repeat center;
+          background-size: 39% 80%;
+        }
+        .icon-transpond {
+          background: url("../../assets/images/share_def.png") no-repeat center;
+          background-size: 45% 80%;
+        }
+        .icon-transpond-action {
+          background: url("../../assets/images/share_.png") no-repeat center;
+          background-size: 45% 80%;
+        }
+        span {
+          width: 100%;
+          text-align: center;
+        }
+
+      }
+    }
+    .right-btn {
+      .goto-study,.price,.sign-in{
+        width: 1.6rem;
+        background: #43b622;
+        line-height: 1.1rem;
+        text-align: center;
+        color: #ffffff;
+      }
+      .btn-grey{
+        background: #999999 !important;
+      }
+      .price{
+        background: none;
+        color: #fd630f;
+      }
+      .sign-in{
+        background: #fd630f;
+      }
+    }
+  }
+}

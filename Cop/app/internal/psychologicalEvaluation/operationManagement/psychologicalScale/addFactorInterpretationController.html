@@ -1,0 +1,103 @@
+<div class="add-question"><button type="button" class="btn btn-info" ng-click="addFactorInterpretation()"><i class="fa fa-plus"></i> 新增</button></div>
+<table class="table table-hover table-bordered psychological-question">
+  <thead>
+  <tr>
+    <th style="width: 240px;">因子名称</th>
+    <th style="width: 60px">性别</th>
+    <th style="width: 120px">年龄范围</th>
+    <th style="width: 120px">得分范围</th>
+    <th>解释内容</th>
+    <th style="width: 240px">阳性规则</th>
+    <th style="width: 86px;">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="!interpretationList.length"><td colspan="8" class="text-center" class="alert alert-warning"><a href="javascript:;" ng-click="addFactorInterpretation()" class="alert-link">请添加因子解释</a></td></tr>
+  <tr ng-repeat="interpretation in interpretationList">
+    <td data-id="{{interpretation.FactorID}}">{{interpretation.FactorID == 0 ? '总分':interpretation.FactorName}}</td>
+    <td>{{interpretation.Sex | sexFormat}}</td>
+    <td>{{!interpretation.MinAge && !interpretation.MaxAge ? '不限' : interpretation.MinAge + '-' +interpretation.MaxAge}}</td>
+    <td>{{interpretation.MinScore + ' ≤ 分数 ≤ '+ interpretation.MaxScore}}</td>
+    <td>{{interpretation.Desc}}</td>
+    <td>{{interpretation.PositiveRule}}</td>
+    <td>
+      <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="editFactorInterpretation(interpretation)" title="编辑"><i class="fa fa-edit"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="delFactorInterpretation(interpretation)" title="删除"><i class="fa fa-trash-o"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<script type="text/ng-template" id="addFactorInterpretation.html">
+  <div class="modal-header">
+    <h3 class="modal-title"><i class="fa" ng-class="{'fa-plus':!interpretData.ID,'fa-edit':interpretData.ID}"></i>{{addInterpretationTitle}}因子解释</h3>
+  </div>
+  <div class="modal-body form-horizontal form-validation">
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 因子名称：</label>
+      <div class="col-sm-9">
+        <ui-select ng-model="interpretData.FactorID" theme="bootstrap" ng-change="changeFactor()">
+          <ui-select-match placeholder="请输入关键字查询">{{$select.selected.Name}}</ui-select-match>
+          <ui-select-choices repeat="factor.ID as factor in factorList | propsFilter:{ Name:$select.search } ">
+            <span ng-bind-html="factor.Name | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 性别：</label>
+      <div class="col-sm-9">
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="interpretData.Sex" value="-1" required><i></i> 不限
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="interpretData.Sex" value="1" required><i></i> 男
+        </label>
+        <label class="radio-inline i-checks">
+          <input type="radio" name="Gender" ng-model="interpretData.Sex" value="0" required><i></i> 女
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 年龄范围：</label>
+      <div class="col-sm-9">
+        <label class="checkbox-inline i-checks pull-left" style="margin-right: 15px;"><input type="checkbox" name="Age" ng-model="interpretData.Age"><i></i> 不限</label>
+        <div class="input-group" ng-if="!interpretData.Age">
+          <input type="text" class="form-control" ng-model="interpretData.MinAge" ng-pattern="/^\d{0,3}$/" placeholder="最小年龄">
+          <span class="input-group-addon">至</span>
+          <input type="text" class="form-control" ng-model="interpretData.MaxAge" ng-pattern="/^\d{0,3}$/" placeholder="最大年龄">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 得分范围：</label>
+      <div class="col-sm-9">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="interpretData.MinScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最小得分">
+          <span class="input-group-addon">≤ 分数 ≤</span>
+          <input type="text" class="form-control" ng-model="interpretData.MaxScore" ng-pattern="/^[+-]?\d+\.?\d*$/" placeholder="最大得分">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><b class="text-danger">*</b> 解释内容：</label>
+      <div class="col-sm-9">
+        <textarea class="form-control" ng-model="interpretData.Desc" rows="3" placeholder="请填写解释内容" required></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">阳性规则：</label>
+      <div class="col-sm-9">
+        <textarea class="form-control" ng-model="interpretData.PositiveRule" rows="3" ng-pattern="/^(CNT\[[a-zA-Z]\])(<=|>=|=|<|>)\d+?(&(CNT\[[a-zA-Z]\])(<=|>=|=|<|>)\d+?)*?$/" placeholder="示例：CNT[A]<=10&CNT[B]>=8"></textarea>
+        <span class="help-block">示例：CNT[A]<=10&CNT[B]>=8</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="confirmInterpret()">确认</button>
+    <button class="btn btn-default" ng-click="cancelInterpret()">取消</button>
+  </div>
+</script>
+
+

@@ -1,0 +1,52 @@
+<div ng-controller="factorDefinitionController">
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <div class="query-group-form" role="form" name="form">
+                        <button type="submit" class="form-group btn btn-success" ng-click="newEditFactor()">新增</button>
+                    </div>
+                </div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <tr>
+                        <th>因子名称</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr st-select-row="row" ng-repeat="item in model.itemList track by $index">
+                        <td class="v-middle">
+                            <span ng-bind="item.Name"></span>
+                        </td>
+                        <td class="v-middle">
+                            <span ng-bind="item.Remark"></span>
+                        </td>
+                        <td class="v-middle">
+                            <a href="javascript:" class="btn btn-success btn-xs"
+                               ng-click="newEditFactor(item)">修改
+                            </a>
+                            <div class="btn-group" dropdown>
+                                <a href="javascript:" class="btn btn-danger btn-xs" dropdown-toggle>删除</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a ng-click="deleteMine(item)" href>确定</a></li>
+                                    <li><a href>取消</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer">
+                    <div class="query-group-form form-inline text-center" role="form" name="form">
+                        <button type="submit" class="form-group btn btn-info" ng-click="publishFactor()">提交并发布</button>
+                        <button type="submit" class="form-group btn btn-success" ng-click="submitFactor()">提交</button>
+                        <button type="submit" class="form-group btn btn-default" ui-sref="access.app.internal.inventoryManagement.addTheScale.questionBank">上一步</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

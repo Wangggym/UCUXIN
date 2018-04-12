@@ -1,0 +1,103 @@
+<div ng-controller="schoolRights">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{orgName}}:{{userName}} - 学校权限
+
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label>省：</label>
+                        <div class="input-group">
+                            <select ng-model="province" class="form-control"
+                                    ng-change="getCityList(province)"
+                                    ng-options="x.RID as x.Name for x in provinceList"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="province">
+                        <label>市：</label>
+                        <div class="input-group">
+                            <select ng-model="city" class="form-control"
+                                    ng-change="getAreaList(city)"
+                                    ng-options="x.RID as x.Name for x in cityList"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="city">
+                        <label>区：</label>
+                        <div class="input-group">
+                            <select ng-model="area"  class="form-control"
+                                    ng-options="x.RID as x.Name for x in areaList"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>学校：</label>
+                        <input type="text" ng-model="schoolName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>是否有权限：</label>
+                        <div class="input-group">
+                            <select ng-model="hasRight" ng-change="getList()"  class="form-control">
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()" >
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="add()" ng-disabled="hasRight === 'true'">
+                        批量添加权限
+                    </button>
+                    <button type="submit" class="form-group btn btn-danger" ng-click="del()" ng-disabled="hasRight !== 'true'">
+                        批量删除权限
+                    </button>
+                    <button type="button" class="btn w-xs btn-default pull-right" onclick="window.history.go(-1)">返回</button>
+
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox" ng-checked="check"  ng-click="checkAll()" ><i></i>
+                        </label>
+                    </th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>县</th>
+                    <th>学校</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="21" class="prompt text-center" ng-if="!list">
+                        <div class="alert alert-warning" role="alert">抱歉，暂时未有数据...请选择条件查询</div>
+                    </td>
+                </tr>
+                <tr st-select-row="row" ng-repeat="item in list">
+                    <td>
+                        <label class="i-checks m-b-none"><input type="checkbox" ng-checked="item.checked" ng-click="select(item)"><i></i></label>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.ProviceName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CityName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.CountyName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Name"></span>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+</div>

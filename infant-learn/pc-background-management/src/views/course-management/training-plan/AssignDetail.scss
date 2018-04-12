@@ -1,0 +1,13 @@
+.content {
+  padding-top: 1rem;
+  border: 1px solid #999999;
+  margin-top: 1rem;
+  min-height: 9rem;
+  height: 25rem;
+  overflow-y: scroll;
+  text-align: center;
+  .ant-radio-wrapper{
+    padding: 0.5rem;
+    display: flex;
+  }
+}

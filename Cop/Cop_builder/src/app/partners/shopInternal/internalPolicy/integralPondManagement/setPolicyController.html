@@ -1,0 +1,220 @@
+<div ng-controller="setPolicyController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">您正在为关爱使<span
+                style="color:red;">{{$stateParams.UName}}({{$stateParams.GName}})</span>配置积分策略
+            <button class="pull-right btn btn-default" ng-click="back()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline">
+                    <button class="form-group btn btn-success" ng-click="addInDirect()">配置间接策略集</button>
+                    <button class="form-group btn btn-primary" ng-click="addDirect()">配置直接策略集</button>
+                    <div class="form-group"  >
+                        <div class="input-group">
+                            <p style="color:#999; font-size:10px;">
+                                直接策略：指通过关爱使本身动作行为产生的积分。根据使用具体的业务功能不同，合理配置每个每个行为的积分分值，例如登录、发通知、发作业、邀请安装等。
+                            </p>
+                            <p style="color:#999; font-size:10px;">  间接策略：指通过班级学生（家长）的动作行为触发产生的积分，主要为班级安装率、班级缴费率、学校安装率、学校缴费率。如对应的班级成员产生了购买行为、邀请行为，对应的班主任（学校管理员）也会获得相应积分。根据实际情况，通过设置行为的最低比例和增长比例来定义。
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>策略类型</th>
+                    <th>策略名称</th>
+                    <th>班级信息</th>
+                    <th>添加日期</th>
+                    <th>规则明细</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.itemList">
+                    <td class="v-middle">{{item.SType===1?'直接行为策略':'间接行为策略'}}</td>
+                    <td class="v-middle">{{item.Name}}</td>
+                    <td class="v-middle">{{item.Desc}}</td>
+                    <td class="v-middle">{{item.MDate}}</td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-primary" ng-click="view(item)">查看</a>
+                    </td>
+                    <td class="v-middle">
+                        <a href="javascript:;" class="btn btn-xs btn-danger" ng-click="delete(item)">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/ng-template" id="directContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{ctrl.name}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="max-height: 500px;overflow: auto;">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>积分项</th>
+                    <th>分值</th>
+                    <th>上限类型</th>
+                    <th>上限分值</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in ctrl.itemList">
+                    <td class="v-middle">{{item.ActionName}}</td>
+                    <td class="v-middle">{{item.Point}}</td>
+                    <td class="v-middle">{{item.LimitTypeName}}</td>
+                    <td class="v-middle">{{item.LimitPoint}}</td>
+                    <td class="v-middle">{{item.ST?'已启用':'已禁用'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="closeDirect()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="inDirectContent.html">
+        <div class="bg-light">
+            <div class="modal-footer">
+                <span class="pull-left h4">{{ctrl.name}}</span>
+            </div>
+        </div>
+        <div class="panel-body" style="max-height: 500px;overflow: auto;">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>积分项</th>
+                    <th>最低比例</th>
+                    <th>分值</th>
+                    <th>增长比例</th>
+                    <th>增长分值</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in ctrl.itemList">
+                    <td class="v-middle">{{item.ActionName}}</td>
+                    <td class="v-middle">{{item.MinPer}}%</td>
+                    <td class="v-middle">{{item.PerPoint}}</td>
+                    <td class="v-middle">{{item.Per}}</td>
+                    <td class="v-middle">{{item.PerPoint}}</td>
+                    <td class="v-middle">{{item.ST?'已启用':'已禁用'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="closeInDirect()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addDirectContent.html">
+        <div style="padding: 15px 5px 0 15px;">
+            <form class="query-group-form form-inline" style="margin-bottom: 0;">
+                <div class="form-group">
+                    <div class="input-group">
+                        <ui-select ng-model="ctrl.sid" theme="bootstrap" ng-change="changeSid()">
+                            <ui-select-match placeholder="请选择策略..">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in ctrl.sidList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body" style="max-height: 500px;overflow: auto;">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>积分项</th>
+                    <th>分值</th>
+                    <th>上限类型</th>
+                    <th>上限分值</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in ctrl.itemList">
+                    <td class="v-middle">{{item.ActionName}}</td>
+                    <td class="v-middle">{{item.Point}}</td>
+                    <td class="v-middle">{{item.LimitTypeName}}</td>
+                    <td class="v-middle">{{item.LimitPoint}}</td>
+                    <td class="v-middle">{{item.ST?'已启用':'已禁用'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <span style="position:absolute;left:20px;font-size: 16px; color:#ff0000;" ng-show="ctrl.HasListData">  该策略未维护任何规则，暂不能保存。</span>
+            <button class="btn btn-success" ng-click="AddDirect()" ng-disabled="ctrl.itemList.length===0">保存</button>
+            <button class="btn btn-default" ng-click="closeAddDirect()">关闭</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addInDirectContent.html">
+        <div style="padding: 15px 5px 0 15px;">
+            <form class="query-group-form form-inline" style="margin-bottom: 0;">
+                <div class="form-group">
+                    <div class="input-group">
+                        <ui-select ng-model="ctrl.sid" theme="bootstrap" ng-change="changeSid()">
+                            <ui-select-match placeholder="请选择策略..">{{$select.selected.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in ctrl.sidList | filter: $select.search">
+                                <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" style="min-width: 200px;">
+                        <ui-select multiple ng-model="ctrl.classID" theme="bootstrap" ng-disabled="disabled">
+                            <ui-select-match placeholder="请选择班级">{{$item.GName}}</ui-select-match>
+                            <ui-select-choices group-by="someGroupFn"
+                                               repeat="item.GID as item in ctrl.classList | filter: $select.search">
+                                <div ng-bind-html="item.GName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body" style="max-height: 500px;overflow: auto;">
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>积分项</th>
+                    <th>最低比例</th>
+                    <th>分值</th>
+                    <th>增长比例</th>
+                    <th>增长分值</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in ctrl.itemList">
+                    <td class="v-middle">{{item.ActionName}}</td>
+                    <td class="v-middle">{{item.MinPer}}</td>
+                    <td class="v-middle">{{item.MinPoint}}</td>
+                    <td class="v-middle">{{item.Per}}</td>
+                    <td class="v-middle">{{item.PerPoint}}</td>
+                    <td class="v-middle">{{item.ST?'已启用':'已禁用'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <span style="position:absolute;left:20px;font-size: 16px; color:#ff0000;" ng-show="ctrl.HasListData">  该策略未维护任何规则，暂不能保存。</span>
+            <button class="btn btn-success" ng-click="AddInDirect()" ng-disabled="ctrl.itemList.length===0">保存</button>
+            <button class="btn btn-default" ng-click="closeAddInDirect()">关闭</button>
+        </div>
+    </script>
+</div>

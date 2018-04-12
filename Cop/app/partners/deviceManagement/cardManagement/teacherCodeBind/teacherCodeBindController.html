@@ -1,0 +1,129 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">教师发卡</h1>
+</div>
+<div class="wrapper-md" ng-controller="teacherCodeBindController">
+    <div class="panel panel-default row">
+        <div class="panel-body col-lg-12">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.school" theme="bootstrap" ng-change="changeSchool()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.ID as item in model.schoolList | filter: $select.search">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSchool()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label><span class="spanColor">*</span>班级：</label>-->
+
+                    <!--<div class="input-group">-->
+                        <!--<ui-select ng-model="model.class" theme="bootstrap"-->
+                                   <!--style="min-width: 200px;">-->
+                            <!--<ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>-->
+                            <!--<ui-select-choices group-by="'GradeName'"-->
+                                               <!--repeat="class in model.classList | propsFilter: {ClassName: $select.search}">-->
+                                <!--<small>-->
+                                    <!--{{class.ClassName}}-->
+                                <!--</small>-->
+                            <!--</ui-select-choices>-->
+                        <!--</ui-select>-->
+                        <!--<span class="input-group-btn">-->
+                            <!--<button ng-click="deleteClass()" class="btn btn-default"-->
+                                    <!--type="button">-->
+                                <!--<span class="glyphicon glyphicon-trash"></span>-->
+                            <!--</button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="sr-only">姓名</label>
+                    <input type="text" class="form-control" placeholder="姓名" ng-model="model.name">
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox m-l m-r-xs">
+                        <label class="i-checks">
+                            <input type="checkbox" ng-model="model.checked"><i></i>未发卡
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" data-ng-click="search()">查询</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" data-ng-click="exportExcel()">导出数据/下载导入模版</button>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-warning btn-addon" ngf-select ng-model="file" name="file"
+                            ng-change="fileUpload(file)" ngf-pattern="'.xls,.xlsx'"
+                            ngf-accept="'.xls,.xlsx'"><i class="fa fa-plus"></i>导入老师卡号关系
+                    </button>
+                </div>
+
+            </form>
+            <p style="color: #ff4335;font-size: 16px;">{{model.exportError}}</p>
+        </div>
+        <div class="col-lg-8">
+
+            <table class="table table-bordered table-hover table-condensed bg-white-only strCodeBind">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>卡号</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="teacher in model.list">
+
+
+                    <td data-value="1"  >
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-bind="teacher.MName"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-value="1"  >
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted" ng-if="teacher.ST == 1">
+                                    <span>未登记家长电话不能绑卡</span>
+                                </p>
+                                <p class="text-muted" ng-if="teacher.ST == 0 && teacher.CardNoList.length == 0"  >
+                                <span ng-if="teacher.CardNoList.length == 0">
+                                    <button class="btn btn-info" ng-click="goToBindCard(teacher.UMID)">绑卡</button>
+                                </span>
+                                </p>
+                            <span class="text-muted" ng-if="teacher.ST == 0 && teacher.CardNoList.length !== 0" ng-repeat="x in teacher.CardNoList" >
+                                <a ng-bind="x" ng-click="goToBindCard(teacher.UMID)">
+                                </a>
+                            </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .strCodeBind a{
+        color:dodgerblue;
+        text-decoration: underline;
+    }
+    .text-muted{
+        padding: 0 5px;
+    }
+</style>

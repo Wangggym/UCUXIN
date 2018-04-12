@@ -1,0 +1,134 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">学校设备登记
+    </h1>
+</div>
+<div class="wrapper-md" ng-controller="schoolEquipmentRegistrationController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="query-group-form form-inline" role="form">
+                <div class="form-group">
+                    <label><span class="spanColor">*</span>学校：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="model.selectedGid" theme="bootstrap"
+                                   ng-change="changeGid()">
+                            <ui-select-match placeholder="请选择学校">{{$select.selected.FName}}</ui-select-match>
+                            <ui-select-choices repeat="item.GID as item in model.schoolList | filter: $select.search"
+                                               refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                <div ng-bind-html="item.FName | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button ng-click="deleteSelectedGid()" class="btn btn-default"
+                                    type="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="form-group btn btn-success" data-ng-click="search()">
+                    查询
+                </button>
+                <button type="submit" class="form-group btn btn-primary"
+                        ui-sref="access.app.internal.schoolEquipment.editAddEquipmentRegistration({newModel:'newData'})">
+                    新增设备
+                </button>
+                <button type="submit" class="form-group btn btn-info" ng-click="appAddress()">
+                    发起升级App
+                </button>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover table-condensed bg-white-only">
+            <thead>
+            <tr>
+                <th style="width:110px;">
+                    <label class="i-checks" style="margin-bottom:0px;">
+                        <input type="checkbox" data-ng-click="checkAll()" ng-checked="model.checkAll"
+                               ng-model="model.checkAll"><i></i>
+                    </label>操作
+                </th>
+                <th>学校</th>
+                <th>名称/地点</th>
+                <th>编号</th>
+                <th>类型</th>
+                <th>状态</th>
+                <th>最后联机时间</th>
+                <th>供应商</th>
+                <th>当前App版本号</th>
+                <th>当前参数版本号</th>
+                <th>最新参数版本号</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr st-select-row="row" ng-repeat="item in model.itemList">
+                <td class="v-middle">
+                    <label class="i-checks">
+                        <input type="checkbox"
+                               data-ng-click="checkedOne(model.itemList,$index)" ng-checked="item.checked"><i></i>
+                    </label>
+                    <a href="javascript:;" class="btn btn-xs btn-primary"
+                       ui-sref="access.app.internal.schoolEquipment.editAddEquipmentRegistration({id:'{{item.ID}}'})"
+                       title="编辑"><i
+                            class="fa fa-edit"></i></a>
+
+                    <div class="btn-group" dropdown>
+                        <a href="javascript:;" type="button" class="btn btn-danger btn-xs"
+                           title="删除" dropdown-toggle><i class="fa fa-trash-o"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-click="deleteConfirm(item)" href>确定</a></li>
+                            <li><a href>取消</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.GFName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Name"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.ENO"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.EquipmentTypeName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.STName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.AccessDate"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.SupplierName"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.Version"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.CurParamVersion"></span>
+                </td>
+                <td class="v-middle">
+                    <span ng-bind="item.NewParamVersion"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/ng-template" id="appAddressContent.html">
+        <div class="panel no-border">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    App升级地址
+                </h3>
+            </div>
+            <div class="panel-body">
+                <input type="text" class="form-control" placeholder="请输入App升级地址"
+                       ng-model="newModel.address">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info" ng-click="confirm()">确定</button>
+                <button class="btn btn-default" ng-click="cancel()">取消</button>
+            </div>
+        </div>
+    </script>
+</div>

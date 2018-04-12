@@ -1,0 +1,198 @@
+<div ng-controller="addPushSetController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">添加推送
+            <button type="submit" class="pull-right btn btn-default" ng-click="historyBack()">
+                返回
+            </button>
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4><i class="fa fa-plus"></i> 添加首页固定入口推送</h4></div>
+            <div class="panel-body">
+                <form class="form-horizontal form-line-dashed">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control w-md" ng-model="model.gidName"
+                                   placeholder="学校" ng-disabled="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">产品：</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.productID" theme="bootstrap" ng-change="productChange()">
+                                    <ui-select-match placeholder="请选择产品">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in model.productList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="deleteProduct()" class="btn btn-default"
+                                            type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">服务包：</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group w-md">
+                                <ui-select ng-model="model.servicePack" theme="bootstrap"
+                                           ng-disabled="model.productID?false:true">
+                                    <ui-select-match placeholder="请选择服务包">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices
+                                            repeat="item.ID as item in model.servicePackList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="model.servicePack = undefined" class="btn btn-default"
+                                            type="button" ng-disabled="model.productID?false:true">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">接收范围：</label>
+                        <div class=" col-sm-6">
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveArea"
+                                       ng-model="model.ReceiveArea" value="1"><i></i>
+                                全校
+                            </label>
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveArea"
+                                       ng-model="model.ReceiveArea" value="2"><i></i>
+                                按班级
+                            </label>
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveArea"
+                                       ng-model="model.ReceiveArea" value="3"><i></i>
+                                按学生
+                            </label>
+                            <span class="help-block m-b-none">【未开通或者已经购买该服务包的学生家长将不会收到推送】</span>
+
+                            <div class="panel panel-default student-area" ng-if="model.ReceiveArea == 2">
+                                <div class="panel-heading"><i class="fa fa-list"></i> 请选择要推送信息的班级列表</div>
+                                <div class="panel-body">
+                                    <ui-select multiple ng-model="model.classNameList" theme="bootstrap"
+                                               close-on-select="false" ng-disabled="!model.classNameList">
+                                        <ui-select-match placeholder="点击添加推送班级">{{$item.ClassName}}</ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item.ClassID as item in model.classList | propsFilter:{ ClassName:$select.search } ">
+                                            <div ng-bind-html="item.ClassName | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="panel panel-default student-area" ng-if="model.ReceiveArea == 3">
+                                <div class="panel-heading"><i class="fa fa-list"></i> 请选择要推送信息的学生名单</div>
+                                <div class="panel-body row">
+                                    <div class="col-sm-6">
+                                        <h5>未选择学生名单</h5>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">班级：</label>
+                                                <div class="col-sm-9">
+                                                    <ui-select ng-model="model.className" theme="bootstrap"
+                                                               ng-disabled="!model.classList"
+                                                               ng-change="changeClassName()">
+                                                        <ui-select-match placeholder="请选择班级">
+                                                            {{$select.selected.ClassName}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices
+                                                                repeat="item.ClassID as item in model.classList | propsFilter: { ClassName:$select.search }">
+                                                            <span ng-bind-html="item.ClassName | highlight: $select.search"></span>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">学生：</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control"
+                                                           ng-model="model.filterStudentName"
+                                                           placeholder="输入学生姓名进行检索">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="student-list student-select" ng-model="studentList">
+                                        <span class="label label-info"
+                                              ng-repeat="item in model.studentList | propsFilter: { MName:model.filterStudentName }"
+                                              ng-click="addStudent(item)">{{item.MName}} <i
+                                                class="fa fa-plus"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="student-selected-heading">
+                                            <a href="javascript:;" ng-click="clearStudentSelected()">重置</a>
+                                            <h5>已选择学生名单</h5>
+                                        </div>
+                                        <div class="student-list student-selected"
+                                             ng-model="pushFields.studentSelectedList">
+                                        <span class="label label-info"
+                                              ng-repeat="item in model.studentSelectedList">{{item.MName}} <i
+                                                class="fa fa-times" ng-click="deleteSelected(item)"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">接收对象：</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveObj"
+                                       ng-model="model.ReceiveObj"
+                                       value="1"><i></i>
+                                全部家长
+                            </label>
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveObj"
+                                       ng-model="model.ReceiveObj"
+                                       value="2"><i></i>
+                                主监护人
+                            </label>
+                            <label class="radio-inline i-checks">
+                                <input type="radio" name="ReceiveObj"
+                                       ng-model="model.ReceiveObj"
+                                       value="3"><i></i>
+                                学生
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="!!pushInfoConfig">
+                        <label class="col-sm-2 control-label">链接地址：</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{pushFields.PushUrl}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="!!pushInfoConfig">
+                        <label class="col-sm-2 control-label">简介：</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{pushFields.Msg}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="button" class="btn w-xs btn-info" ng-click="confirm()"
+                                    ng-disabled="model.productID&&model.servicePack&&model.ReceiveObj?false:true;">确定推送
+                            </button>
+                            <button type="button" class="btn w-xs btn-default" ng-click="historyBack()">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

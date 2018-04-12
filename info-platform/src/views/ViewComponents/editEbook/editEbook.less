@@ -1,0 +1,47 @@
+.editEbook{
+  width:100%;
+  display:flex;
+  .Ebook-left{
+    width:80%;
+  }
+  .Ebook-see{
+    width:375px;
+    height:667px;
+    border:1px solid #eee;
+    margin:20px;
+    overflow-y:scroll;
+  }
+  .btn-cofirm{
+    margin-right:16px;
+    margin-bottom:100px;
+  }
+  .publish-btn{
+    background:#67c239;
+    border:none;
+    color:#fff;
+  }
+  .avatar-uploader,
+  .avatar-uploader-trigger,
+  .avatar {
+    width: 120px!important;
+    height: 160px!important;
+    position: relative;
+    overflow: hidden;
+    margin: -1px 0 0 -1px;
+    .ant-upload-list{
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    &:hover{
+      border-color: #108ee9;
+
+      .anticon-plus{color: #108ee9}
+    }
+  }
+}
+.no-bordered {
+  background: #ecf6fd;
+}

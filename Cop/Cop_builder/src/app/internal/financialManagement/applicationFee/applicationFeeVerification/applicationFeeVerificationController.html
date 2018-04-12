@@ -1,0 +1,150 @@
+<div ng-controller="applicationFeeVerificationController">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">应用收费核销
+        </h1>
+    </div>
+    <div class="wrapper-md">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="query-group-form form-inline" role="form" name="form">
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>开始日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateStart" ng-disabled="true"
+                                   is-open="openedStart" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="spanColor">*</span>结束日期：</label>
+
+                        <div class="input-group w-sm">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="dateOver" ng-disabled="true"
+                                   is-open="openedOver" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="确定" current-text="今天" clear-text="清除" required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openOver($event)"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>合作伙伴：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.partners" theme="bootstrap" ng-change="selectPartner()">
+                                <ui-select-match placeholder="请选择合作伙伴">{{$select.selected.Name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.OrgID as item in model.partnersList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="deletePartners()" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>核销状态：</label>
+
+                        <div class="input-group">
+                            <ui-select ng-model="model.typeId" theme="bootstrap">
+                                <ui-select-match placeholder="请选择核销状态">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices
+                                        repeat="item.id as item in model.typeList | filter: $select.search"
+                                        refresh="refreshAddresses($select.search)" refresh-delay="500">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button ng-click="model.typeId = undefined" class="btn btn-default"
+                                        type="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-group btn btn-success" data-ng-click="search()"
+                            ng-disabled="form.$invalid">
+                        查询
+                    </button>
+                    <button type="submit" class="form-group btn btn-info" ng-click="confirmWrite()">
+                        确认核销
+                    </button>
+                    <button type="submit" class="form-group btn btn-primary" data-ng-click="export()">导出
+                    </button>
+                </form>
+            </div>
+            <table class="table table-bordered table-hover table-condensed bg-white-only">
+                <thead>
+                <tr>
+                    <th>合作伙伴</th>
+                    <th>学校</th>
+                    <th>金额</th>
+                    <th>时间</th>
+                    <th>流水号/支付中心订单号</th>
+                    <th>转账银行及其他说明</th>
+                    <th>支付方式</th>
+                    <th>核销状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" ng-repeat="item in model.applicationFeeList">
+                    <td class="v-middle">
+                        <span ng-bind="item.PartnerName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.GName"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Amount"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Date"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PayCenterOrderNo"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.Remark"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.PayChannelS"></span>
+                    </td>
+                    <td class="v-middle">
+                        <span ng-bind="item.WriteOffStatusS"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <page-Directive options="pageIndex"></page-Directive>
+        </div>
+    </div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                是否确定根据以下条件进行核销
+            </h3>
+        </div>
+        <div class="modal-body">开始日期：{{modal.startDate}}</div>
+        <div class="modal-body">结束日期：{{modal.overDate}}</div>
+        <div class="modal-footer">
+            <h3 class="modal-title">
+                {{modal.partners}}
+            </h3>
+            <button type="submit" class="btn btn-default" ng-click="cancel()">取消</button>
+            <button class="btn btn-info" ng-click="confirm()">确认</button>
+        </div>
+    </script>
+</div>

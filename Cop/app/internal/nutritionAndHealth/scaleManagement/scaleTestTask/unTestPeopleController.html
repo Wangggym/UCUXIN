@@ -1,0 +1,91 @@
+<div class="bg-light lter b-b wrapper-md">
+    <a href="javascript:;" title="返回" class="btn btn-default pull-right" ng-click="cancel()"><i
+        class="fa fa-long-arrow-left"></i></a>
+
+    <h1 class="m-n font-thin h3">未测试人数清单</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading"></div>
+            <form class="query-group form-inline clearfix">
+                <div class="form-group">
+                    <label>班级：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.className" theme="bootstrap" ng-change="changeClass()">
+                            <ui-select-match placeholder="请选择班级">{{$select.selected.ClassName}}</ui-select-match>
+                            <ui-select-choices
+                                repeat="className.ClassID as className in classNameList | propsFilter: { ClassName:$select.search }">
+                                <span ng-bind-html="className.ClassName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                              <button type="button" ng-click="queryFields.className = undefined"
+                                      ng-disabled="!queryFields.className" class="btn btn-default">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>学生：</label>
+
+                    <div class="input-group">
+                        <ui-select ng-model="queryFields.studentName" theme="bootstrap" ng-disabled="!studentList">
+                            <ui-select-match placeholder="请选择学生名字">{{$select.selected.MName}}</ui-select-match>
+                            <ui-select-choices
+                                repeat="student.UMID as student in studentList | propsFilter: { MName:$select.search }">
+                                <span ng-bind-html="student.MName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                              <button type="button" ng-click="queryFields.studentName = undefined"
+                                      ng-disabled="!queryFields.studentName" class="btn btn-default">
+                                  <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                          </span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn w-xs btn-info" ng-click="submitQuery($event)">查询</button>
+                &nbsp;&nbsp;
+            </form>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>任务名称</th>
+                    <th style="width: 15%">学校名称</th>
+                    <th style="width: 15%">班级名称</th>
+                    <th style="width: 15%">姓名</th>
+                    <th style="width: 15%">家长手机号码</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!dataList">
+                    <td colspan="11" class="prompt text-center">
+                        <div class="alert alert-warning" role="alert">请输入条件查询，数据实时更新</div>
+                    </td>
+                </tr>
+                <tr ng-repeat="item in dataList">
+                    <td>{{item.OrderName}}</td>
+                    <td>{{item.TopGName}}</td>
+                    <td>{{item.ClassName}}</td>
+                    <td>{{item.UName}}</td>
+                    <td>{{item.ParentTel}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer pagination-bar" ng-hide="!pagination.totalItems">
+                <span>页码: {{pagination.currentPage}} / {{pagination.numPages}}</span>
+                <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                            max-size="pagination.maxSize" items-per-page="pagination.itemsPerPage"
+                            class="pagination-sm pull-right" boundary-links="true" rotate="false"
+                            num-pages="pagination.numPages" previous-text="{{pagination.previousText}}"
+                            next-text="{{pagination.nextText}}" first-text="{{pagination.firstText}}"
+                            last-text="{{pagination.lastText}}" ng-change="pageQuery()"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
