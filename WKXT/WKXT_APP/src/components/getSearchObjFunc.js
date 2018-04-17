@@ -20,3 +20,4 @@ export default (history, search) => {
     }
     return args;
 }
+
