@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  vertical-align: top;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+ul, dl {
+  list-style: none
+}
+
+body {
+  min-height: 100vh;
+  height: auto;
+  // width: 100vw;
+  padding: 0;
+  //font-size:0.4rem !important;
+  font-family: sans-serif;
+  background-color: white !important;
+  max-width: 414px;
+  margin: 0 auto !important;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  font-family:PingFangSC-Regular;
+}
+
+@media screen and (min-width: 320px) and (max-width: 375px){
+  html{
+    font-size: 32px !important;
+  }
+}
+@media screen and (min-width: 414px) and (max-width: 768px){
+  html{
+    font-size: 48px !important;
+  }
+  .SharePage {
+    min-height: 515px !important;
+  }
+}
+@media screen and (min-width: 768px){
+  html{
+    font-size: 48px !important;
+  }
+}
+#root {
+  //max-width: 768px;
+  //margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.activeClass {
+  &:active {
+    background: #ddd;
+  }
+}
+
+//溢出隐藏
+.overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

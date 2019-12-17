@@ -1,0 +1,125 @@
+.SecondContestResultPage {
+  .fixed_height {
+    margin-bottom: 60px;
+  }
+  .no_content {
+    p {
+      line-height: 30px;
+      padding-bottom: 10px;
+      span {
+        color: #4FAEF0;
+      }
+    }
+    .button {
+      width: 100px;
+      height: 35px;
+      border: 1px #4FAEF0 solid;
+      text-align: center;
+      line-height: 35px;
+      font-size: 14px;
+      color: #4FAEF0;
+      border-radius: 5px;
+      display: inline-block;
+    }
+  }
+  .bg {
+    padding-top: 45px;
+    background: url('../../assets/images/复赛背景.png') no-repeat 0 0 / contain;
+    background-size:100% 100%;
+    .title_pic {
+      padding: 25px 20px 0 40px;
+    }
+    .menu_pic {
+      padding: 0 120px;
+      margin-bottom: 10vh;
+    }
+    .box {
+      display: flex;
+      justify-content: space-around;
+      padding: 0 20px;
+      margin-bottom: 3vh;
+      .wrap {
+        width: 120px;
+        height: 55px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 5px;
+        .box_item {
+          border: 1px white solid;
+          background: #0A9DFD;
+          color: white;
+          height: 100%;
+          padding: 7px;
+          display: flex;
+          justify-content: space-between;
+          box-sizing: border-box;
+          .content {
+            display: flex;
+            flex: 3;
+            flex-direction: column;
+            justify-content: space-between;
+            div {
+              font-size: 13px;
+            }
+            span {
+              font-size: 12px;
+            }
+          }
+          .pic {
+            flex: 1;
+            background: url('../../assets/images/形状-1.png') no-repeat 0 center / contain;
+          }
+        }
+      }
+    }
+    .match_title {
+      font-size: 14px;
+      color: #3E93D7;
+      height: 60px;
+      text-align: center;
+      box-sizing: border-box;
+      padding-top: 30px;
+      line-height: 30px;
+      background: url('../../assets/images/形状-10.png') no-repeat center 0 /contain;
+    }
+    .person_info {
+      padding: 5vh 65px;
+      height: 130px;
+      background: url('../../assets/images/形状-12-拷贝-2.png') no-repeat center 0 / contain;
+      position: relative;
+      .content {
+        color: white;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        > div {
+          display: flex;
+          justify-content: space-between;
+          div {
+            //flex: 3;
+            text-align: right;
+          }
+        }
+      }
+      .pic {
+        height: 80px;
+        width: 80px;
+        background: #ccc;
+        border: 2px white solid;
+        border-radius: 50%;
+        position: absolute;
+        top: -20%;
+        left: calc(~'50% - 40px');
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+    .footer {
+      height: 200px;
+    }
+  }
+
+}

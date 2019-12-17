@@ -1,0 +1,221 @@
+.grey {
+  color: #999;
+}
+
+.HomePage {
+  background: #1ca8e5;
+  //min-height: 100vh;
+  height: auto;
+  .top-entrance {
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 10px;
+    .CompetitionRule {
+      background: #1ce6d1;
+    }
+    .knowledge {
+      background: #FF6F6F;
+    }
+    > div {
+      width: 27%;
+      height: 35px;
+      background: #f5c608;
+      border-radius: 3px;
+      line-height: 35px;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+    }
+  }
+  .main {
+    padding: 30px 40px;
+    background: url('../../assets/images/bg2@2x.png') no-repeat 0 0;
+    background-size: 100% 100%;
+    .top10 {
+      height: 50px;
+      //background: #ccc;
+      border-radius: 45px;
+      background-size: 100% 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 10px;
+      margin-bottom: 15px;
+      background: linear-gradient(-45deg, #22a8f5, #20f0bd);
+      .left {
+        background: url('../../assets/images/huangg 190@2x.png') no-repeat center center / contain;
+        width: 50px;
+        height: 100%;
+        margin-right: 1vw;
+      }
+      .center {
+        flex: 1;
+        padding-left: 1vw;
+        margin-left: 10px;
+        > div {
+          line-height: 50px;
+          color: rgb(255, 255, 255);
+          font-size: 14px;
+        }
+        .sm {
+          font-size: 15px;
+        }
+      }
+      .right {
+        margin-right: 5px;
+        width: 10px;
+        background: url('../../assets/images/jiantou.png') no-repeat center center / contain;
+      }
+    }
+    .game {
+      padding: 10px;
+      height: 80px;
+      background: white;
+      border-radius: 5px;
+      margin-bottom: 35px;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      .ba_line {
+        position: absolute;
+        left: -5%;
+        top: 60px;
+        width: 110%;
+        height: 133px;
+        background: url('../../assets/images/line@2x.png') no-repeat center center / contain;
+        background-size: 100% 100%;
+      }
+      .left {
+        width: 50px;
+        height: 100%;
+        //background: url('../../assets/images/ic@2x.png') no-repeat center center / contain;
+        margin-right: 1vw;
+      }
+      .center {
+        flex: 1;
+        position: relative;
+        padding-left: 1vw;
+        margin-left: 10px;
+        .center_pic {
+          height: 32px;
+          //background: url('../../assets/images/初赛@2x.png') no-repeat center center / contain;
+          margin-bottom: 4px;
+        }
+        .center_pic_text {
+          height: 18px;
+          line-height: 18px;
+          color: #333333;
+          font-size: 13px;
+          span {
+            color: #00a0e9;
+            margin-left: 10px;
+          }
+        }
+        .center_position {
+          width: 45px;
+          height: 43px;
+          position: absolute;
+          right: -10px;
+          top: -10px;
+          //background: url('../../assets/images/jingxingz.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .contest_1_show {
+      .left {
+        background: url('../../assets/images/ic@2x.png') no-repeat center center / contain;
+      }
+      .center {
+        .center_pic {
+          background: url('../../assets/images/初赛@2x.png') no-repeat left center / contain;
+        }
+        .center_position {
+          background: url('../../assets/images/jingxingz.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .contest_2_hide {
+      .left {
+        background: url('../../assets/images/ic2@2x.png') no-repeat center center / contain;
+      }
+      .center {
+        .center_pic {
+          background: url('../../assets/images/复赛@2x.png') no-repeat left center / contain;
+        }
+        .center_position {
+          background: url('../../assets/images/未开始@2x.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .contest_2_show {
+      .left {
+        background: url('../../assets/images/复赛2(1).png') no-repeat center center / contain;
+      }
+      .center {
+        .center_pic {
+          background: url('../../assets/images/网络复赛.png') no-repeat left center / contain;
+        }
+        .center_position {
+          background: url('../../assets/images/jingxingz.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .contest_3_hide {
+      .left {
+        background: url('../../assets/images/ic4@2x.png') no-repeat center center / contain;
+      }
+      .center {
+        .center_pic {
+          background: url('../../assets/images/_s-全国.png') no-repeat left center / contain;
+        }
+        .center_position {
+          background: url('../../assets/images/未开始@2x.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .contest_3_show {
+      .left {
+        background: url('../../assets/images/图层-194-拷贝-4.png') no-repeat center center / contain;
+      }
+      .center {
+        .center_pic {
+          background: url('../../assets/images/线下决赛.png') no-repeat left center / contain;
+        }
+        .center_position {
+          background: url('../../assets/images/jingxingz.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .is_end{
+      .center {
+        .center_position {
+          background: url('../../assets/images/已结束.png') no-repeat center top / contain;
+        }
+      }
+    }
+    .game:last-of-type .ba_line {
+      display: none;
+    }
+    .game:last-of-type {
+      margin-bottom: 15px;
+    }
+  }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    > div {
+      font-size: 12px;
+      color: #fff;
+      line-height: 20px;
+
+    }
+    .title {
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .top {
+      padding-top: 10px;
+    }
+  }
+}

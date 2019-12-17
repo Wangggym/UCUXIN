@@ -1,0 +1,67 @@
+.LostContestResultPage {
+  .fixed_height {
+    margin-bottom: 60px;
+  }
+
+  .bg {
+    padding-top: 45px;
+    background: url('../../assets/images/lost_bg.jpg') no-repeat 0 0 / cover;
+    //background-size: 100%;
+    .title_pic {
+      padding: 25px 20px 60px 40px;
+    }
+    .menu_pic {
+      padding: 0 120px;
+      margin-bottom: 10vh;
+    }
+    .match_title {
+      font-size: 14px;
+      color: #3E93D7;
+      height: 60px;
+      text-align: center;
+      box-sizing: border-box;
+      padding-top: 30px;
+      line-height: 30px;
+      background: url('../../assets/images/形状-10.png') no-repeat center 0 /contain;
+    }
+    .person_info {
+      padding: 5vh 65px;
+      height: 130px;
+      background: url('../../assets/images/形状-12-拷贝-2.png') no-repeat center 0 / contain;
+      position: relative;
+      .content {
+        color: white;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        > div {
+          display: flex;
+          justify-content: space-between;
+          div {
+            //flex: 3;
+            text-align: right;
+          }
+        }
+      }
+      .pic {
+        height: 80px;
+        width: 80px;
+        background: #ccc;
+        border: 2px white solid;
+        border-radius: 50%;
+        position: absolute;
+        top: -20%;
+        left: calc(~'50% - 40px');
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+    .footer {
+      height: 150px;
+    }
+  }
+
+}
