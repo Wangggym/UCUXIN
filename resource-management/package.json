@@ -36,7 +36,7 @@
     "lodash": "^4.17.4",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.18.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.1",
     "object-assign": "4.1.1",
     "plyr": "^2.0.16",
     "postcss-flexbugs-fixes": "3.0.0",
