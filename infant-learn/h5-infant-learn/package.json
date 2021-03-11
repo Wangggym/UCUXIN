@@ -45,7 +45,7 @@
     "promise": "8.0.1",
     "rc-form": "^1.4.8",
     "react": "^15.6.1",
-    "react-dev-utils": "^4.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^15.6.1",
     "react-pull-to-refresh": "^1.1.1",
     "react-pullload": "^1.0.7",
