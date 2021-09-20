@@ -59,7 +59,7 @@
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3",
-    "zrender": "^3.5.2"
+    "zrender": "^5.2.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
