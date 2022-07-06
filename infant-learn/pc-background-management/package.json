@@ -34,7 +34,7 @@
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "lodash": "^4.17.4",
-    "moment": "^2.19.1",
+    "moment": "^2.29.4",
     "node-sass": "^4.5.3",
     "object-assign": "4.1.1",
     "plyr": "^2.0.16",
